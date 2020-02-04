@@ -12,7 +12,8 @@
 <div>
 <div id="title_login">
 <span>Yogiyo</span></div>
-<form>
+<form method="post">
+<input type="hidden" name="role" value="user">
 <ul>
 	<li>
 		<input type="text" id="loginEmail" name="loginEmail" placeholder="이메일 주소 입력(필수)">
@@ -32,7 +33,7 @@
 <!-- 회원가입  -->
 <div>
 요기요가 처음이신가요?
-<span id="join" onclick="location.href='/join'" style="color: #ff333a">이메일 회원가입</span>
+<span id="join" onclick="location.href='/user/join'" style="color: #ff333a">이메일 회원가입</span>
 </div>
 </body>
 </html>

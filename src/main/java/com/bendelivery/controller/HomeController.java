@@ -37,11 +37,9 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="/login", method = RequestMethod.GET)
-	public void loginGET() {
+	public String loginGET() {
 		
+		return "redirect:/user/login";
 	}
-	@RequestMapping(value="/join", method = RequestMethod.GET)
-	public void joinGET() {
-		
-	}
+	
 }
