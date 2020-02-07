@@ -2,13 +2,16 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.bendelivery.mapper.RestaurantMapper">
+<mapper namespace="com.bendelivery.mapper.OwnerMapper">
 	<!-- <insert id="register">
 		insert into res_table (res_name, res_owner, category, res_phone, owner_number, res_postcode, res_address, res_detail_address, res_extra_address, startTime, endTime)
 		values (#{res_name}, #{res_owner}, #{category}, #{res_phone}, #{owner_number}, #{res_postcode}, #{res_address}, #{res_detail_address}, #{res_extra_address}, #{startTime}, #{endTime})
 	</insert>-->
-	<insert id="register">
-		insert into restaurant_table (res_name, res_tel, category, res_postcode, res_address, res_detailAddress, res_extraAddress , owner_no)
-		values (#{res_name}, #{res_tel}, #{category}, #{res_postcode}, #{res_address}, #{res_detailAddress}, #{res_extraAddress}, #{owner_no})
+	<insert id="join">
+		insert into owner_table (owner_name, owner_phone, owner_number)
+		values (#{owner_name}, #{owner_phone}, #{owner_number})
 	</insert>
+	<select id="getNo" resultType="int">
+		select owner_no from owner_table where owner_number = #{owner_number}
+	</select>
 </mapper>

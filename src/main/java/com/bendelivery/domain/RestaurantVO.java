@@ -14,7 +14,14 @@ public class RestaurantVO {
 	private String res_address;
 	private String res_detailAddress;
 	private String res_extraAddress;
+	private int owner_no;
 	
+	public int getOwner_no() {
+		return owner_no;
+	}
+	public void setOwner_no(int owner_no) {
+		this.owner_no = owner_no;
+	}
 	public String getRes_postcode() {
 		return res_postcode;
 	}
@@ -86,7 +93,7 @@ public class RestaurantVO {
 		return "RestaurantVO [res_no=" + res_no + ", res_name=" + res_name + ", res_regdate=" + res_regdate
 				+ ", res_tel=" + res_tel + ", category=" + category + ", startTime=" + startTime + ", endTime="
 				+ endTime + ", res_postcode=" + res_postcode + ", res_address=" + res_address + ", res_detailAddress="
-				+ res_detailAddress + ", res_extraAddress=" + res_extraAddress + "]";
+				+ res_detailAddress + ", res_extraAddress=" + res_extraAddress + ", owner_no=" + owner_no + "]";
 	}
 	
 	/*private int res_no;
