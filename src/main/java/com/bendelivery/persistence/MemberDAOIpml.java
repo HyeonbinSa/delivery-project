@@ -18,5 +18,7 @@ public class MemberDAOIpml implements MemberDAO {
 	public void create(MemberVO vo) throws Exception {
 		session.insert(namespace+".create", vo);
 	}
-
+	public void test(MemberVO vo)throws Exception{
+		session.insert(namespace+".create", vo);
+	}
 }
