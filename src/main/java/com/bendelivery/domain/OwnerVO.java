@@ -48,7 +48,7 @@ public class OwnerVO {
 	@Override
 	public String toString() {
 		return "OwnerVO [owner_no=" + owner_no + ", owner_name=" + owner_name + ", owner_phone=" + owner_phone
-				+ ", owner_id=" + owner_id + ", owner_pw=" + owner_pw + "]";
+				+ ", owner_id=" + owner_id + ", owner_pw=" + owner_pw + ", owner_number=" + owner_number + "]";
 	}
 	
 }

@@ -24,7 +24,7 @@
 			</a>
 		</div>
 		<div class="col-xs-6 col-sm-4 col-md-3"><a href="https://www.yogiyo.co.kr/mobile/" class="thumbnail" >
-		<div class="category-title">프랜차이즈</div><img src="./home_files/category-10.png"></a></div>
+		<div class="category-title">프랜차이즈</div><img src="/image/home_files/category-10.png"></a></div>
 		<div class="col-xs-6 col-sm-4 col-md-3"><a href="https://www.yogiyo.co.kr/mobile/" class="thumbnail" >
 		<div class="category-title">치킨</div><img src="./home_files/category-02.png"></a></div>
 		<div class="col-xs-6 col-sm-4 col-md-3"><a href="https://www.yogiyo.co.kr/mobile/" class="thumbnail" >

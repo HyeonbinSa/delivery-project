@@ -6,6 +6,12 @@
 <link rel="stylesheet" href="/resources/css/yogiyo.css">
 <script src="/resources/js/addressapi.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script>
+var result = "${result}";
+if(result == "fail"){
+	alert("입력하신 정보가 확인되지 않습니다. 다시 확인해 주시기 바랍니다. (문의 전화 : 고객만족센터 1661-5270)");
+}
+</script>
 <!-- 식당 입점 신청 start -->
 <div>
 	<h2>온라인 입점 신청</h2>
