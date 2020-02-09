@@ -5,11 +5,13 @@
 <head>
 	<title>요기요</title>
 <link rel="stylesheet" href="/resources/css/yogiyo.css">
+<link rel="stylesheet" href="/resources/css/bootstrap.css">
+<script type="text/javascript" src="/resources/js/bootstrap.js"></script>
+
 </head>
 <body>
 
 <div id="header" class="header">
-
   <div role="navigation" class="nav-bar">
     <div class="navigation ver-pc">
       <div class="nav-top clearfix" >

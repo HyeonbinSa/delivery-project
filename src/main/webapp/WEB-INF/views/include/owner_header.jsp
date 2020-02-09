@@ -4,22 +4,40 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>요기요 사장님 사이트</title>
+<link rel="stylesheet" href="/resources/css/bootstrap.css">
+<script type="text/javascript" src="/resources/js/bootstrap.js"></script>
 </head>
 <body>
-<div id="header" class="owner_header">
-	<div>
-		<h1 class="logo">요기요 - 사장님 사이트</h1>
-		<ul class="nav">
-			<li>내 업소 관리</li>
-			<li>사장님 혜택</li>
-			<li>입점 관리</li>
-		</ul>
-		<ul class="nav2">
-			<li>우리가게 비즈센터</li>
-			<li>알뜰쇼핑</li>
-			<li>전체 메뉴</li>
-			<li><a href="/owner/login">로그인</a></li>
-		</ul>
-	</div>
-</div>
+<header class="navbar navbar-static-top bs-docs-nav" id="top" role="banner">
+  <div class="container">
+    <div class="navbar-header">
+      <a href="../" class="navbar-brand">요기요</a>
+    </div>
+    <nav class="collapse navbar-collapse bs-navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li>
+          <a href="../list/">입점 신청 현황</a>
+        </li>
+        <li>
+          <a href="../css/">CSS</a>
+        </li>
+        <li class="active">
+          <a href="../components/">콤포넌트</a>
+        </li>
+        <li>
+          <a href="../javascript/">자바스크립트</a>
+        </li>
+        <li>
+          <a href="../customize/">맞춤화</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li></li>
+        <li>
+          <a href="../login">로그인</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
