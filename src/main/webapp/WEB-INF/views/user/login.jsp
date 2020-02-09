@@ -4,7 +4,7 @@
 <!-- Login Start-->
 <div class="container-fruid ng-scope" id="content">
 <div id="login-wrap ng-scope">
-<form method="post" name="form_rogin" class="ng-pristine ng-invalid ng-invalid-required ng-valid-pattern">
+<form method="post" name="form_rogin" action="/user/loginPost" class="ng-pristine ng-invalid ng-invalid-required ng-valid-pattern">
 <div class="login-form">
 <div class="title">
 <h1 class="logo pull-left">요기요</h1>

@@ -13,6 +13,6 @@
 		select count(*) from member_table where member_id = #{member_id}
 	</select>
 	<select id="login" resultType="MemberVO">
-		select member_id, member_pw, member_nickname member_table where member_id = #{member_id} and member_pw = #{member_pw}
+		select member_id, member_pw, member_nickname from member_table where member_id = #{member_id} and member_pw = #{member_pw}
 	</select>
 </mapper>

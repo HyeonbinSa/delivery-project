@@ -6,6 +6,7 @@
 	<title>요기요</title>
 <link rel="stylesheet" href="/resources/css/yogiyo.css">
 <link rel="stylesheet" href="/resources/css/bootstrap.css">
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="/resources/js/bootstrap.js"></script>
 
 </head>

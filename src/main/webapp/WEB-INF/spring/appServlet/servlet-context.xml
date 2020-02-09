@@ -24,7 +24,20 @@
 		<beans:property name="contentType" value="text/html; charset=UTF-8" />
 	</beans:bean>
 	
+	<beans:bean id="authInterceptor" class="com.bendelivery.interceptor.AuthInterceptor"></beans:bean>
+	<beans:bean id="loginInterceptor" class="com.bendelivery.interceptor.LoginInterceptor"></beans:bean>
 	
+	<interceptors>
+		<interceptor>
+			<mapping path="/user/loginPost"/>
+			<beans:ref bean="loginInterceptor"/>
+		</interceptor>
+	
+		<interceptor>
+			<mapping path="/user/mypage"/>
+			<beans:ref bean="authInterceptor"/>
+		</interceptor>
+	</interceptors>
 	<context:component-scan base-package="com.bendelivery.controller" />
 	
 	

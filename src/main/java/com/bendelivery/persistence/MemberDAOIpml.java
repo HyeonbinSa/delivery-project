@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.bendelivery.domain.MemberVO;
+import com.bendelivery.dto.UserLoginDTO;
 
 @Repository
 public class MemberDAOIpml implements MemberDAO {
@@ -20,5 +21,9 @@ public class MemberDAOIpml implements MemberDAO {
 	}
 	public void test(MemberVO vo)throws Exception{
 		session.insert(namespace+".create", vo);
+	}
+	@Override
+	public MemberVO login(UserLoginDTO dto) throws Exception {
+		return session.selectOne(namespace+".login", dto);
 	}
 }

@@ -1,6 +1,9 @@
 package com.bendelivery.controller;
 
 import javax.inject.Inject;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -8,29 +11,44 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.WebUtils;
 
 import com.bendelivery.domain.MemberVO;
+import com.bendelivery.dto.UserLoginDTO;
 import com.bendelivery.service.MemberService;
+import com.bendelivery.service.OwnerService;
+import com.bendelivery.service.RestaurantService;
 
 @Controller
 @RequestMapping(value="/user")
 public class UserController {
 	@Inject
 	private MemberService service;
+	@Inject
+	private RestaurantService res_service;
+	@Inject
+	private OwnerService owner_service;
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	@RequestMapping(value="/login", method = RequestMethod.GET)
-	public void loginGET() {
+	public void loginGET(@ModelAttribute("dto") UserLoginDTO dto) {
 		logger.info("login get------------------------------------");
 	}
-	@RequestMapping(value="/login", method = RequestMethod.POST)
-	public void loginPOST() throws Exception {
-		
+	@RequestMapping(value="/loginPost", method = RequestMethod.POST)
+	public void loginPOST(UserLoginDTO dto, HttpSession session, Model model) throws Exception {
+		MemberVO vo = service.login(dto);
+		if(vo == null) {
+			return;
+		}
+		model.addAttribute("memberVO", vo);
 	}
+	
 	@RequestMapping(value="/join", method = RequestMethod.GET)
 	public void joinGET() {
 		
@@ -41,5 +59,45 @@ public class UserController {
 		
 		rttr.addFlashAttribute("result", "success");
 		return "redirect:/user/login";
+	}
+	
+	@RequestMapping(value="/logout", method = RequestMethod.GET)
+	public String logout(HttpServletRequest request, HttpServletResponse response, HttpSession session)throws Exception{
+		Object obj = session.getAttribute("login");
+		
+		if(obj != null) {
+			MemberVO vo = (MemberVO)obj;
+			
+			session.removeAttribute("login");
+			session.invalidate();
+			
+			Cookie loginCookie = WebUtils.getCookie(request, "loginCookie");
+			
+			if (loginCookie != null) {
+				loginCookie.setPath("/");
+				loginCookie.setMaxAge(0);
+				response.addCookie(loginCookie);
+				
+			}
+		}
+		return "user/logout";
+	}
+	
+	@RequestMapping(value="/list", method = RequestMethod.GET)
+	public void listGET(Model model)throws Exception {
+		model.addAttribute("list", res_service.getList());
+		logger.info("user - list page get------------------------------------");
+	}
+	@RequestMapping(value="/{res_no}", method = RequestMethod.GET)
+	public String readGET(@PathVariable("res_no") int res_no, Model model)throws Exception{
+		logger.info("read - "+res_no+"get------------------------------------");
+		model.addAttribute("resVO", res_service.read(res_no));
+		int owner_no = res_service.read(res_no).getOwner_no();
+		model.addAttribute("ownerVO", owner_service.read(owner_no));
+		return "/user/read";
+	}
+	@RequestMapping(value="/mypage", method = RequestMethod.GET)
+	public void mypageGET() {
+		
 	}
 }
