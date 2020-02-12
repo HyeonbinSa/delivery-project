@@ -28,5 +28,13 @@ public class RestaurantDAOImpl implements RestaurantDAO{
 	public RestaurantVO read(int res_no) throws Exception {
 		return session.selectOne(namespace+".read", res_no);
 	}
+	@Override
+	public void permit(RestaurantVO vo) throws Exception {
+		session.update(namespace+".permission", vo);
+	}
+	@Override
+	public String getPermitInfo(int owner_no) throws Exception {
+		return session.selectOne(namespace+".getPermitInfo", owner_no);
+	}
 
 }

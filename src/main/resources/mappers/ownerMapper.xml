@@ -20,11 +20,14 @@
 	<select id="check_id" resultType="int"><!-- 회원가입 했는지 확인 -->
 		select count(owner_id) from owner_table where owner_number = #{owner_number} and owner_phone = #{owner_phone}
 	</select>
-	<update id="registerOwner"><!-- id & pw 등록  -->
+	<update id="signupOwner"><!-- id & pw 등록  -->
 		update owner_table set owner_id = #{owner_id}, owner_pw = #{owner_pw} where owner_no = #{owner_no}
 	</update>
 	<select id="read" resultType="OwnerVO"><!-- owner 데이터 하나 가져오기  -->
 		select * from owner_table where owner_no = #{owner_no}
 	</select>
-	
+	<!-- Owner의 사업자 번호와 핸드폰 번호를 통해 OwnerVO 객체 가져오기  -->
+	<select id="getForCheck" resultType="OwnerVO"><!-- owner 데이터 하나 가져오기  -->
+		select * from owner_table where owner_number = #{owner_number} and owner_phone = #{owner_phone}
+	</select>
 </mapper>

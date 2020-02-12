@@ -4,7 +4,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 <div class="container">
-마이페이지 
+<script>
+alert("${login.member_id}");
+</script>
+<h1>${login.member_id }</h1>
 </div>
 </body>
 </html>

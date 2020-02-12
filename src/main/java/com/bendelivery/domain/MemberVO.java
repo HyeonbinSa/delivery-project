@@ -10,7 +10,10 @@ public class MemberVO {
 	private Date member_regdate;
 	private String member_phone;
 	private String member_point;
-
+	private static final String ROLE = "USER";
+	public String getRole() {
+		return ROLE;
+	}
 	public int getMember_no() {
 		return member_no;
 	}

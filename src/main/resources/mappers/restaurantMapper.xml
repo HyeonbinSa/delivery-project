@@ -12,12 +12,20 @@
 		values (#{res_name}, #{res_tel}, #{category}, #{res_postcode}, #{res_address}, #{res_detailAddress}, #{res_extraAddress}, #{owner_no})
 	</insert>
 	<select id="resList" resultType="RestaurantVO">
-		select res_no, res_name, res_regdate, category
+		select res_no, res_name, res_regdate, category, permission, permit_date
 		from restaurant_table
 		where res_no > 0 
 		order by res_no desc, res_regdate desc
 	</select>
 	<select id="read" resultType="RestaurantVO">
 		select * from restaurant_table where res_no  = #{res_no}
+	</select>
+	<!-- admin 페이지에서 식당 입점 허가 -->
+	<update id="permission">
+		update restaurant_table set permission= "OK", permit_date = now(), permit_admin = "${permit_admin}" where res_no = ${res_no}
+	</update>
+	<!-- 사장님 회원가입 시 해당 사장님 owner_no를 통해 식당 입점 허가 정보 가져옴 -->
+	<select id="getPermitInfo" resultType="String">
+		select permission from restaurant_table where owner_no  = #{owner_no}
 	</select>
 </mapper>

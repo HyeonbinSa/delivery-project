@@ -21,7 +21,7 @@
 	</li>
 </ul>
 <div id="checkbox">
-<input type="checkbox" id="keep_login" name="keep_login" class="ng-pristine ng-untouched ng-valid">
+<input type="checkbox" id="useCookie" name="useCookie" class="ng-pristine ng-untouched ng-valid">
 <label class="keep_login"><span></span>자동로그인</label>
 
 </div>

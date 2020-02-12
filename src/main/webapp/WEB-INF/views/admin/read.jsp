@@ -1,19 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ include file="/WEB-INF/views/include/owner_header.jsp" %>
-<style>
-.form-inline, .form-group{
-	margin:5px;
-}
-</style>
-<div class="container">
+<%@ include file="/WEB-INF/views/include/admin_header.jsp" %>
+<main class="main-content">
 <h2><strong>${resVO.res_name}</strong> - 입점 신청</h2>
 <hr>
-	<form method="post">
-	<input type="hidden" name="res_no">
-	<input type="hidden" name="owner_vo">
+	<form method="post" action="/admin/permit">
+	<input type="hidden" name="res_no" value="${resVO.res_no }">
+	<input type="hidden" name="admin_id" value="${admin_login.admin_id }">
 	<div>
 		</div>
 		<h3>사업자 정보</h3>
@@ -62,7 +55,16 @@
 				</td>	
 			</tr>
 		</table>
+		<button type="submit">수정</button>
+		<button type="submit">삭제</button>
+		<button type="submit">허가</button>
 	</form>
-</div>
+</main>
+	</div>
+	<footer class="footer">
+		<div class="footer-inner">
+			<div class="info"></div>
+		</div>
+	</footer>
+	</div>
 </body>
-</html>

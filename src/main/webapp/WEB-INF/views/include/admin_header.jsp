@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Owner Page</title>
+<title>Admin Page</title>
 <link rel="stylesheet" href="/resources/css/bootstrap.css">
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="/resources/js/bootstrap.js"></script>
@@ -138,9 +138,6 @@ header .owner-info .owner-info-menu {
     background-color: #fff;
     border-top: 1px solid #d7dbe6;
 }
-.container{
-	margin-top:109px;
-}
 .footer .footer-inner {
     position: relative;
     width: 1235px;
@@ -172,9 +169,6 @@ ul {
 .logo {
  background-image: url( "images/logo-yogiyo.png" );
 }
-.home{
-	overflow:hidden;
-}
 </style>
 
 <body>
@@ -194,11 +188,11 @@ ul {
 				</ul>
 			</div>
 			<div class="header-inner">
-				<a href="../admin/home">Owner Page</a>
+				<a href="../admin/home">Admin Page</a>
 			</div>
 			<nav class="nav">
 				<ul class="nav-left">
-					<li><a href="../owner/register">입점 신청</a></li>
+					<li><a>가게 현황 관리</a></li>
 					<li class="division"><a>광고관리</a></li>
 					<li><a>회원 관리</a></li>
 					<li><a>이벤트 관리</a></li>
@@ -207,22 +201,14 @@ ul {
 		</header>
 	</div>
 	<!-- Owner header end -->
-	<div class="container">
-	
-		<main class="main-content">
-		<div class="home">
-	
-		<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>dd<br><br><br><br><br><br>s
-		<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>dd<br><br><br><br><br><br>s
-		</div>
-		</main>
-		</div>
-	</div>
-	<footer class="footer">
-		<div class="footer-inner">
-			<div class="info"></div>
-		</div>
-	</footer>
-</div>
-</body>
-</html>
+	<div class="owner-wrapper">
+		<nav class="side-navigation">
+			<ul>
+				<li ><a href="../admin/list">가게 관리</a>
+				<li><a href="../admin/newlist">입점 신청 현황</a></li>
+				<li><a>가게 정보 수정</a></li>
+				<li><a>메뉴 수정</a></li>
+				<li><a>영업 임시 중지</a></li>
+				<li><a href="../admin/list">회원 관리</a></li>
+			</ul>
+		</nav>

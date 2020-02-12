@@ -1,5 +1,6 @@
 package com.bendelivery.interceptor;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -17,13 +18,23 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		HttpSession session = request.getSession();
+		System.out.println(session.toString());
 		ModelMap modelMap = modelAndView.getModelMap();
 		Object memberVO = modelMap.get("memberVO");
-		logger.info("실패ㅠㅠ");
+		
 		if(memberVO !=null) {
 			logger.info("로그인 성공");
 			System.out.println("로그인 성공");
+			System.out.println(session.getAttribute("role"));
 			session.setAttribute(LOGIN, memberVO);
+			if(request.getParameter("useCookie")!=null) {
+				logger.info("remember Me!!!!!!!-----------------------");
+				Cookie loginCookie = new Cookie("loginCookie", session.getId());
+				loginCookie.setPath("/");
+				loginCookie.setMaxAge(60*60*24*7);
+				response.addCookie(loginCookie);
+				
+			}
 			//response.sendRedirect("/");
 			Object dest = session.getAttribute("dest");
 			response.sendRedirect(dest!= null?(String)dest:"/");
@@ -32,8 +43,9 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
+		// 세션 가져오기
 		HttpSession session = request.getSession();
-		
+		// 세션에 "login"으로 등록된 attribute가 비어있지 않으면
 		if(session.getAttribute(LOGIN) != null) {
 			session.removeAttribute(LOGIN);
 		}

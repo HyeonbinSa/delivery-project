@@ -8,5 +8,6 @@ public interface OwnerService {
 	public int check_owner(OwnerVO vo)throws Exception;
 	public int check_id(OwnerVO vo)throws Exception;
 	public OwnerVO read(int owner_no)throws Exception;
-	public void registerOwner(OwnerVO vo)throws Exception;
+	public void signUp(OwnerVO vo)throws Exception;
+	public OwnerVO getForCheck(OwnerVO vo)throws Exception;
 }

@@ -1,5 +1,9 @@
 package com.bendelivery.controller;
 
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import javax.inject.Inject;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +18,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.WebUtils;
 
@@ -35,7 +38,8 @@ public class UserController {
 	private OwnerService owner_service;
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-
+	
+	
 	@RequestMapping(value="/login", method = RequestMethod.GET)
 	public void loginGET(@ModelAttribute("dto") UserLoginDTO dto) {
 		logger.info("login get------------------------------------");
@@ -46,6 +50,7 @@ public class UserController {
 		if(vo == null) {
 			return;
 		}
+		session.setAttribute("user_role", vo.getRole());
 		model.addAttribute("memberVO", vo);
 	}
 	
@@ -69,6 +74,7 @@ public class UserController {
 			MemberVO vo = (MemberVO)obj;
 			
 			session.removeAttribute("login");
+			session.removeAttribute("user_role");
 			session.invalidate();
 			
 			Cookie loginCookie = WebUtils.getCookie(request, "loginCookie");
@@ -80,7 +86,7 @@ public class UserController {
 				
 			}
 		}
-		return "user/logout";
+		return "redirect:/";
 	}
 	
 	@RequestMapping(value="/list", method = RequestMethod.GET)
@@ -98,6 +104,11 @@ public class UserController {
 	}
 	@RequestMapping(value="/mypage", method = RequestMethod.GET)
 	public void mypageGET() {
+		
+	}
+	
+	@RequestMapping(value="/testhome", method = RequestMethod.GET)
+	public void testHome() {
 		
 	}
 }

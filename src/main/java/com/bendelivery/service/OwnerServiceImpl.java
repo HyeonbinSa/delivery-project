@@ -32,8 +32,12 @@ public class OwnerServiceImpl implements OwnerService {
 		return dao.check_id(vo);
 	}
 	@Override
-	public void registerOwner(OwnerVO vo) throws Exception {
-		dao.registerOwner(vo);
+	public void signUp(OwnerVO vo) throws Exception {
+		dao.signUp(vo);
+	}
+	@Override
+	public OwnerVO getForCheck(OwnerVO vo) throws Exception {
+		return dao.getForCheck(vo);
 	}
 
 }

@@ -9,6 +9,8 @@ import com.bendelivery.domain.OwnerVO;
 
 @Repository
 public class OwnerDAOImpl implements OwnerDAO{
+	
+
 	@Inject
 	private SqlSession session;
 	
@@ -40,8 +42,12 @@ public class OwnerDAOImpl implements OwnerDAO{
 	}
 
 	@Override
-	public void registerOwner(OwnerVO vo) throws Exception {
-		session.update(namespace+".registerOwner", vo);
+	public void signUp(OwnerVO vo) throws Exception {
+		session.update(namespace+".signupOwner", vo);
 	}
 	
+	@Override
+	public OwnerVO getForCheck(OwnerVO vo) throws Exception {
+		return session.selectOne(namespace+".getForCheck", vo);
+	}
 }

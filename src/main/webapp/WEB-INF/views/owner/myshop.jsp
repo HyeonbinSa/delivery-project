@@ -1,24 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Owner Page</title>
-<link rel="stylesheet" href="/resources/css/bootstrap.css">
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="/resources/js/bootstrap.js"></script>
+<title>Insert title here</title>
 </head>
-<style>
-tbody {
-    display: table-row-group;
-    vertical-align: middle;
-    border-color: inherit;
-}
-</style>
 <style>
 body {
     font-size: 15px;
@@ -44,28 +31,21 @@ header .owner-info .owner-info-menu {
     float: right;
 }
 @media (max-width: 1235px)
-.owner-wrapper {
+.ceo-wrapper {
     position: relative;
 }
 .owner-wrapper {
     min-width: 1235px;
     width: 1235px;
-    margin: 109px auto 0;
+    margin: 116px auto 0;
     box-shadow: inset 200px 0 #fff;
+}
+
 }
 .side-navigation > ul > li > a {
     position: relative;
     display: block;
     padding: 18px 39px 18px 16px;
-    font-size: 18px;
-    line-height: 1.33;
-    letter-spacing: -0.4px;
-    color: #212329;
-}
-.side-navigation > ul > li > ul >li {
-    position: relative;
-    display: block;
-    padding: 10px 10px 18px 16px;
     font-size: 18px;
     line-height: 1.33;
     letter-spacing: -0.4px;
@@ -138,9 +118,6 @@ header .owner-info .owner-info-menu {
     background-color: #fff;
     border-top: 1px solid #d7dbe6;
 }
-.container{
-	margin-top:109px;
-}
 .footer .footer-inner {
     position: relative;
     width: 1235px;
@@ -153,30 +130,17 @@ header .owner-info .owner-info-menu {
     margin: auto 0;
 }
 ol, ul {
-    list-style-type: none;
+    list-style: none;
 }
 ul {
     display: block;
+    list-style-type: disc;
     margin-block-start: 1em;
     margin-block-end: 1em;
     margin-inline-start: 0px;
     margin-inline-end: 0px;
     padding-inline-start: 40px;
-}
-.main-content {
-    float: left;
-    position: relative;
-    width: 960px;
-    z-index: 10;
-}
-.logo {
- background-image: url( "images/logo-yogiyo.png" );
-}
-.home{
-	overflow:hidden;
-}
 </style>
-
 <body>
 <div class="wrapper">
 	<!-- Owner header start -->
@@ -184,39 +148,43 @@ ul {
 		<header class="header">
 			<div class="owner-info">
 				<ul class="owner-info-menu">
-					<li><strong><span>${admin_login.admin_id }</span></strong>님</li>
-					<c:if test="${admin_login !=null }">
-						<li><a href="../admin/logout"><span>로그아웃</span></a></li>
-					</c:if>
-					<c:if test="${admin_login == null }">
-						<li class="login-li"><a href="../admin/login"><span>로그인</span></a></li>
-					</c:if>
+					<li><span>이름</span></li>
+					<li><span>고객센터</span></li>
+					<li><span>로그아웃</span></li>
 				</ul>
 			</div>
 			<div class="header-inner">
-				<a href="../admin/home">Owner Page</a>
+				<a>logo</a>
 			</div>
 			<nav class="nav">
 				<ul class="nav-left">
-					<li><a href="../owner/register">입점 신청</a></li>
-					<li class="division"><a>광고관리</a></li>
-					<li><a>회원 관리</a></li>
-					<li><a>이벤트 관리</a></li>
+					<li><a>우리 가게 관리</a></li>
+					<li class="division"><a>광고관리 </a></li>
+					<li><a>사장님 꿀팁</a></li>
+					<li><a>제휴 혜택</a></li>
 				</ul>
 			</nav>
 		</header>
 	</div>
 	<!-- Owner header end -->
-	<div class="container">
-	
-		<main class="main-content">
-		<div class="home">
-	
+	<div class="owner-wrapper">
+		<nav class="side-navigation">
+			<ul>
+				<li><a>가게 운영</a>
+					<ul class="inside-navigation">
+						<li><a>메뉴 관리</a></li>
+						<li><a>메뉴 품절</a></li>
+						<li><a>정보 수정 요청</a></li>
+						<li><a>영업 임시 중지</a></li>
+						<li><a>운영 정보</a></li>
+						<li><a>통계</a></li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+		<main><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>dd<br><br><br><br><br><br>s
 		<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>dd<br><br><br><br><br><br>s
-		<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>dd<br><br><br><br><br><br>s
-		</div>
 		</main>
-		</div>
 	</div>
 	<footer class="footer">
 		<div class="footer-inner">

@@ -13,7 +13,7 @@ if(result == "fail"){
 }
 </script>
 <!-- 입점 신청 start -->
-<div class="container">
+<main class="main-content">
 <h2>온라인 입점 신청</h2>
 <p>운영중인 음식점을 요기요에 신청하세요. 온라인 입점신청 중 어려움이 있으시면 고객센터(1661-5270)로 연락주세요</p>
 <hr>
@@ -87,7 +87,13 @@ if(result == "fail"){
 		</table>
 		
 	</form>
+		</main>
+	</div>
+	<footer class="footer">
+		<div class="footer-inner">
+			<div class="info"></div>
+		</div>
+	</footer>
 </div>
-<!-- 입점 신청 end -->
 </body>
 </html>

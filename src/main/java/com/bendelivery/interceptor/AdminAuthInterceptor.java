@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-public class AuthInterceptor extends HandlerInterceptorAdapter{
+public class AdminAuthInterceptor extends HandlerInterceptorAdapter{
 	private static final Logger logger = LoggerFactory.getLogger(AuthInterceptor.class);
 	
 	// 로그인 이전에 이용하던 경로를 저장
@@ -33,13 +33,12 @@ public class AuthInterceptor extends HandlerInterceptorAdapter{
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		
 		HttpSession session = request.getSession();
-		// 세션에 일반 user의 attribute이 없는지 확인 
-		if(session.getAttribute("login") == null) {
+		
+		if(session.getAttribute("admin_login") == null) {
 			System.out.println("현재 일반 사용자가 로그인되어있지 않습니다. ");
 			saveDest(request);
-			response.sendRedirect("/user/login");
+			response.sendRedirect("/admin/login");
 			return false;
 		}
 		

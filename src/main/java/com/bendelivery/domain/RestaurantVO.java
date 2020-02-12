@@ -14,6 +14,28 @@ public class RestaurantVO {
 	private String res_address;
 	private String res_detailAddress;
 	private String res_extraAddress;
+	private String permission;
+	private Date permit_date;
+	private String permit_admin;
+	
+	public Date getPermit_date() {
+		return permit_date;
+	}
+	public void setPermit_date(Date permit_date) {
+		this.permit_date = permit_date;
+	}
+	public String getPermit_admin() {
+		return permit_admin;
+	}
+	public void setPermit_admin(String permit_admin) {
+		this.permit_admin = permit_admin;
+	}
+	public String getPermission() {
+		return permission;
+	}
+	public void setPermission(String permission) {
+		this.permission = permission;
+	}
 	private int owner_no;
 	
 	public int getOwner_no() {
@@ -93,7 +115,8 @@ public class RestaurantVO {
 		return "RestaurantVO [res_no=" + res_no + ", res_name=" + res_name + ", res_regdate=" + res_regdate
 				+ ", res_tel=" + res_tel + ", category=" + category + ", startTime=" + startTime + ", endTime="
 				+ endTime + ", res_postcode=" + res_postcode + ", res_address=" + res_address + ", res_detailAddress="
-				+ res_detailAddress + ", res_extraAddress=" + res_extraAddress + ", owner_no=" + owner_no + "]";
+				+ res_detailAddress + ", res_extraAddress=" + res_extraAddress + ", permission=" + permission
+				+ ", owner_no=" + owner_no + "]";
 	}
 	
 	/*private int res_no;
