@@ -88,3 +88,31 @@
 .navbar-default{
 	width:100%;
 }
+/*상단 카테고리별 네비바 관련 CSS */
+.category-nav{
+	height:60px;
+	width:100%;
+	vertical-align: middle;
+}
+.category-nav-ul{
+	float:none;
+	display:inline-block;
+}
+.category-collapse{
+	float:none;
+	text-align:center;
+}
+.category-nav-ul > li{
+	margin-left : 5px;
+	vertical-align: middle;
+	display:inline;
+}
+.list-container > .row{
+	height : 100%;
+}
+
+.res-search{
+	margin-top:10px;
+	height:30px;
+}
+/* 상단 카테고리별 네비바 관련 CSS end */

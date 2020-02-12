@@ -1,88 +1,64 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="/WEB-INF/views/include/user_header.jsp" %>
 <style>
-.form-inline, .form-group{
-	margin:5px;
+
+.searchbox{
+	height:100px;
+	padding-top:30px;
+	padding-bottom:30px;
+	
 }
-.container{
- padding :10px;
+/*상단 카테고리별 네비바 관련 CSS */
+.category-nav{
+	height:60px;
+	width:100%;
+	vertical-align: middle;
 }
-.res_detail{
-	margin : 10px;
-	border: 1px solid red;
+.category-nav-ul{
+	float:none;
+	display:inline-block;
 }
-.res-logo, res-title, .container, .order, div{
-	border: 1px solid grey;
+.category-collapse{
+	float:none;
+	text-align:center;
 }
-.res-title, .res-content{
-	padding:10px;
+.category-nav-ul > li{
+	margin-left : 5px;
+	vertical-align: middle;
+	display:inline;
 }
-.res-info{
-	border: 1px solid pink;
+.list-container > .row{
+	height : 100%;
 }
-.col-md-8{
-	border: 1px solid blue;
+
+.res-search{
+	margin-top:10px;
+	height:30px;
 }
-.col-md-4{
-	border: 1px solid yellow;
-}
+/* 상단 카테고리별 네비바 관련 CSS end */
 </style>
-<nav class="navbar navbar-default">
-  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-	<ul class="nav nav-tabs nav-justified">
-	<li role="presentation"><span class="glyphicon glyphicon-search"></span></li>
-	<li role="presentation"><a href="#">전체보기</a></li>
-	<li role="presentation"><a href="#">1인분</a></li>
-	<li role="presentation"><a href="#">프렌차이즈</a></li>
-	<li role="presentation"><a href="#">치킨</a></li>
-	<li role="presentation"><a href="#">피자/양식</a></li>
-	<li role="presentation"><a href="#">중국집</a></li>
-	<li role="presentation"><a href="#">한식</a></li>
-	<li role="presentation"><a href="#">일식/돈까스</a></li>
-	<li role="presentation"><a href="#">족발/보쌈</a></li>
-	<li role="presentation"><a href="#">분식</a></li>
-	<li role="presentation"><a href="#">카페/디저트</a></li>
-	<li role="presentation"><a href="#">편의점</a></li>
-	</ul>
-  </div>
-</nav>
-<!-- 식당 상세 페이지 start -->
-<div class="container">
-	<div class="res_detail">
-		<!-- 식당 정보 -->	
-		<div class="col-md-8 col-xs-12">
-			<div class="res-info row">
-				<div class="res-title"><span>${resVO.res_name}</span></div>
-				<div class="res-content">
-					<div class="res-logo col-md-3">logo</div>
-					<div class="res-title col-md-9">
-						<ul>
-							<li>별점 5.0</li>
-							<li>최수주문 금액 : 15000</li>
-							<li>결제</li>
-							<li>배달시간</li>
-							<li>일회용품</li>
-						</ul>
-					</div>
-				</div>
+
+<div class="detail-container">
+	<div class="restaurant-detail">
+		<div class="restaurant-content"><!-- 8:4 중 8 -->
+			<div class="restaurant-info">
+				<div class="restaurant-name"> </div>
+				<div class="restaurant-detail-info"></div>
+				<div class="owner-intro-message"></div>
+			</div>
+			<div class="other-info">
+				<ul><!-- 네비게이션바 탭형으로 -->
+					<li>메뉴</li>
+					<li>리뷰</li>
+					<li>정보</li>
+				</ul>
+				<!-- 아래 들어갈 패널 -->
 			</div>
 		</div>
-		<!-- 주문표 -->
-		<div class="col-md-4 col-xs-6">
-		<form>
-			<div class="order-title"><span>주문</span></div>
-			<div class="cart">주문내역추가할 곳</div>
-			<div>배달비</div>
-			<button type="submit">주문하기</button>
-		</form>
-		</div>
-	
-		<br>
-		<hr>
-		</div>
+		<div class="order-content"></div>
 	</div>
-</body>
-</html>
+
+</div>
+
+<%@ include file="/WEB-INF/views/include/user_footer.jsp" %>

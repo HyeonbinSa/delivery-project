@@ -75,7 +75,9 @@ function do_join(){
 	width : 47%;
 	margin-left: 3%;
 }
-
+.category-nav{
+	display:none;
+}
 </style>
 <!-- new join Start -->
 <div class="login-container">

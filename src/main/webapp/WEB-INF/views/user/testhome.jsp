@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/include/user_header.jsp" %>
+<style>
+	.category-nav{
+		display:none;
+	}
+</style>
 	<!--  Category Start -->
 	<div class="category-list container-fluid">
 		<div class="row">

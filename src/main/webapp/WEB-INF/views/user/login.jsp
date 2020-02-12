@@ -64,6 +64,9 @@
 	margin-top:20px;
 	text-align:center;
 }
+.category-nav{
+	display:none;
+}
 </style>
 <!-- new Login Start -->
 <div class="login-container">
