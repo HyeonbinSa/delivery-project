@@ -1,0 +1,90 @@
+
+.header{
+	height:87px;
+	background:#f0001e;
+}
+.header-nav{
+	margin-left:87px;
+	margin-right:87px;
+	height:100%;
+	padding-top:20px;
+}
+.logo{
+	float : left;
+}
+.navbar{
+	float : right;
+}
+.nav-btn{
+	width:150px;
+	height:40px;
+	background : #ff8a00;	
+	color : white;
+	font-size:20px;
+}
+.searchbox{	
+	height:235px;
+	background:skyblue;
+	padding: 125px 100px 70px 100px;
+}
+.main-search{
+	display:flex;
+	justify-content: center;
+}
+.category-list{
+	height:1050px;
+	background: #fafafa;
+	padding-bottom:15px;
+	box-sizing:border-box;
+	overflow:auto; 
+}
+.footer{
+	height:100px;
+	background:gray;
+}
+.row{
+	margin-left:50px;
+	margin-right:50px;
+	padding:15px 5px 5px 5px;
+	background:#fafafa;
+	height:100%;
+	overflow:auto; 
+}
+.category-item{
+	overflow: auto; 
+	background: #fafafa;
+	padding:5px;
+	height:250px;
+	overflow:auto; 
+}
+.category-title{
+	font-size:18px;
+	margin-left:7px;
+	margin-top:10px;
+}
+.glyphicon-map-marker{
+	margin-top:-1px;
+	margin-right:10px;
+	color : red;
+}
+.category-content{
+	border:1px solid #d9d9d9;
+	width:100%;
+	height:100%;
+}
+.search-group{
+	width : 350px;
+}
+.search-address{
+	width:314px;
+	height:40px;
+}
+.searchBtn{
+	width: 60px;
+	height: 40px;
+	background : #ff8a00;	
+	color : white;
+}
+.navbar-default{
+	width:100%;
+}
