@@ -105,4 +105,8 @@ public class OwnerController {
 	public void loginGET() {
 		
 	}
+	@RequestMapping(value="/teshome", method = RequestMethod.GET)
+	public void testhomeGet() {
+		
+	}
 }

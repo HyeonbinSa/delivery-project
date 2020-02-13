@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Web Design Test Page</title>
+<title>Ben Delivery</title>
 <link rel="stylesheet" href="/resources/css/bootstrap.css">
 <link rel="stylesheet" href="/resources/css/mycss.css">
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>

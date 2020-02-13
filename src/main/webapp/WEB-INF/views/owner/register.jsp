@@ -1,11 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/include/owner_header.jsp" %>
-
-<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<link rel="stylesheet" href="/resources/css/yogiyo.css">
-<script src="/resources/js/addressapi.js"></script>
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<%@ include file="/WEB-INF/views/include/owner_header2.jsp" %>
+<style>
+.home-content{
+	width:100%;
+	height:100%;
+	background: #fff;
+	border:1px solid #fafafa;
+	overflow:auto;
+}
+.btn-register{
+	border: none;
+    background-color: #DC1400;
+    width: 100%;
+    height: 54px;
+    color: #FFF;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+</style>
 <script>
 var result = "${result}";
 if(result == "fail"){
@@ -13,7 +27,7 @@ if(result == "fail"){
 }
 </script>
 <!-- 입점 신청 start -->
-<main class="main-content">
+<div class="home-content">
 <h2>온라인 입점 신청</h2>
 <p>운영중인 음식점을 요기요에 신청하세요. 온라인 입점신청 중 어려움이 있으시면 고객센터(1661-5270)로 연락주세요</p>
 <hr>
@@ -82,18 +96,10 @@ if(result == "fail"){
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2" align="center"><button type="submit" class="btn btn-default">입점 신청</button></td>
+				<td colspan="2" align="center"><button type="submit" class="btn btn-default btn-register">입점 신청</button></td>
 			</tr>
 		</table>
 		
 	</form>
-		</main>
-	</div>
-	<footer class="footer">
-		<div class="footer-inner">
-			<div class="info"></div>
 		</div>
-	</footer>
-</div>
-</body>
-</html>
+<%@ include file="/WEB-INF/views/include/owner_footer.jsp" %>

@@ -1,26 +1,55 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/include/owner_header.jsp" %>
-
-<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<link rel="stylesheet" href="/resources/css/yogiyo.css">
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<%@ include file="/WEB-INF/views/include/owner_header2.jsp" %>
+<style>
+.home-content{
+	width:100%;
+	height:100%;
+	background: #fff;
+	border:1px solid #fafafa;
+	overflow:auto;
+}
+.check-content{
+	width :60%;
+	margin : auto 5px;
+}
+.register-check-title{
+	text-align : center;
+}
+.check-form{
+	text-align : center;
+	padding : 20px 10%;
+}
+.form-control{
+	margin : 10px 0px;
+}
+.btn-check{
+	border: none;
+    background-color: #DC1400;
+    width: 100%;
+    height: 54px;
+    color: #FFF;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+strong{
+	text-align: left;
+	font-size : 17px;
+}
+</style>
 <!-- register start -->
-<div>
-<form method="post">
-	<table>
-	<tr>
-		<th>사업자 번호</th>
-		<td><input type="text" name="owner_number"></td>
-	</tr>
-	<tr>
-		<th>휴대폰 번호</th>
-		<td><input type="text" name="owner_phone"></td>
-	</tr>
-	</table>
-	<button type="submit">다음</button>
-</form>
+<div class="home-content">
+	<div class="register-check-title"><h2>입점 신청 확인</h2></div>
+	<div class="check-form">
+		<form method="post">
+				<strong>사업자 등록 번호</strong>
+				<input type="text" class="form-control" name="owner_number">
+				<strong>사업자 핸드폰 번호</strong>
+				<input type="text" class="form-control" name="owner_phone">
+			<button class="btn-check" type="submit">다음</button>
+		</form>
+	</div>
 </div>
 
-</body>
-</html>
+<%@ include file="/WEB-INF/views/include/owner_footer.jsp" %>
