@@ -54,16 +54,41 @@ public class UserController {
 		model.addAttribute("memberVO", vo);
 	}
 	
+	// 회원가입 페이지로 이동
 	@RequestMapping(value="/join", method = RequestMethod.GET)
 	public void joinGET() {
 		
 	}
+	// 회원가입 기능
 	@RequestMapping(value="/join", method = RequestMethod.POST)
-	public String joinPOST(MemberVO vo, RedirectAttributes rttr)throws Exception {
+	public String joinPOST(MemberVO vo, Model model, RedirectAttributes rttr)throws Exception {
+		// 1. 아이디 중복 검사 
+		if(service.checkId(vo) != 0) {
+			// 2. 닉네임 중복 검사
+			// 둘 다 중복 
+			if(service.checkNickname(vo) != 0) {
+				rttr.addFlashAttribute("result", "both");
+				rttr.addFlashAttribute("vo", vo);
+				return "redirect:/user/join";
+			// 아이디만 중복 
+			}else {
+				rttr.addFlashAttribute("result", "duplicate_id");
+				rttr.addFlashAttribute("vo", vo);
+				return "redirect:/user/join";
+			}
+		// 닉네임만 중복 
+		}else if(service.checkNickname(vo) != 0) {
+			rttr.addFlashAttribute("result", "duplicate_nickname");
+			rttr.addFlashAttribute("vo", vo);
+			return "redirect:/user/join";
+		}
+		// 둘 다 중복이 아닐경우
+		// Database에 등록
 		service.regist(vo);
-		
 		rttr.addFlashAttribute("result", "success");
+		// login 페이지로 이동
 		return "redirect:/user/login";
+		
 	}
 	
 	@RequestMapping(value="/logout", method = RequestMethod.GET)

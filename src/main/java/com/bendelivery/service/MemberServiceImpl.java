@@ -23,6 +23,16 @@ public class MemberServiceImpl implements MemberService{
 	public MemberVO login(UserLoginDTO dto) throws Exception {
 		return dao.login(dto);
 	}
-
+	// 로그인 시 아이디 중복 검사
+	@Override
+	public int checkId(MemberVO vo) throws Exception {
+		return dao.checkId(vo);
+	}
+	//로그인 시 닉네임 중복 검사 
+	@Override
+	public int checkNickname(MemberVO vo) throws Exception {
+		return dao.checkNickname(vo);
+	}
+	
 }
 	

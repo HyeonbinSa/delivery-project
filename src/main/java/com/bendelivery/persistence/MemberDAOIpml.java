@@ -26,4 +26,15 @@ public class MemberDAOIpml implements MemberDAO {
 	public MemberVO login(UserLoginDTO dto) throws Exception {
 		return session.selectOne(namespace+".login", dto);
 	}
+	//로그인 시 아이디 중복 검사 
+	@Override
+	public int checkId(MemberVO vo) throws Exception {
+		return session.selectOne(namespace+".check_id", vo);
+	}
+	//로그인 시 닉네임 중복 검사 
+	@Override
+	public int checkNickname(MemberVO vo) throws Exception {
+		return session.selectOne(namespace+".check_nickname", vo);
+	}
+	
 }

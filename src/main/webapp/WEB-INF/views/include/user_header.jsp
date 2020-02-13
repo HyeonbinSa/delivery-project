@@ -17,7 +17,7 @@
 	<!-- Header Start -->
 	<div class="header">
 		<div class="header-nav">
-			<a href="/"><img class="logo" src="" alt="로고이미지" ></a>
+			<a href="/"><img class="logo-img" style="width:100px;"src="/images/logo-yogiyo.png" alt="로고이미지" ></a>
 			<div class="navbar">
 				 <c:if test="${not empty login }">
 					<button class="btn btn-default nav-btn" onclick="location.href='/user/logout'">로그아웃</button>
