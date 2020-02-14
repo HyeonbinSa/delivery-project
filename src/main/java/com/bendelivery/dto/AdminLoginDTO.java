@@ -3,6 +3,8 @@ package com.bendelivery.dto;
 public class AdminLoginDTO {
 	private String admin_id;
 	private String admin_pw;
+	private boolean useCookie;
+	
 	@Override
 	public String toString() {
 		return "AdminLoginDTO [admin_id=" + admin_id + ", admin_pw=" + admin_pw + ", useCookie=" + useCookie + "]";
@@ -25,5 +27,5 @@ public class AdminLoginDTO {
 	public void setUseCookie(boolean useCookie) {
 		this.useCookie = useCookie;
 	}
-	private boolean useCookie;
+	
 }

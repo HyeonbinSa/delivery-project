@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.bendelivery.domain.OwnerVO;
+import com.bendelivery.dto.OwnerLoginDTO;
 
 @Repository
 public class OwnerDAOImpl implements OwnerDAO{
@@ -49,5 +50,10 @@ public class OwnerDAOImpl implements OwnerDAO{
 	@Override
 	public OwnerVO getForCheck(OwnerVO vo) throws Exception {
 		return session.selectOne(namespace+".getForCheck", vo);
+	}
+
+	@Override
+	public OwnerVO login(OwnerLoginDTO dto) throws Exception {
+		return session.selectOne(namespace+".login", dto);
 	}
 }

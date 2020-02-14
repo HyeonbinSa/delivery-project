@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Ben Delivery - Owner</title>
+<title>Ben Delivery - Admin</title>
 <link rel="stylesheet" href="/resources/css/bootstrap.css">
 <link rel="stylesheet" href="/resources/css/mycss.css">
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -27,21 +27,24 @@
  	background : #fafafa;
  	color : #999;
  }
+ .login-admin{
+ 	margin-right:5px;
+ }
 </style>	
 <body>
 <div class="wrapper">
 	<!-- Header Start -->
 	<div class="header">
 		<div class="header-nav">
-			<a href="/owner/"><img class="logo-img" style="width:100px;"src="/images/logo-yogiyo.png" alt="로고이미지" ></a>
+			<a href="/admin/home"><img class="logo-img" style="width:100px;"src="/images/logo-yogiyo.png" alt="로고이미지" ></a>
 			<div class="navbar">
-				 <c:if test="${owner_login != null}">
-					<button class="btn btn-default nav-btn" onclick="location.href='/owner/logout'">로그아웃</button>
-					<button class="btn btn-default nav-btn" onclick="location.href='/owner/myshop'">My Shop</button>
+				 <c:if test="${admin_login != null}">
+				 	<strong><span class="login-admin">${admin_login.admin_id }</span></strong>	
+					<button class="btn btn-default nav-btn" onclick="location.href='/admin/logout'">로그아웃</button>
+					<button class="btn btn-default nav-btn" onclick="location.href='/admin/mypage'">My Page</button>
 				</c:if>
-				<c:if test="${owner_login == null }">
-					<button class="btn btn-default nav-btn" onclick="location.href='/owner/register'">입점신청</button>
-					<button class="btn btn-default nav-btn" onclick="location.href='/owner/login'">로그인</button>
+				<c:if test="${admin_login == null }">
+					<button class="btn btn-default nav-btn" onclick="location.href='/admin/login'">로그인</button>
 				</c:if>
 			</div>
 		</div>
@@ -52,14 +55,15 @@
 		<nav class="navbar navbar-default category-navbar">
 			<div class="collapse navbar-collapse category-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav category-nav-ul">
-					<li><a>주문확인</a></li>
-					<li><a>내 정보 관리</a></li>
+					<li><a href="/admin/newlist">입점 신청 관리</a></li>
+					<li><a href="/admin/list">입점 가게 관리</a></li>
 					<li><a>메뉴 관리</a></li>
 					<li><a>영업일 관리</a></li>
 					<li><a>배달 지역 관리</a></li>
 					<li><a>할인 관리</a></li>
 					<li><a>리뷰 관리</a></li>
 					<li><a>영업 시간 관리</a></li>
+					<li><a>회원 관리</a></li>
 				</ul>
 			</div>
 		</nav>

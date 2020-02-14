@@ -28,6 +28,8 @@
 	<beans:bean id="loginInterceptor" class="com.bendelivery.interceptor.LoginInterceptor"></beans:bean>
 	<!-- admin session check bean  -->
 	<beans:bean id="adminInterceptor" class="com.bendelivery.interceptor.AdminInterceptor"></beans:bean>
+	<!-- owner session check bean -->
+	<beans:bean id="ownerInterceptor" class="com.bendelivery.interceptor.OwnerInterceptor"></beans:bean>
 	<interceptors>
 		<interceptor>
 			<mapping path="/user/mypage"/>
@@ -40,7 +42,10 @@
 			<mapping path="/admin/read/**"/>
 			<beans:ref bean="adminInterceptor"/>
 		</interceptor>
-		
+		<interceptor>	
+			<mapping path="/owner/myshop"/>
+			<beans:ref bean="ownerInterceptor"/>
+		</interceptor>
 		
 		<interceptor>
 			<mapping path="/user/loginPost"/>

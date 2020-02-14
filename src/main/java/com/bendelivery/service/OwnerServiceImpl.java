@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.bendelivery.domain.OwnerVO;
+import com.bendelivery.dto.OwnerLoginDTO;
 import com.bendelivery.persistence.OwnerDAO;
 
 @Service
@@ -38,6 +39,10 @@ public class OwnerServiceImpl implements OwnerService {
 	@Override
 	public OwnerVO getForCheck(OwnerVO vo) throws Exception {
 		return dao.getForCheck(vo);
+	}
+	@Override
+	public OwnerVO login(OwnerLoginDTO dto) throws Exception {
+		return dao.login(dto);
 	}
 
 }

@@ -178,8 +178,8 @@ ul {
 		<header class="header">
 			<div class="owner-info">
 				<ul class="owner-info-menu">
-					<li><strong><span>${admin_login.admin_id }</span></strong>님</li>
 					<c:if test="${admin_login !=null }">
+						<li><strong><span>${admin_login.admin_id }</span></strong>님</li>
 						<li><a href="../admin/logout"><span>로그아웃</span></a></li>
 					</c:if>
 					<c:if test="${admin_login == null }">

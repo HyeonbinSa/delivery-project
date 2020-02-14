@@ -1,6 +1,10 @@
 package com.bendelivery.controller;
 
 import javax.inject.Inject;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,10 +16,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.WebUtils;
 
 import com.bendelivery.domain.OwnerVO;
 import com.bendelivery.domain.RestaurantVO;
+import com.bendelivery.dto.OwnerLoginDTO;
 import com.bendelivery.service.OwnerService;
 import com.bendelivery.service.RestaurantService;
 
@@ -101,12 +108,76 @@ public class OwnerController {
 		rttr.addFlashAttribute("result", "complete");
 		return "redirect:/owner/login";
 	}
+	// 사장님 로그인 페이지 이동
 	@RequestMapping(value="/login", method = RequestMethod.GET)
 	public void loginGET() {
 		
 	}
+	// 사장님 로그인 기능
+	@RequestMapping(value="/login", method= RequestMethod.POST)
+	public void login(OwnerLoginDTO dto, HttpServletRequest request, HttpServletResponse response, Object handler,
+			ModelAndView modelAndView) throws Exception {
+		OwnerVO vo = owner_service.login(dto);
+		
+		if(vo == null) {
+			return;
+		}
+		System.out.println(vo.getOwner_no());
+		System.out.println(vo.toString());
+		HttpSession session = request.getSession();
+		if(vo != null) {
+			System.out.println("사장님 로그인 성공");
+			session.setAttribute("owner_login", vo);
+			session.setAttribute("owner_role", "OWNER");
+			if(request.getParameter("useCookie")!=null) {
+				logger.info("remember Me!!!!!!!-----------------------");
+				Cookie loginCookie = new Cookie("loginCookie", session.getId());
+				loginCookie.setPath("/");
+				loginCookie.setMaxAge(60*60*24*7);
+				response.addCookie(loginCookie);
+				
+			}
+			response.sendRedirect("/owner/");
+		}
+	}
+	
+	// 사장님 로그아웃 기능 
+	@RequestMapping(value="/logout", method = RequestMethod.GET)
+	public String logout(HttpServletRequest request, HttpServletResponse response, HttpSession session)throws Exception{
+		Object obj = session.getAttribute("owner_login");
+		
+		if(obj != null) {
+			
+			session.removeAttribute("owner_login");
+			session.removeAttribute("owner_role");
+			session.invalidate();
+			
+			Cookie loginCookie = WebUtils.getCookie(request, "loginCookie");
+			
+			if (loginCookie != null) {
+				loginCookie.setPath("/");
+				loginCookie.setMaxAge(0);
+				response.addCookie(loginCookie);
+				
+			}
+		}
+		return "redirect:/owner/";
+	}
+	
 	@RequestMapping(value="/teshome", method = RequestMethod.GET)
 	public void testhomeGet() {
 		
 	}
+	// myshop 페이지 이동
+	@RequestMapping(value="/myshop", method = RequestMethod.GET)
+	public void myshopGet() {
+		
+	}
+	
+	// menu 관리 페이지 이동
+	@RequestMapping(value="/menus", method = RequestMethod.GET)
+	public void menus() {
+		
+	}
+	
 }

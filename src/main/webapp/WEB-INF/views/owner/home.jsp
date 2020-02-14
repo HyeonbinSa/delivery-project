@@ -74,7 +74,7 @@
 			<div class="home-advertise col-md-8">ㄴ 
 			</div>
 			<div class="home-login col-md-4"> 
-				<form class="login-form">
+				<form class="login-form" action="/owner/login" method="post">
 					<input type="text" class="form-control" name="owner_id" placeholder="아이디 입력">
 					<input type="password" class="form-control" name="owner_pw" placeholder="비밀번호 입력">
 					<div class="login-extra">

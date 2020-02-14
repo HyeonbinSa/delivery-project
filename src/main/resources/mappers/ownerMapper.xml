@@ -30,4 +30,8 @@
 	<select id="getForCheck" resultType="OwnerVO"><!-- owner 데이터 하나 가져오기  -->
 		select * from owner_table where owner_number = #{owner_number} and owner_phone = #{owner_phone}
 	</select>
+	<!-- Owner Login -->
+	<select id="login" resultType="OwnerVO">
+		select * from owner_table where owner_id = #{owner_id} and owner_pw = #{owner_pw}
+	</select>
 </mapper>

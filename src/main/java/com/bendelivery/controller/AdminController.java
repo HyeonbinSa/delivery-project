@@ -102,7 +102,7 @@ public class AdminController {
 				response.addCookie(loginCookie);
 				
 			}
-			response.sendRedirect("/");
+			response.sendRedirect("/admin/home");
 		}
 	}
 	@RequestMapping(value="/logout", method = RequestMethod.GET)
@@ -124,7 +124,7 @@ public class AdminController {
 				
 			}
 		}
-		return "redirect:/";
+		return "redirect:/admin/home";
 	}
 	
 	@RequestMapping(value="/permit", method = RequestMethod.POST)

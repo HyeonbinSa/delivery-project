@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/include/admin_header.jsp" %>
-<main class="main-content">
+<%@ include file="/WEB-INF/views/include/admin_header2.jsp" %>
+<div class="home-content">
 <h1>입점 신청 목록</h1>	
 <table class="table table-striped">
 <colgroup>
@@ -43,13 +43,5 @@
 	</c:forEach>
 	</tbody>
 </table>
-		</main>
-	</div>
-	<footer class="footer">
-		<div class="footer-inner">
-			<div class="info"></div>
 		</div>
-	</footer>
-	</div>
-</body>
-</html>
+	<%@ include file="/WEB-INF/views/include/admin_footer.jsp" %>

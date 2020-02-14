@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/include/admin_header.jsp" %>
-<main class="main-content">
+<%@ include file="/WEB-INF/views/include/admin_header2.jsp" %>
+<div class="home-content">
 <h2><strong>${resVO.res_name}</strong> - 입점 신청</h2>
 <hr>
 	<form method="post" action="/admin/permit">
@@ -59,12 +59,5 @@
 		<button type="submit">삭제</button>
 		<button type="submit">허가</button>
 	</form>
-</main>
-	</div>
-	<footer class="footer">
-		<div class="footer-inner">
-			<div class="info"></div>
-		</div>
-	</footer>
-	</div>
-</body>
+</div>
+<%@ include file="/WEB-INF/views/include/admin_footer.jsp" %>
