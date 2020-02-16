@@ -68,12 +68,17 @@
 	padding:20px;
 	
 }
+.owner-name{
+	margin-top:20px;
+	margin-bottom:10px;
+}
 </style>
 	<div class="home-content">
 		<div class="first-content row">
 			<div class="home-advertise col-md-8">ㄴ 
 			</div>
 			<div class="home-login col-md-4"> 
+				<c:if test="${owner_login == null}">
 				<form class="login-form" action="/owner/login" method="post">
 					<input type="text" class="form-control" name="owner_id" placeholder="아이디 입력">
 					<input type="password" class="form-control" name="owner_pw" placeholder="비밀번호 입력">
@@ -85,6 +90,16 @@
 				</form>	
 					<button class="btn btn-default btn-join" onclick="location.href='/owner/check'">회원가입 인증</button>
 					<span class="join-ex">입점 신청 후 첫 방문이신 사장님께서는 회원가입 인증을 통해 입점을 완료해주세요.</span>
+					</c:if>
+				<c:if test="${owner_login != null}">
+					<div class="owner-name">
+						<div style="font-size:25px;text-align:center;margin-bottom:10px;"><strong>${resVO.res_name }</strong></div>
+						<div style="font-size:15px;text-align:center;"><strong>${owner_login.owner_name }</strong><span>접속 중</span></div>
+					</div>
+					<button class="btn btn-default btn-login" onclick="location.href='/owner/myshop'">My Shop</button>
+					<button class="btn btn-default btn-login" onclick="location.href='/owner/logout'">로그아웃</button>
+				</c:if>
+			</div>
 			</div>
 		</div>
 		<div class="second-content row">

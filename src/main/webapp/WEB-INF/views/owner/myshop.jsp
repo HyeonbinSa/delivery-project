@@ -41,7 +41,7 @@
 </style>
 	<div class="home-content">
 		<div class="top-content">
-			<span class="owner-name">${owner_login.owner_name}</span><span>사장님, <strong>어서오세요.</strong></span>
+			<span class="owner-name">${resVO.res_name} - ${owner_login.owner_name}</span><span>사장님, <strong>어서오세요.</strong></span>
 		</div>
 		<hr>
 		<div class="middle-content">

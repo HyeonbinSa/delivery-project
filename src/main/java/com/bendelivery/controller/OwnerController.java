@@ -1,5 +1,7 @@
 package com.bendelivery.controller;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -20,9 +22,13 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.WebUtils;
 
+import com.bendelivery.domain.MenuGroupVO;
+import com.bendelivery.domain.MenuVO;
 import com.bendelivery.domain.OwnerVO;
 import com.bendelivery.domain.RestaurantVO;
 import com.bendelivery.dto.OwnerLoginDTO;
+import com.bendelivery.service.MenuGroupService;
+import com.bendelivery.service.MenuService;
 import com.bendelivery.service.OwnerService;
 import com.bendelivery.service.RestaurantService;
 
@@ -33,6 +39,10 @@ public class OwnerController {
 	private OwnerService owner_service;
 	@Inject
 	private RestaurantService res_service;
+	@Inject 
+	private MenuGroupService menu_group_service;
+	@Inject
+	private MenuService menu_service;
 	
 	private static Logger logger = LoggerFactory.getLogger(AdminController.class);
 	
@@ -119,15 +129,19 @@ public class OwnerController {
 			ModelAndView modelAndView) throws Exception {
 		OwnerVO vo = owner_service.login(dto);
 		
+		// 해당 id, pw 가 일치하는 data가 없을 경우 return;
 		if(vo == null) {
 			return;
 		}
-		System.out.println(vo.getOwner_no());
-		System.out.println(vo.toString());
+		// 있을 경우 
+		// 1. session에 owner 정보
+		// 2. session에 restaurant 정보 전달.
 		HttpSession session = request.getSession();
-		if(vo != null) {
+		RestaurantVO resVO = res_service.readByOwner(vo.getOwner_no());
+		if(vo != null && resVO != null) {
 			System.out.println("사장님 로그인 성공");
 			session.setAttribute("owner_login", vo);
+			session.setAttribute("resVO", resVO);
 			session.setAttribute("owner_role", "OWNER");
 			if(request.getParameter("useCookie")!=null) {
 				logger.info("remember Me!!!!!!!-----------------------");
@@ -176,8 +190,36 @@ public class OwnerController {
 	
 	// menu 관리 페이지 이동
 	@RequestMapping(value="/menus", method = RequestMethod.GET)
-	public void menus() {
-		
+	public String menus(HttpSession session, Model model)throws Exception {
+		// session에 저장된 restaurantVO객체 가져오기 
+		RestaurantVO vo = (RestaurantVO)session.getAttribute("resVO");
+		System.out.println(vo.toString());
+		// 해당 식당 메뉴 그룹 정보 전달
+		List<MenuGroupVO> group_list = menu_group_service.list(vo.getRes_no());
+		// 해당 식당 메뉴 정보 전달 
+		List<MenuVO> menu_list = menu_service.list(vo.getRes_no());
+		System.out.println("메뉴 서비스 출력  = " + menu_list.toString());
+		model.addAttribute("groupList", group_list);
+		model.addAttribute("menuList", menu_list);
+
+		return "/owner/menus";
+	}
+	
+	// 메뉴 그룹 추가 
+	@RequestMapping(value="/addMenuGroup", method = RequestMethod.POST)
+	public String addMenuGroup(MenuGroupVO vo, RedirectAttributes rttr) throws Exception {
+		menu_group_service.addMenuGroup(vo);
+		rttr.addFlashAttribute("result", "GroupSuccess");
+		return "redirect:/owner/menus";
+	}
+	
+	// 메뉴 추가
+	@RequestMapping(value="/addMenu", method = RequestMethod.POST )
+	public String addMenu(MenuVO vo, RedirectAttributes rttr) throws Exception{
+		System.out.println(vo.toString());
+		menu_service.addMenu(vo);
+		rttr.addFlashAttribute("result", "MenuSuccess");
+		return "redirect:/owner/menus";
 	}
 	
 }

@@ -14,6 +14,7 @@ import com.bendelivery.persistence.RestaurantDAO;
 @Service
 public class RestaurantServiceImpl implements RestaurantService{
 	
+	
 	@Inject
 	private RestaurantDAO dao;
 	private static Logger logger = LoggerFactory.getLogger(RestaurantServiceImpl.class);
@@ -38,5 +39,11 @@ public class RestaurantServiceImpl implements RestaurantService{
 	@Override
 	public String getPermitInfo(int owner_no) throws Exception {
 		return dao.getPermitInfo(owner_no);
+	}
+	
+	// Owner_no를 통해 식당 데이터 가져오기 
+	@Override
+	public RestaurantVO readByOwner(int owner_no) throws Exception {
+		return dao.readByOwner(owner_no);
 	}
 }

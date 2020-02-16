@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bendelivery.mapper.MenuMapper">
+
+	<insert id="create">
+		insert into menu_table (res_no, menugroup_no, menu_price, menu_name, menu_component, menu_info)
+		values (#{res_no}, #{menugroup_no}, #{menu_price}, #{menu_name}, '${menu_component}', '${menu_info}')
+	</insert>
+	
+	<select id="list" resultType="MenuVO">
+		select * from menu_table where res_no = #{res_no} order by menu_no asc
+	</select>	
+	
+</mapper>
+	

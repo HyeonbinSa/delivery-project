@@ -20,6 +20,9 @@
 	<select id="read" resultType="RestaurantVO">
 		select * from restaurant_table where res_no  = #{res_no}
 	</select>
+	<select id="readByOwner" resultType="RestaurantVO">
+		select * from restaurant_table where owner_no  = #{owner_no}
+	</select>
 	<!-- admin 페이지에서 식당 입점 허가 -->
 	<update id="permission">
 		update restaurant_table set permission= "OK", permit_date = now(), permit_admin = "${permit_admin}" where res_no = ${res_no}
