@@ -11,5 +11,6 @@ public interface RestaurantService {
 	public RestaurantVO readByOwner(int owner_no)throws Exception;
 	public void permit(RestaurantVO vo)throws Exception;
 	public String getPermitInfo(int owner_no)throws Exception;
+	public void modifyInfo(RestaurantVO vo)throws Exception;
 	
 }

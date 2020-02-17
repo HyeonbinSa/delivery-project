@@ -53,7 +53,7 @@
 			<div class="collapse navbar-collapse category-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav category-nav-ul">
 					<li><a href="/owner/menus">메뉴 관리</a></li>
-					<li><a>가게 정보</a></li>
+					<li><a href="/owner/operation">가게 정보 관리</a></li>
 					<li><a>주문확인</a></li>
 					<li><a>내 정보 관리</a></li>
 					<li><a>영업일 관리</a></li>

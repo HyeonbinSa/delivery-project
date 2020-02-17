@@ -40,10 +40,13 @@ public class RestaurantServiceImpl implements RestaurantService{
 	public String getPermitInfo(int owner_no) throws Exception {
 		return dao.getPermitInfo(owner_no);
 	}
-	
 	// Owner_no를 통해 식당 데이터 가져오기 
 	@Override
 	public RestaurantVO readByOwner(int owner_no) throws Exception {
 		return dao.readByOwner(owner_no);
+	}
+	@Override
+	public void modifyInfo(RestaurantVO vo) throws Exception {
+		dao.modifyInfo(vo);
 	}
 }

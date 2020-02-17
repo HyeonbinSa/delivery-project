@@ -46,10 +46,10 @@
 		<hr>
 		<div class="middle-content">
 			<div class="owner-menu row">
-				<div class="menu-item col-md-4">
+				<div class="menu-item col-md-4" onclick="location.href='/owner/operation'">
 					<div class="item-wrap">
 						<span class="glyphicon glyphicon-edit icon"></span>
-						<div class="menu-title">가게 정보</div>
+						<div class="menu-title" >가게 정보</div>
 					</div>
 				</div>
 				<div class="menu-item col-md-4">

@@ -2,6 +2,7 @@ package com.bendelivery.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -22,8 +23,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.WebUtils;
 
 import com.bendelivery.domain.MemberVO;
+import com.bendelivery.domain.MenuGroupVO;
+import com.bendelivery.domain.MenuVO;
 import com.bendelivery.dto.UserLoginDTO;
 import com.bendelivery.service.MemberService;
+import com.bendelivery.service.MenuGroupService;
+import com.bendelivery.service.MenuService;
 import com.bendelivery.service.OwnerService;
 import com.bendelivery.service.RestaurantService;
 
@@ -36,7 +41,10 @@ public class UserController {
 	private RestaurantService res_service;
 	@Inject
 	private OwnerService owner_service;
-	
+	@Inject
+	private MenuGroupService menu_group_service;
+	@Inject
+	private MenuService menu_service;
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	
@@ -122,9 +130,19 @@ public class UserController {
 	@RequestMapping(value="/{res_no}", method = RequestMethod.GET)
 	public String readGET(@PathVariable("res_no") int res_no, Model model)throws Exception{
 		logger.info("read - "+res_no+"get------------------------------------");
-		model.addAttribute("resVO", res_service.read(res_no));
+		// restaurant 데이터에서 owner_no 가져오기 
 		int owner_no = res_service.read(res_no).getOwner_no();
+		
+		// 해당 식당 메뉴 그룹 정보 전달
+		List<MenuGroupVO> group_list = menu_group_service.list(res_no);
+		// 해당 식당 메뉴 정보 전달 
+		List<MenuVO> menu_list = menu_service.list(res_no);
+		
+		// owner, 사장 정보 
 		model.addAttribute("ownerVO", owner_service.read(owner_no));
+		model.addAttribute("resVO", res_service.read(res_no));
+		model.addAttribute("groupList", group_list);
+		model.addAttribute("menuList", menu_list);
 		return "/user/read";
 	}
 	@RequestMapping(value="/mypage", method = RequestMethod.GET)

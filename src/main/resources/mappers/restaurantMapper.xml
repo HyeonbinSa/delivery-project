@@ -20,15 +20,20 @@
 	<select id="read" resultType="RestaurantVO">
 		select * from restaurant_table where res_no  = #{res_no}
 	</select>
+	<!-- 사장 번호로 읽어오기 -->
 	<select id="readByOwner" resultType="RestaurantVO">
 		select * from restaurant_table where owner_no  = #{owner_no}
 	</select>
 	<!-- admin 페이지에서 식당 입점 허가 -->
 	<update id="permission">
-		update restaurant_table set permission= "OK", permit_date = now(), permit_admin = "${permit_admin}" where res_no = ${res_no}
+		update restaurant_table set permission= "OK", permit_date = now(), permit_admin = "#{permit_admin}" where res_no = #{res_no}
 	</update>
 	<!-- 사장님 회원가입 시 해당 사장님 owner_no를 통해 식당 입점 허가 정보 가져옴 -->
 	<select id="getPermitInfo" resultType="String">
 		select permission from restaurant_table where owner_no  = #{owner_no}
 	</select>
+	<!-- 가게 정보 수정 -->
+	<update id="updateResInfo">
+		update restaurant_table set res_tel = #{res_tel}, res_intro = #{res_intro} where res_no = #{res_no}
+	</update>
 </mapper>

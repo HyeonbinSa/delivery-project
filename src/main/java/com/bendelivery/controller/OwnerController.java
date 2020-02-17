@@ -25,11 +25,13 @@ import org.springframework.web.util.WebUtils;
 import com.bendelivery.domain.MenuGroupVO;
 import com.bendelivery.domain.MenuVO;
 import com.bendelivery.domain.OwnerVO;
+import com.bendelivery.domain.ResOperationVO;
 import com.bendelivery.domain.RestaurantVO;
 import com.bendelivery.dto.OwnerLoginDTO;
 import com.bendelivery.service.MenuGroupService;
 import com.bendelivery.service.MenuService;
 import com.bendelivery.service.OwnerService;
+import com.bendelivery.service.ResOperationService;
 import com.bendelivery.service.RestaurantService;
 
 @Controller
@@ -43,7 +45,8 @@ public class OwnerController {
 	private MenuGroupService menu_group_service;
 	@Inject
 	private MenuService menu_service;
-	
+	@Inject
+	private ResOperationService res_operation_service;
 	private static Logger logger = LoggerFactory.getLogger(AdminController.class);
 	
 	@RequestMapping(value="/register", method = RequestMethod.GET)
@@ -222,4 +225,40 @@ public class OwnerController {
 		return "redirect:/owner/menus";
 	}
 	
+	// 가게 운영 페이지 이동
+	@RequestMapping(value="/operation", method = RequestMethod.GET)
+	public void operationGet(HttpSession session, Model model) throws Exception {
+		RestaurantVO vo = (RestaurantVO) session.getAttribute("resVO");
+		ResOperationVO operationVO = res_operation_service.getByRes(vo.getRes_no());
+		if(operationVO != null) {
+			model.addAttribute("operationVO", operationVO);
+		}
+		
+	}
+	
+	// 가게 기본 정보 수정 메소드 
+	@RequestMapping(value="/modifyinfo", method = RequestMethod.POST)
+	public String modifyInfo(RestaurantVO vo, RedirectAttributes rttr, HttpSession session) throws Exception {
+		System.out.println(vo.toString());
+		System.out.println(vo.getRes_intro());
+		res_service.modifyInfo(vo);
+		session.setAttribute("resVO", res_service.read(vo.getRes_no()));
+		rttr.addFlashAttribute("result", "ModifySuccess");
+		return "redirect:/owner/operation";
+	}
+	// 가게 운영 정보 수정 메소드 
+	@RequestMapping(value="/modifyoperation", method = RequestMethod.POST)
+	public String modifyOperation(ResOperationVO vo, RedirectAttributes rttr) throws Exception {
+		// 해당 식당 번호가 운영 정보를 가지고 있지 않으면 
+		if(res_operation_service.getByRes(vo.getRes_no()) == null) {
+			// 새 데이터 생성 
+			res_operation_service.create(vo);
+		// 이미 가지고 있다
+		}else {
+			// 데이터 수정 
+			res_operation_service.update(vo);
+		}
+		rttr.addFlashAttribute("result", "operationSuccess");
+		return "redirect:/owner/operation";
+	}
 }

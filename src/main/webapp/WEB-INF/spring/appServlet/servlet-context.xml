@@ -44,6 +44,8 @@
 		</interceptor>
 		<interceptor>	
 			<mapping path="/owner/myshop"/>
+			<mapping path="/owner/menus"/>
+			<mapping path="/owner/operation"/>
 			<beans:ref bean="ownerInterceptor"/>
 		</interceptor>
 		
