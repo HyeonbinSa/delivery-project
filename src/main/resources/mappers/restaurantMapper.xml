@@ -17,6 +17,12 @@
 		where res_no > 0 
 		order by res_no desc, res_regdate desc
 	</select>
+	<select id="listByCategory" resultType="RestaurantVO">
+		select res_no, res_name, res_regdate, category, permission, permit_date
+		from restaurant_table
+		where category = #{category}
+		order by res_no desc, res_regdate desc
+	</select>
 	<select id="read" resultType="RestaurantVO">
 		select * from restaurant_table where res_no  = #{res_no}
 	</select>

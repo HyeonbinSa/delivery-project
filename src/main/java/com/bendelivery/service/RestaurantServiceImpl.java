@@ -13,11 +13,11 @@ import com.bendelivery.persistence.RestaurantDAO;
 
 @Service
 public class RestaurantServiceImpl implements RestaurantService{
-	
-	
 	@Inject
 	private RestaurantDAO dao;
+	
 	private static Logger logger = LoggerFactory.getLogger(RestaurantServiceImpl.class);
+	
 	@Override
 	public void register(RestaurantVO vo) throws Exception {
 		logger.info(vo.toString());
@@ -48,5 +48,9 @@ public class RestaurantServiceImpl implements RestaurantService{
 	@Override
 	public void modifyInfo(RestaurantVO vo) throws Exception {
 		dao.modifyInfo(vo);
+	}
+	@Override
+	public List<RestaurantVO> listByCategory(String category) throws Exception {
+		return dao.listByCategory(category);
 	}
 }

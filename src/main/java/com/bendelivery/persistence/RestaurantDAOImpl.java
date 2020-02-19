@@ -44,5 +44,9 @@ public class RestaurantDAOImpl implements RestaurantDAO{
 	public void modifyInfo(RestaurantVO vo) throws Exception {
 		session.update(namespace+".updateResInfo", vo);
 	}
+	@Override
+	public List<RestaurantVO> listByCategory(String category) throws Exception {
+		return session.selectList(namespace+".listByCategory", category);
+	}
 	
 }

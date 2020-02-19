@@ -13,6 +13,17 @@
 <script type="text/javascript" src="/resources/js/bootstrap.js"></script>
 </head>
 <body>
+<script>
+$(document).ready(function(){
+	var category = '${category}';
+	$(".category-nav-ul").children().removeClass('active');
+	if(category == ""){
+		$(".category-nav-ul").children(".전체보기").addClass('active');
+		return;
+	}
+	$(".category-nav-ul").children("."+category).addClass('active');
+});
+</script>
 <div class="wrapper">
 	<!-- Header Start -->
 	<div class="header">
@@ -50,18 +61,18 @@
 			<div class="collapse navbar-collapse category-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav category-nav-ul">
 					<li><button class="glyphicon glyphicon-search res-search"></button></li>
-					<li><a>전체보기</a></li>
-					<li><a>1인분</a></li>
-					<li><a>프랜차이즈</a></li>
-					<li><a>한식</a></li>
-					<li><a>치킨</a></li>
-					<li><a>피자/양식</a></li>
-					<li><a>중국집</a></li>
-					<li><a>일식/돈까스</a></li>
-					<li><a>족발/보쌈</a></li>
-					<li><a>분식</a></li>
-					<li><a>카페/디저트</a></li>
-					<li><a>편의점</a></li>
+					<li class="전체보기"><a href="/user/list">전체보기</a></li>
+					<li class="1인분"><a href="/user/list/1인분">1인분</a></li>
+					<li class="프랜차이즈"><a href="/user/list/프랜차이즈">프랜차이즈</a></li>
+					<li class="한식"><a href="/user/list/한식">한식</a></li>
+					<li class="치킨"><a href="/user/list/치킨">치킨</a></li>
+					<li class="피자양식"><a href="/user/list/피자양식">피자/양식</a></li>
+					<li class="중국집"><a href="/user/list/중국집">중국집</a></li>
+					<li class="일식돈까스"><a href="/user/list/일식돈까스">일식/돈까스</a></li>
+					<li class="족발보쌈"><a href="/user/list/족발보쌈">족발/보쌈</a></li>
+					<li class="분식"><a href="/user/list/분식">분식</a></li>
+					<li class="카페디저트"><a href="/user/list/카페디저트">카페/디저트</a></li>
+					<li class="편의점"><a href="/user/list/편의점">편의점</a></li>
 					<li class="dropdown ">
 		          		<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">정렬 방식<span class="caret"></span></a>
 		          		<ul class="dropdown-menu orderby-ul" role="menu">

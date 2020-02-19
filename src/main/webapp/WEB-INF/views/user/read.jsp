@@ -68,9 +68,7 @@
 	padding:10px;
 	font-size:17px;
 }
-.order-content{
-	background: aliceblue;
-}
+
 .restaurant-detail-info{
 	border-top : 1px solid #d9d9d9;
 	border-bottom : 1px solid #d9d9d9;
@@ -92,19 +90,21 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
-
+.text{
+	margin-right : 5px;
+	color : #999;
+}
 /* restaurant other information */
 .other-info{
 	margin-top:10px;
 	border : 1px solid #d9d9d9;
 }
-.pannel{
+.panel{
 	widthd:100%;
-	background:aliceblue;
+	margin-bottom : 0px;
 }
 .photo-menu{
-	border-top: 5px solid #d7dbe6;
-	margin-top:15px;
+	margin-top:20px;
 	height:200px;
 	background:aquamarine;
 }
@@ -134,19 +134,18 @@
 	font-size:90%;
 }
 .other-list{
-	padding-top : 10px;
+	margin-top:5px;
 	text-align : center;
 	height:46px;
-	border: 1px solid #d9d9d9;
     border-left: 0;
     padding-bottom: 1px;
     font-size : 20px;
 }
 /* 가게 정보 패널 관련 css */
-.information-panner{
+.information-panel{
 	background: #fff;
-    border-top: 5px solid #d7dbe6;	
-    padding: 30px 16px 0 16px;
+    padding: 20px 16px 20px 16px;
+    margin-bottom : 0px;
 }
 .info-item{
 }
@@ -156,11 +155,19 @@
     font-weight: bold;
     border-bottom: 1px solid #999;
     padding: 0 0 7px 20px;
-    margin-bottom: 18px;
+    margin-bottom: 10px;
+    margin-top: 10px;
     background-size: 16px;
 }
 .info-item-title > span{
 	margin-right :10px;
+}
+.info-item-cotent{
+	padding-left:20px;
+}
+.item-subtitle{
+	color : #999;
+	margin-right : 10px;
 }
 /* 주문표 관련 css */
 .order-content {
@@ -172,16 +179,25 @@
     font-size: 110%;
     padding: 10px 10px 10px 15px;
 }
-.order-list{
+.menu-name, .order-button-set{
+	padding : 5px 12px 8px 12px;
+}
 
+.order-list{
+	padding : 5px 15px 5px 15px;
+	border: 1px solid #ddd;
+	margin-bottom : -1px;
 }
 .minimum-price{
+	border: 1px solid #ddd;
+	margin-bottom : -1px;
     text-align: right;
     padding: 10px 12px 7px 12px;
     font-size: 90%;
     background-color: #f3f3f3;
 }
 .total-price{
+	border: 1px solid #ddd;
     background-color: #fff8eb;
     text-align: right;
     color: #f0001e;
@@ -198,8 +214,65 @@
     color: #FFF;
     margin-top: 7px;
 }
-</style>
+.order-button-set{
+	overflow:auto;
+}
+.order-button {
+	width :24px;
+	margin : 0px 7px;
+	background : none;
+	border:1px solid red;
+	color : red;
+}
+.price-set{
+	float:left;
+}
+.count-set{
+	float:right;
+}
 
+/* jQuery css */
+
+.active {
+	box-sizing: border-box; 
+	border-bottom : 5px solid red;
+}
+.nav-tabs > li.active > a{
+	color : red;
+}
+</style>
+<script>
+$(document).ready(function(){
+	// 메뉴 클릭 시 
+	$(".menu-list").on("click",function(){
+		var name = $(this).children(".menu-list-name").html();
+		var detail = $(this).children(".menu-list-detail").html();
+		var price = $(this).children(".menu-list-price").html();
+		// 메뉴에 id 값으로 menu_no 값을 가지고 있기 때문에 id 값을 가져옴 
+		var menu_no = $(this).attr('id');
+		
+		alert("id = " + menu_no);
+		
+	});
+	$('#menu-detail-modal').on('show.bs.modal', function (event) {
+		  var button = $(event.relatedTarget) // Button that triggered the modal
+		  var name = button.data('name') // Extract info from data-* attributes
+		  var component =  button.data('component');
+		  var price =  button.data('price');
+		  
+		  var modal = $(this)
+		  modal.find('.modal-body input').text('메뉴 상세' + name + component + price);
+	});
+	$(".other-list").children("li").on("click", function(){
+		$(".other-list").children("li").removeClass("active");
+		$(".panel").hide();
+		$(this).attr("class");
+		var panel = "."+$(this).attr("class")+"-panel";
+		$(this).addClass("active");
+		$(panel).show();
+	});
+});
+</script>
 <div class="detail-container">
 	<div class="restaurant-detail">
 		<div class="restaurant-content col-md-8"><!-- 8:4 중 8 -->
@@ -212,10 +285,10 @@
 							<div class="logo-thubmnail"></div>
 						</td>
 						<td class="res-table-info">
-							<div class="res-review" style="font-size:13px"><span>별점5.0</span></div>
-							<div class="order-info" style="font-size:13px"><span>최소주문금액</span><span>13500이상 배달</span></div>
-							<div class="pay-info" style="font-size:13px"><span>결제 </span><span>신용카드</span></div>
-							<div class="delivery-info" style="font-size:13px"><span>배달시간 </span><span>50~60분</span></div>
+							<div class="res-review" style="font-size:13px"><span class="text">별점</span><span>5.0</span></div>
+							<div class="order-info" style="font-size:13px"><span class="text">최소주문금액</span><span>${operationVO.minimum_price }이상 배달</span></div>
+							<div class="pay-info" style="font-size:13px"><span class="text">결제 </span><span>신용카드</span></div>
+							<div class="delivery-info" style="font-size:13px"><span class="text">배달시간 </span><span>50~60분</span></div>
 						</td>
 						<td>
 						</td>
@@ -228,12 +301,12 @@
 			</div>
 			<!-- 아래 들어갈 패널 -->
 			<div class="other-info">
-				<ul class="nav nav-tabs nav-justified other-list "><!-- 네비게이션바 탭형으로 -->
-					<li><a>메뉴</a></li>
-					<li><a>리뷰</a></li>
-					<li><a>정보</a></li>		
+				<ul class="nav nav-tabs nav-justified other-list"><!-- 네비게이션바 탭형으로 -->
+					<li class="menu active"><a>메뉴</a></li>
+					<li class="review"><a>리뷰</a></li>
+					<li class="information"><a>정보</a></li>		
 				</ul>
-				<div class="pannel menu-pannel">
+				<div class="panel menu-panel">
 					<div class="photo-menu">포토메뉴의 위치</div>
 					<div class="toggle-menu">
 						<!-- 식당의 메뉴 그룹 데이터가 있으면 -->
@@ -251,9 +324,11 @@
 										<!-- 해당 메뉴 그룹의 메뉴들을 출력 -->
 										<c:forEach items="${menuList}" var="menuVO">
 											<c:if test="${menuVO.menugroup_no eq groupVO.menugroup_no}">
-												<!-- menu-list-** 형식으로 class 명을 만들어줌// collapse를 하기 위함 -->
-												<div class="collapse menu-list menu-list-${menuVO.menugroup_no }">
-													<div class="menu-info menu-list-name"><strong>${menuVO.menu_name }</strong></div>
+												<!-- menu-list-** 형식으로 class 명을 만들어줌// collapse를 하기 위함, id 값에 해당 메뉴 테이블의 메뉴 id값 넣어줌-->
+												<div class="collapse menu-list menu-list-${menuVO.menugroup_no }" id="${menuVO.menu_no}" 
+													data-toggle="modal" data-target="#menu-detail-modal" 
+													data-name="${menuVO.menu_name }" data-component="${menuVO.menu_component}" data-price="${menuVO.menu_price}">
+													<div class="menu-info menu-list-name">${menuVO.menu_name }</div>
 													<div class="menu-info menu-list-detail">${menuVO.menu_component }</div>
 													<div class="menu-info menu-list-price">${menuVO.menu_price }원</div>
 												</div>
@@ -264,11 +339,35 @@
 						</c:if>
 					</div>
 				</div>
-				<div class="pannel review-panner">b</div>
-				<div class="pannel information-panner">
-					<div class="info-item"><div class="info-item-title"><span class="glyphicon glyphicon-home"></span>업체정보</div></div>
-					<div class="info-item"><div class="info-item-title"><span class="glyphicon glyphicon-barcode"></span>결제정보</div></div>
-					<div class="info-item"><div class="info-item-title"><span class="glyphicon glyphicon-question-sign"></span>사업자정보</div></div>
+				<div class="panel review-panel" style="display:none">b</div>
+				<div class="panel information-panel" style="display:none">
+					<div class="info-item">
+						<div class="info-item-title">
+							<span class="glyphicon glyphicon-home"></span>업체정보
+						</div>
+						<div class="info-item-content">
+							<span class="item-subtitle">영업시간</span><span>${operationVO.start_time} - ${operationVO.end_time}</span>
+						</div>
+					</div>
+					<div class="info-item">
+						<div class="info-item-title">
+							<span class="glyphicon glyphicon-barcode"></span>결제정보
+						</div>
+						<div class="info-item-content">
+							<span class="item-subtitle">최소주문금액</span><span>${operationVO.minimum_price}원</span>
+						</div>
+					</div>
+					<div class="info-item">
+						<div class="info-item-title">
+							<span class="glyphicon glyphicon-question-sign"></span>사업자정보
+						</div>
+						<div class="info-item-content">
+							<span class="item-subtitle">상호명</span><span>${resVO.res_name }</span>
+						</div>
+						<div class="info-item-content">
+							<span class="item-subtitle">사업자등록번호</span><span>${ownerVO.owner_number }</span>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -277,10 +376,9 @@
 			<form>
 				<div class="order-list">
 					<div class="menu-name">메뉴 이름</div>
-					<div class="">
-						<span><button>x</button>price</span>
-						<span><button>-</button>1<button>+</button></span>
-					
+					<div class="order-button-set">
+						<span class="price-set"><button class="order-button">x</button>price</span>
+						<span class="count-set"><button class="order-button">-</button>1<button class="order-button">+</button></span>
 					</div>
 				</div>
 				<div class="minimum-price">최소 주문 금액</div>
@@ -290,5 +388,5 @@
 		</div>
 	</div>
 </div>
-
+<%@ include file="/WEB-INF/views/user/modal.jsp" %>
 <%@ include file="/WEB-INF/views/include/user_footer.jsp" %>

@@ -55,13 +55,13 @@
 					<option value="1인분" selected>1인분 주문</option>
 					<option value="프랜차이즈">프랜차이즈</option>
 					<option value="치킨">치킨</option>
-					<option value="피자/양식">피자/양식</option>
+					<option value="피자양식">피자/양식</option>
 					<option value="한식">한식</option>
 					<option value="일식">일식/돈까스</option>
-					<option value="족발/보쌈">족발/보쌈</option>
+					<option value="족발보쌈">족발/보쌈</option>
 					<option value="야식">야식</option>
 					<option value="분식">분식</option>
-					<option value="카페/디저트">카페/디저트</option>
+					<option value="카페디저트">카페/디저트</option>
 					<option value="편의점">편의점</option>
 				</select>
 				</td>

@@ -25,11 +25,13 @@ import org.springframework.web.util.WebUtils;
 import com.bendelivery.domain.MemberVO;
 import com.bendelivery.domain.MenuGroupVO;
 import com.bendelivery.domain.MenuVO;
+import com.bendelivery.domain.ResOperationVO;
 import com.bendelivery.dto.UserLoginDTO;
 import com.bendelivery.service.MemberService;
 import com.bendelivery.service.MenuGroupService;
 import com.bendelivery.service.MenuService;
 import com.bendelivery.service.OwnerService;
+import com.bendelivery.service.ResOperationService;
 import com.bendelivery.service.RestaurantService;
 
 @Controller
@@ -45,9 +47,11 @@ public class UserController {
 	private MenuGroupService menu_group_service;
 	@Inject
 	private MenuService menu_service;
+	@Inject
+	private ResOperationService res_operation_service;
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
-	
+	// ----------- 로그인 -------------------------------------------------
 	@RequestMapping(value="/login", method = RequestMethod.GET)
 	public void loginGET(@ModelAttribute("dto") UserLoginDTO dto) {
 		logger.info("login get------------------------------------");
@@ -61,7 +65,30 @@ public class UserController {
 		session.setAttribute("user_role", vo.getRole());
 		model.addAttribute("memberVO", vo);
 	}
-	
+	// ----------- 로그아웃 -------------------------------------------------
+	@RequestMapping(value="/logout", method = RequestMethod.GET)
+	public String logout(HttpServletRequest request, HttpServletResponse response, HttpSession session)throws Exception{
+		Object obj = session.getAttribute("login");
+		
+		if(obj != null) {
+			MemberVO vo = (MemberVO)obj;
+			
+			session.removeAttribute("login");
+			session.removeAttribute("user_role");
+			session.invalidate();
+			
+			Cookie loginCookie = WebUtils.getCookie(request, "loginCookie");
+			
+			if (loginCookie != null) {
+				loginCookie.setPath("/");
+				loginCookie.setMaxAge(0);
+				response.addCookie(loginCookie);
+				
+			}
+		}
+		return "redirect:/";
+	}
+	// ----------- 회원가입 -------------------------------------------------
 	// 회원가입 페이지로 이동
 	@RequestMapping(value="/join", method = RequestMethod.GET)
 	public void joinGET() {
@@ -98,34 +125,20 @@ public class UserController {
 		return "redirect:/user/login";
 		
 	}
-	
-	@RequestMapping(value="/logout", method = RequestMethod.GET)
-	public String logout(HttpServletRequest request, HttpServletResponse response, HttpSession session)throws Exception{
-		Object obj = session.getAttribute("login");
-		
-		if(obj != null) {
-			MemberVO vo = (MemberVO)obj;
-			
-			session.removeAttribute("login");
-			session.removeAttribute("user_role");
-			session.invalidate();
-			
-			Cookie loginCookie = WebUtils.getCookie(request, "loginCookie");
-			
-			if (loginCookie != null) {
-				loginCookie.setPath("/");
-				loginCookie.setMaxAge(0);
-				response.addCookie(loginCookie);
-				
-			}
-		}
-		return "redirect:/";
-	}
-	
+	// 식당 전체 리스트 출력 페이지
 	@RequestMapping(value="/list", method = RequestMethod.GET)
 	public void listGET(Model model)throws Exception {
 		model.addAttribute("list", res_service.getList());
 		logger.info("user - list page get------------------------------------");
+	}
+	// 카테고리별 리스트 출력 페이지
+	@RequestMapping(value="/list/{category}", method = RequestMethod.GET)
+	public String listByCategory(@PathVariable("category") String category, Model model)throws Exception{
+		model.addAttribute("category", category);
+		model.addAttribute("list", res_service.listByCategory(category));
+		logger.info("user - "+ category +"list page get------------------------------------");
+		
+		return "/user/list";
 	}
 	@RequestMapping(value="/{res_no}", method = RequestMethod.GET)
 	public String readGET(@PathVariable("res_no") int res_no, Model model)throws Exception{
@@ -137,12 +150,14 @@ public class UserController {
 		List<MenuGroupVO> group_list = menu_group_service.list(res_no);
 		// 해당 식당 메뉴 정보 전달 
 		List<MenuVO> menu_list = menu_service.list(res_no);
-		
+		// 운영 정보 전달
+		ResOperationVO operationVO = res_operation_service.getByRes(res_no);
 		// owner, 사장 정보 
 		model.addAttribute("ownerVO", owner_service.read(owner_no));
 		model.addAttribute("resVO", res_service.read(res_no));
 		model.addAttribute("groupList", group_list);
 		model.addAttribute("menuList", menu_list);
+		model.addAttribute("operationVO", operationVO);
 		return "/user/read";
 	}
 	@RequestMapping(value="/mypage", method = RequestMethod.GET)
