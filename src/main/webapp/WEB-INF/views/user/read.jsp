@@ -85,10 +85,12 @@
 	margin-right:10px;
 }
 .owner-message{
+ 	display: block;
 	float:left;
 	width:85%;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 .text{
 	margin-right : 5px;
@@ -231,6 +233,11 @@
 	float:right;
 }
 
+
+pre{
+	background : #fff;
+	border : none;
+}
 /* jQuery css */
 
 .active {
@@ -243,26 +250,36 @@
 </style>
 <script>
 $(document).ready(function(){
-	// 메뉴 클릭 시 
-	$(".menu-list").on("click",function(){
-		var name = $(this).children(".menu-list-name").html();
-		var detail = $(this).children(".menu-list-detail").html();
-		var price = $(this).children(".menu-list-price").html();
-		// 메뉴에 id 값으로 menu_no 값을 가지고 있기 때문에 id 값을 가져옴 
-		var menu_no = $(this).attr('id');
-		
-		alert("id = " + menu_no);
-		
-	});
+	var Quantity = 1;
+	// 여러 메소드에서 접근할 수 있게 여기에 선언 
+	var price = 0;
+	// 수량이 1일 경우 모달 창 내에 있는 - 버튼 비활성화 
+	if(Quantity == 1){
+		$(".modal-minus").attr("disabled", true);
+	}
+	// 메뉴 클릭시 모달창 열림
 	$('#menu-detail-modal').on('show.bs.modal', function (event) {
-		  var button = $(event.relatedTarget) // Button that triggered the modal
-		  var name = button.data('name') // Extract info from data-* attributes
-		  var component =  button.data('component');
-		  var price =  button.data('price');
-		  
-		  var modal = $(this)
-		  modal.find('.modal-body input').text('메뉴 상세' + name + component + price);
+		// 클릭한 div를 button 값에 넣어줌
+		var button = $(event.relatedTarget) // Button that triggered the modal
+		// data-*** 형식의 값을 넣어줌 
+		var name = button.data('name') // Extract info from data-* attributes
+		var component =  button.data('component');
+		price =  button.data('price');
+		// id에 menu_no값 넣어줘서 해당 값 가져옴
+		var menu_no = button.attr('id');
+		var modal = $(this);
+		// 모달 창 내에 기본적인 값 넣어줌
+		modal.find('.modal-detail-name').text(name);
+		modal.find('.modal-detail-component').text(component);
+		modal.find('.modal-detail-price').text(price+"원");
+		modal.find('.modal-total-price').text(price+"원");
+		// 주문표 기능을 위해 form 내에 hidden 값으로 넣어줌
+		$(".menu_no").val(menu_no);
+		$(".menu_name").val(name);
+		$(".menu_price").val(price);			
+		$(".res_no").val('${resVO.res_no}');
 	});
+	// 메뉴별 클릭시 패널 숨김(메뉴/리뷰/정보)
 	$(".other-list").children("li").on("click", function(){
 		$(".other-list").children("li").removeClass("active");
 		$(".panel").hide();
@@ -271,8 +288,47 @@ $(document).ready(function(){
 		$(this).addClass("active");
 		$(panel).show();
 	});
+	// modal 창에서 + 버튼 클릭시 
+	$(".modal-plus").on("click", function(){
+		// 수량증가
+		Quantity += 1;
+		// 수량이 1이 아닐 경우  - 버튼 활성
+		if(Quantity != 1 ){
+			$(".modal-minus").attr("disabled", false);
+		}
+		// 수량 숫자 변경 
+		$(".modal-count-number").html(Quantity);
+		$(".quantity").val(Quantity);
+		// 총 가격 숫자 변경 가격 * 수량 
+		$('.modal-total-price').text(price*Quantity+"원");
+	});
+	// modal창에서 - 버튼 클릭시 
+	$(".modal-minus").on("click", function(){
+		//수량 -1 
+		Quantity -= 1;
+		// 1일때는 minus 버튼 비활성화 
+		if(Quantity == 1 ){
+			$(".modal-minus").attr("disabled", true);
+		}
+		// 수량 숫자 변경 
+		$(".modal-count-number").html(Quantity);
+		$(".quantity").val(Quantity);
+		// 총 가격 숫자 변경 
+		$('.modal-total-price').text(price*Quantity+"원");
+	});
+	$(".owner-message").on("click", function(){
+		// other-list 밑의 li태그에 설정된 active 클래스를 삭제하고
+		$(".other-list").children("li").removeClass("active");
+		// 패널들을 숨김 
+		$(".panel").hide();
+		// 메뉴 탭에 active 클래스를 넣어주어 활성화함.
+		$(".information").addClass("active");
+		// information-panel을 활성화함 
+		$(".information-panel").show();
+	});
 });
 </script>
+<%= session.getId() %>
 <div class="detail-container">
 	<div class="restaurant-detail">
 		<div class="restaurant-content col-md-8"><!-- 8:4 중 8 -->
@@ -286,7 +342,7 @@ $(document).ready(function(){
 						</td>
 						<td class="res-table-info">
 							<div class="res-review" style="font-size:13px"><span class="text">별점</span><span>5.0</span></div>
-							<div class="order-info" style="font-size:13px"><span class="text">최소주문금액</span><span>${operationVO.minimum_price }이상 배달</span></div>
+							<div class="order-info" style="font-size:13px"><span class="text">최소주문금액</span><span>${operationVO.minimum_price } 원 이상 배달</span></div>
 							<div class="pay-info" style="font-size:13px"><span class="text">결제 </span><span>신용카드</span></div>
 							<div class="delivery-info" style="font-size:13px"><span class="text">배달시간 </span><span>50~60분</span></div>
 						</td>
@@ -296,7 +352,7 @@ $(document).ready(function(){
 				</table>
 				</div>
 				<div class="owner-intro-message">
-					<strong class="owner-message-title">사장님알림 </strong><span class="owner-message"> dlsdlsllslsassssssssssdlsllslsassssssssssdlsllslsasssssssssssssssssssdllfaldfdlsllslsassssssssssdlsllslsassssssssssdlsllslsassssssssssdlsllslsassssssssss</span>
+					<strong class="owner-message-title">사장님알림 </strong><span class="owner-message"> ${resVO.res_intro }</span>
 				</div>
 			</div>
 			<!-- 아래 들어갈 패널 -->
@@ -330,7 +386,7 @@ $(document).ready(function(){
 													data-name="${menuVO.menu_name }" data-component="${menuVO.menu_component}" data-price="${menuVO.menu_price}">
 													<div class="menu-info menu-list-name">${menuVO.menu_name }</div>
 													<div class="menu-info menu-list-detail">${menuVO.menu_component }</div>
-													<div class="menu-info menu-list-price">${menuVO.menu_price }원</div>
+													<span class="menu-info menu-list-price">${menuVO.menu_price }</span><span>원</span>
 												</div>
 											</c:if>
 										</c:forEach>
@@ -341,6 +397,14 @@ $(document).ready(function(){
 				</div>
 				<div class="panel review-panel" style="display:none">b</div>
 				<div class="panel information-panel" style="display:none">
+					<div class="info-item">
+						<div class="info-item-title">
+							<span class="glyphicon glyphicon-volume-up"></span>사장님 알림
+						</div>
+						<div class="info-item-content">
+							<pre>${resVO.res_intro}</pre>
+						</div>
+					</div>
 					<div class="info-item">
 						<div class="info-item-title">
 							<span class="glyphicon glyphicon-home"></span>업체정보
