@@ -33,6 +33,7 @@ public class CartController {
 		if(cart_service.getRestuarantNo(session_id).isEmpty()) {
 			// 들어온 vo를 add 해줌
 			cart_service.addCartItem(vo);
+			request.getSession().setAttribute("res_no", vo.getRes_no());
 			entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 		}else{//있을 경우
 			// res_no 가 같은지 아닌지
@@ -45,12 +46,14 @@ public class CartController {
 				}else {
 					vo.setQuantity(check.getQuantity() + vo.getQuantity());
 					cart_service.updateByQuan(vo);
+					request.getSession().setAttribute("res_no", vo.getRes_no());
 					entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 				}
 			}else {
 				// 기존에 있던 식당 장바구니 삭제
 				cart_service.deleteById(session_id);
 				cart_service.addCartItem(vo);
+				request.getSession().setAttribute("res_no", vo.getRes_no());
 				entity = new ResponseEntity<String>("CHANGE", HttpStatus.OK);
 			}
 		}
@@ -135,4 +138,5 @@ public class CartController {
 		}
 		return entity;
 	}
+	
 }

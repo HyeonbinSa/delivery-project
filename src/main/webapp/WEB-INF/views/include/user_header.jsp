@@ -22,6 +22,7 @@ $(document).ready(function(){
 		return;
 	}
 	$(".category-nav-ul").children("."+category).addClass('active');
+	
 });
 </script>
 <div class="wrapper">
@@ -37,7 +38,9 @@ $(document).ready(function(){
 				<c:if test="${empty login }">
 					<button class="btn btn-default nav-btn" onclick="location.href='/user/login'">로그인</button>
 				</c:if>
-				<button class="btn btn-default nav-btn">주문표</button>
+				<button class="btn btn-default nav-btn" 
+					onclick="<c:if test='${not empty sessionScope.res_no }'>location.href='/user/${sessionScope.res_no }'</c:if>"
+					>주문표<c:if test="${not empty sessionScope.res_no}">(ㅇ)</c:if></button>
 			</div>
 		</div>
 	</div>
