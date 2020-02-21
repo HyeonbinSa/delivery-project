@@ -185,10 +185,14 @@
 	padding : 5px 12px 8px 12px;
 }
 
-.order-list{
+.order-list-item{
 	padding : 5px 15px 5px 15px;
 	border: 1px solid #ddd;
 	margin-bottom : -1px;
+}
+.order-list{
+	padding : 0px;
+	margin : 0px;
 }
 .minimum-price{
 	border: 1px solid #ddd;
@@ -249,16 +253,127 @@ pre{
 }
 </style>
 <script>
+function getCartList(){
+	// 주문표 출력 리스트
+	$.getJSON("/cart/all", function(data){
+		var str = "";
+		var total_price = 0;
+		console.log(data.length);
+		// 주문표 리스트가 하나도 없을 경우
+		if(data.length == 0){
+			str +="<div class='order-list'>"+"<div class='order-list-item'><div class='menu-name'>주문표에 담긴 메뉴가 없습니다.</div></div></div>";
+			str += "<div class='minimum-price'>최소 주문 금액</div><div class='total-price'>합계 금액</div><button type='submit' class='btn-order'>주문하기</button>";
+			$(".order-list-form").html(str);
+			return;
+		}
+		// 리스트가 있을 경우
+		// 주문표 목록을 감싸주는 div
+		str += "<div class='order-list'>";
+		// 각 데이터마다
+		$(data).each(function(){
+			// 총 가격 += 메뉴가격 * 수량;
+			total_price += this.menu_price*this.quantity;
+			// 주문표 메뉴당 내용 
+			str +="<div class='order-list-item'>"+"<div class='menu-name'>"+this.menu_name+"</div>"+
+			"<div class='order-button-set' data-menu='"+this.menu_no+"'>"+
+			"<span class='price-set'><button onclick='delete_menu("+this.menu_no+");'class='order-button order-button-delete'>x</button>"+this.menu_price.toLocaleString()+"</span>"+
+			"<span class='count-set'><button onclick='minus_quantity("+this.menu_no+");' class='order-button order-button-minus'>-</button>"+
+			this.quantity+"<button onclick='plus_quantity("+this.menu_no+");' class='order-button order-button-plus'>+</button></span>"+
+			"</div></div>";
+		});
+		// 총 금액 출력, 최소주문 금액 출력, 버튼 출력
+		str += "</div><div class='minimum-price'>최소 주문 금액 "+"<fmt:formatNumber value='${operationVO.minimum_price }' pattern='#,###' />"+"</div><div class='total-price'>합계 금액 "+total_price.toLocaleString()+"</div><button type='submit' class='btn-order'>주문하기</button>";
+		// order-list-form 에 넣어줌 
+		$(".order-list-form").html(str);
+	});
+	
+};
+//메뉴 삭제
+function delete_menu(menu_no){
+		// ajax로 처리
+		$.ajax({
+			type : 'delete',
+			url : '/cart/'+menu_no,
+			headers : {
+				"Content-Type" : "application/json",
+				"X-HTTP-Method-Override" : "DELETE"
+			},
+			dataType : 'text',
+			data : JSON.stringify({
+				menu_no : menu_no
+			}),
+			success : function(result){
+				if(result == 'REMOVE'){
+					alert("메뉴가 삭제되었습니다.");
+				}
+				// 리스트로 출력 
+				getCartList();
+			}
+		});
+};
+// 수량 뻬기 
+function minus_quantity(menu_no){
+	// ajax로 처리
+	$.ajax({
+		type : 'put',
+		url : '/cart/minus/'+menu_no,
+		headers : {
+			"Content-Type" : "application/json",
+			"X-HTTP-Method-Override" : "PUT"
+		},
+		dataType : 'text',
+		data : JSON.stringify({
+			menu_no : menu_no
+		}),
+		success : function(result){
+			//if(result == 'MINUS'){
+			//	alert("메뉴가 삭제되었습니다.");
+			//}
+			// 리스트로 출력 
+			getCartList();
+		}
+	});
+};	
+//수량 더하기 
+function plus_quantity(menu_no){
+	// ajax로 처리
+	$.ajax({
+		type : 'put',
+		url : '/cart/plus/'+menu_no,
+		headers : {
+			"Content-Type" : "application/json",
+			"X-HTTP-Method-Override" : "PUT"
+		},
+		dataType : 'text',
+		data : JSON.stringify({
+			menu_no : menu_no
+		}),
+		success : function(result){
+			//if(result == 'MINUS'){
+			//	alert("메뉴가 삭제되었습니다.");
+			//}
+			// 리스트로 출력 
+			getCartList();
+		}
+	});
+};	
 $(document).ready(function(){
+	var sid = '<%= session.getId()%>';
 	var Quantity = 1;
 	// 여러 메소드에서 접근할 수 있게 여기에 선언 
 	var price = 0;
 	// 수량이 1일 경우 모달 창 내에 있는 - 버튼 비활성화 
+	
+	
+		
+	// 리스트 출력
+	getCartList();
 	if(Quantity == 1){
 		$(".modal-minus").attr("disabled", true);
 	}
 	// 메뉴 클릭시 모달창 열림
 	$('#menu-detail-modal').on('show.bs.modal', function (event) {
+		Quantity = 1;
 		// 클릭한 div를 button 값에 넣어줌
 		var button = $(event.relatedTarget) // Button that triggered the modal
 		// data-*** 형식의 값을 넣어줌 
@@ -273,10 +388,12 @@ $(document).ready(function(){
 		modal.find('.modal-detail-component').text(component);
 		modal.find('.modal-detail-price').text(price+"원");
 		modal.find('.modal-total-price').text(price+"원");
+		modal.find('.modal-count-number').text(Quantity);
 		// 주문표 기능을 위해 form 내에 hidden 값으로 넣어줌
 		$(".menu_no").val(menu_no);
 		$(".menu_name").val(name);
-		$(".menu_price").val(price);			
+		$(".menu_price").val(price);
+		$(".quantity").val(Quantity);
 		$(".res_no").val('${resVO.res_no}');
 	});
 	// 메뉴별 클릭시 패널 숨김(메뉴/리뷰/정보)
@@ -326,9 +443,51 @@ $(document).ready(function(){
 		// information-panel을 활성화함 
 		$(".information-panel").show();
 	});
+	
+	// 주문표에 추가 버튼 클릭 시 
+	$(".btn-modal-cart").on("click", function(){
+		// 데이터베이스에 들어갈 데이터 가져오기 
+		var res_no = $(".res_no").val();
+		var menu_no = $(".menu_no").val();
+		var menu_name = $(".menu_name").val();
+		var menu_price = $(".menu_price").val();
+		var quantity = $(".quantity").val();
+		// ajax로 처리
+		$.ajax({
+			type : 'post',
+			url : '/cart',
+			headers : {
+				"Content-Type" : "application/json",
+				"X-HTTP-Method-Override" : "POST"
+			},
+			dataType : 'text',
+			data : JSON.stringify({
+				res_no : res_no,
+				menu_no : menu_no,
+				menu_name : menu_name,
+				menu_price : menu_price,
+				//session_id : session_id,
+				quantity : quantity
+			}),
+			success : function(result){
+				if(result == 'SUCCESS'){
+					// 모달창 닫기
+					$('#menu-detail-modal').modal('hide');
+					alert("장바구니에 추가 되었습니다.");
+				}else if(result == 'CHANGE'){
+					$('#menu-detail-modal').modal('hide');
+					alert("기존 상품이 삭제되었습니다.");
+				}
+				
+				// 리스트로 출력 
+				getCartList();
+			}
+		});
+	});
+	
+	
 });
 </script>
-<%= session.getId() %>
 <div class="detail-container">
 	<div class="restaurant-detail">
 		<div class="restaurant-content col-md-8"><!-- 8:4 중 8 -->
@@ -386,7 +545,7 @@ $(document).ready(function(){
 													data-name="${menuVO.menu_name }" data-component="${menuVO.menu_component}" data-price="${menuVO.menu_price}">
 													<div class="menu-info menu-list-name">${menuVO.menu_name }</div>
 													<div class="menu-info menu-list-detail">${menuVO.menu_component }</div>
-													<span class="menu-info menu-list-price">${menuVO.menu_price }</span><span>원</span>
+													<span class="menu-info menu-list-price"><fmt:formatNumber value="${menuVO.menu_price }" pattern="#,###" /></span><span>원</span>
 												</div>
 											</c:if>
 										</c:forEach>
@@ -437,18 +596,20 @@ $(document).ready(function(){
 		</div>
 		<div class="order-content col-md-4">
 			<div class="order-title"><strong>주문표</strong></div>
-			<form>
-				<div class="order-list">
-					<div class="menu-name">메뉴 이름</div>
-					<div class="order-button-set">
-						<span class="price-set"><button class="order-button">x</button>price</span>
-						<span class="count-set"><button class="order-button">-</button>1<button class="order-button">+</button></span>
+			<div class="order-list-form">
+				<!-- <div class="order-list">
+					 <div class='order-list-item'>
+						 <div class="menu-name">메뉴 이름</div>
+						<div class="order-button-set">
+							<span class="price-set"><button class="order-button">x</button>price</span>
+							<span class="count-set"><button class="order-button">-</button>1<button class="order-button">+</button></span>
+						</div> 
 					</div>
-				</div>
-				<div class="minimum-price">최소 주문 금액</div>
+				</div>-->
+				<!-- <div class="minimum-price">최소 주문 금액</div>
 				<div class="total-price">합계 금액</div>
-				<button type="submit" class="btn-order">주문하기</button>
-			</form>
+				<button type="submit" class="btn-order">주문하기</button>-->
+			</div>
 		</div>
 	</div>
 </div>

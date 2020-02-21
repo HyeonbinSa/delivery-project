@@ -25,7 +25,6 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		if(memberVO !=null) {
 			logger.info("로그인 성공");
 			System.out.println("로그인 성공");
-			System.out.println(session.getAttribute("role"));
 			session.setAttribute(LOGIN, memberVO);
 			if(request.getParameter("useCookie")!=null) {
 				logger.info("remember Me!!!!!!!-----------------------");

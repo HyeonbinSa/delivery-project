@@ -102,12 +102,12 @@
 			<strong>총 주문금액</strong>
 			<span class="modal-total-price">총 가격</span>
 		</div>
-        <form>
+        <form class="modal-data">
         	<input type="hidden" name="res_no" class="res_no">
         	<input type="hidden" name="menu_no" class="menu_no">
         	<input type="hidden" name="menu_name" class="menu_name">
         	<input type="hidden" name="menu_price" class="menu_price">
-        	<input type="hidden" name="quantity" class="quantity">
+        	<input type="hidden" name="quantity" class="quantity" value="1">
         </form>
       </div>
       <div class="modal-button-set row">

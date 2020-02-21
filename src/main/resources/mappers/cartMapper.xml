@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bendelivery.mapper.CartMapper">
+	<insert id="addCart">
+		insert into cart_table (res_no, menu_no, menu_name, menu_price, quantity, session_id)
+		values (#{res_no}, #{menu_no}, #{menu_name}, #{menu_price}, #{quantity}, #{session_id})
+	</insert>
+	<delete id="deleteById">
+		delete from cart_table where session_id = #{session_id}
+	</delete>
+	<update id="updateByQuan">
+		update cart_table 
+		set quantity = #{quantity}
+		where menu_no = #{menu_no} and session_id = #{session_id}
+	</update>
+	<delete id="deleteByButton">
+		delete from cart_table where session_id = #{session_id} and menu_no = #{menu_no}
+	</delete>
+	<delete id="deleteByRes">
+		delete from cart_table where session_id = #{session_id} and res_no = #{res_no}
+	</delete>
+	<select id="list" resultType="CartVO">
+		select * from cart_table where session_id = #{session_id}
+	</select>
+	<select id="checkMenu" resultType="CartVO">
+		select * from cart_table where session_id = #{session_id} and menu_no = #{menu_no}
+	</select>
+	<select id="getRes" resultType="int">
+		select res_no from cart_table where session_id = #{session_id}
+	</select>
+	<update id="plusQuantity">
+	<![CDATA[
+		update cart_table 
+		set quantity = quantity+1
+		where menu_no = #{menu_no} and session_id = #{session_id}
+	]]>
+	</update>
+	<update id="minusQuantity">
+	<![CDATA[
+		update cart_table 
+		set quantity = quantity-1
+		where menu_no = #{menu_no} and session_id = #{session_id} and quantity > 1;
+	]]>
+	</update>
+</mapper>
