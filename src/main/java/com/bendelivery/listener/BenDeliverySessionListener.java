@@ -1,6 +1,5 @@
 package com.bendelivery.listener;
 
-import javax.inject.Inject;
 import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
@@ -8,12 +7,13 @@ import javax.servlet.http.HttpSessionListener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bendelivery.service.CartService;
 
 @WebListener
 public class BenDeliverySessionListener implements HttpSessionListener{
-	@Inject
+	@Autowired
 	private CartService cart_service;
 	private Logger logger = LoggerFactory.getLogger(BenDeliverySessionListener.class);
 	@Override
@@ -26,18 +26,12 @@ public class BenDeliverySessionListener implements HttpSessionListener{
 	public void sessionDestroyed(HttpSessionEvent se) {
 		HttpSession session = se.getSession();
 		String session_id = session.getId();
+		System.out.println(session_id);
 		// 세션 아이디를 통해서 장바구니 삭제 
 		try {
-			if(cart_service.list(session.getId()) != null) {
-				try {
-					cart_service.deleteById(session_id);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			cart_service.deleteById(session_id);
+		} catch (Exception e1) {
+			e1.printStackTrace();
 		}
 		
 		logger.info("Close session : " + session.getId());

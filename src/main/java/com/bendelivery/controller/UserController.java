@@ -22,11 +22,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.WebUtils;
 
+import com.bendelivery.domain.CartVO;
 import com.bendelivery.domain.MemberVO;
 import com.bendelivery.domain.MenuGroupVO;
 import com.bendelivery.domain.MenuVO;
 import com.bendelivery.domain.ResOperationVO;
 import com.bendelivery.dto.UserLoginDTO;
+import com.bendelivery.service.CartService;
 import com.bendelivery.service.MemberService;
 import com.bendelivery.service.MenuGroupService;
 import com.bendelivery.service.MenuService;
@@ -49,6 +51,8 @@ public class UserController {
 	private MenuService menu_service;
 	@Inject
 	private ResOperationService res_operation_service;
+	@Inject
+	private CartService cart_service;
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	// ----------- 로그인 -------------------------------------------------
@@ -160,6 +164,16 @@ public class UserController {
 		model.addAttribute("operationVO", operationVO);
 		return "/user/read";
 	}
+	@RequestMapping(value="/checkout", method = RequestMethod.GET)
+	public void checkoutPageGet(HttpServletRequest request, Model model) throws Exception{
+		HttpSession session = request.getSession();
+		//int res_no = (int) session.getAttribute("res_no");
+		String session_id = session.getId();
+		List<CartVO> list = cart_service.list(session_id);
+		model.addAttribute("list", list);
+		
+	}
+	
 	@RequestMapping(value="/mypage", method = RequestMethod.GET)
 	public void mypageGET() {
 		
@@ -169,4 +183,5 @@ public class UserController {
 	public void testHome() {
 		
 	}
+	
 }

@@ -276,7 +276,7 @@ function getCartList(){
 			// 주문표 메뉴당 내용 
 			str +="<div class='order-list-item'>"+"<div class='menu-name'>"+this.menu_name+"</div>"+
 			"<div class='order-button-set' data-menu='"+this.menu_no+"'>"+
-			"<span class='price-set'><button onclick='delete_menu("+this.menu_no+");'class='order-button order-button-delete'>x</button>"+this.menu_price.toLocaleString()+"</span>"+
+			"<span class='price-set'><button onclick='delete_menu("+this.menu_no+");'class='order-button order-button-delete'>x</button>"+(this.menu_price*this.quantity).toLocaleString()+"원</span>"+
 			"<span class='count-set'><button onclick='minus_quantity("+this.menu_no+");' class='order-button order-button-minus'>-</button>"+
 			this.quantity+"<button onclick='plus_quantity("+this.menu_no+");' class='order-button order-button-plus'>+</button></span>"+
 			"</div></div>";
