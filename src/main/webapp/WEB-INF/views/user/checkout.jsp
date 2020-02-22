@@ -153,6 +153,10 @@ td{
 }
 </style>
 <script>
+
+
+
+
 $(document).ready(function(){
 	// 주문요청사항 입력 시 글자수 확인
 	$(".order-request").on("keyup", function(){
@@ -169,6 +173,7 @@ $(document).ready(function(){
 		// hidden input 태그에 값으로 넣어줌
 		$(".payment").val(pay);
 	});
+
 });
 
 </script>
@@ -187,11 +192,11 @@ $(document).ready(function(){
 				</colgroup>
 					<tr>
 						<td class="table-label"><label >주소</label></td>
-						<td><input type="text" class="form-control" name="" placeholder="주소 들어갈 부분"></td>
+						<td><input type="text" class="form-control" name="" placeholder="주소 입력 "></td>
 					</tr>
 					<tr>
-						<td class="table-label"></td>
-						<td><input type="text" class="form-control" name="" placeholder="상세 주소 들어갈 부분"></td>
+						<td class="table-label"><button class="glyphicon glyphicon-search"></button></td>
+						<td><input type="text" class="form-control" name="" placeholder="상세 주소 입력"></td>
 					</tr>
 					<tr>
 						<td class="table-label"><label>휴대폰 번호</label></td>
@@ -244,12 +249,14 @@ $(document).ready(function(){
 		<div class="cart-list col-md-4">
 			<div class="cart-content">
 				<div class="cart-info-title"><strong>주문내역</strong></div>
-				<div class="cart-res-name"><strong>식당이름</strong></div>
+				<div class="cart-res-name"><strong>${resVO.res_name }</strong></div>
 				<div class="cart-item-list">
+					<c:set var="total" value="0"/>
 						<c:forEach items="${list }" var="item">
-							<div class="cart-item"><span>${item.menu_name }</span>X<span>개수</span>개<span class="cart-item-price">가격</span></div>
+							<c:set var="total" value="${total + (item.menu_price * item.quantity) }"/>
+							<div class="cart-item"><span>${item.menu_name }</span>X<span>${item.quantity }</span>개<span class="cart-item-price"><fmt:formatNumber value="${item.menu_price * item.quantity }" pattern="#,###" /> 원</span></div>
 						</c:forEach>
-					<div class="cart-item-total"><span>총 결제 금액</span><span class="cart-item-price">가격</span></div>
+					<div class="cart-item-total"><span>총 결제 금액</span><span class="cart-item-price"><fmt:formatNumber value="${total }" pattern="#,###" /> 원</span></div>
 				</div>
 			</div>
 			<button type="submit" class="btn-order">주문하기</button>

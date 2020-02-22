@@ -27,6 +27,7 @@ import com.bendelivery.domain.MemberVO;
 import com.bendelivery.domain.MenuGroupVO;
 import com.bendelivery.domain.MenuVO;
 import com.bendelivery.domain.ResOperationVO;
+import com.bendelivery.domain.RestaurantVO;
 import com.bendelivery.dto.UserLoginDTO;
 import com.bendelivery.service.CartService;
 import com.bendelivery.service.MemberService;
@@ -167,9 +168,16 @@ public class UserController {
 	@RequestMapping(value="/checkout", method = RequestMethod.GET)
 	public void checkoutPageGet(HttpServletRequest request, Model model) throws Exception{
 		HttpSession session = request.getSession();
-		//int res_no = (int) session.getAttribute("res_no");
+		// 세션에서 식당 번호와 세션 아이디 가져옴
+		int res_no = (int) session.getAttribute("res_no");
 		String session_id = session.getId();
+		
+		RestaurantVO vo = res_service.read(res_no);
+		
 		List<CartVO> list = cart_service.list(session_id);
+		
+		//System.out.println("UserController : "+ list.toString());// 테스트 출력 
+		model.addAttribute("resVO", vo);
 		model.addAttribute("list", list);
 		
 	}
