@@ -151,12 +151,15 @@ td{
     color: #FFF;
     margin-top: 7px;
 }
+/* 주소 검색 버튼 */
+.btn-addr{
+	top: 0px;
+	padding-top: 6px;
+	padding-bottom : 6px;
+}
 </style>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-
-
-
-
 $(document).ready(function(){
 	// 주문요청사항 입력 시 글자수 확인
 	$(".order-request").on("keyup", function(){
@@ -173,7 +176,164 @@ $(document).ready(function(){
 		// hidden input 태그에 값으로 넣어줌
 		$(".payment").val(pay);
 	});
+	$(".btn-addr").on("click", function(){
+		 new daum.Postcode({
+		        oncomplete: function(data) {
+		            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
+		            // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+		            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+		            var addr = ''; // 주소 변수
+		            var extraAddr = ''; // 참고항목 변수
+
+		            //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+		            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+		                addr = data.roadAddress;
+		            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+		                addr = data.jibunAddress;
+		            }
+
+		            // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+		            if(data.userSelectedType === 'R'){
+		                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+		                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+		                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+		                    extraAddr += data.bname;
+		                }
+		                // 건물명이 있고, 공동주택일 경우 추가한다.
+		                if(data.buildingName !== '' && data.apartment === 'Y'){
+		                    extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+		                }
+		                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+		                if(extraAddr !== ''){
+		                    extraAddr = ' (' + extraAddr + ')';
+		                }
+		                // 조합된 참고항목을 해당 필드에 넣는다.
+		                document.getElementById("order_detail_address").value = extraAddr;
+		            
+		            } else {
+		                document.getElementById("order_detail_address").value = '';
+		            }
+
+		            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+		            document.getElementById("order_address").value = addr;
+		            // 커서를 상세주소 필드로 이동한다.
+		            document.getElementById("order_detail_address").focus();
+		        }
+		    }).open();
+	});
+	//주문하기 버튼 클릭
+	$(".btn-order").on("click", function(){
+		// 주문하기 위해서 필요한 내용
+		/* 1. 장바구니 내용 (식당 no, 메뉴no, 메뉴 이름, 메뉴 가격, 개수)
+			2. 회원 정보 (회원 아이디)
+			3. 주문정보 (주소, 상세 주소, 핸드폰 번호, 요청사항)
+		*/
+		/* 수정 내용 
+			1. Order_no를 가진 Order_table의 데이터를 먼저 생성
+			1-1. 들어갈 내용 : 식당 번호, 주문번호, 주문자 아이디, 주소, 상세주소,핸드폰 번호, 요청사항
+			2. 해당 order_no에 들어가는 메뉴리스트 추
+			2-1. order_no, menu_no, menu_name, menu_price, quantity;
+		*/
+		
+		// order_table에 들어갈 내용 
+		var res_no = ${resVO.res_no};
+		var member_id  = '${login.member_id }';
+		var order_address = $("#order_address").val();
+		var order_detail_address = $("#order_detail_address").val();
+		var order_phone = $(".order_phone").val();
+		var order_request = $(".order-request").val();
+		var payment = $(".payment").val();
+		// order 정보 입력 
+		$.ajax({
+			type : 'post',
+			url : '/order',
+			headers : {
+				"Content-Type" : "application/json",
+				"X-HTTP-Method-Override" : "POST"
+			},
+			dataType : 'text',
+			data : JSON.stringify({
+				res_no : res_no,
+				member_id : member_id,
+				order_address : order_address,
+				order_detail_address : order_detail_address,
+				order_phone : order_phone,
+				order_request : order_request,
+				payment : payment 
+			}),
+			success : function(result){
+				if(result != 0){
+					alert("주문 등록완료"+result);
+					var order_no = result;
+				}
+				var list = new Array();
+				<c:forEach items="${list}" var="item">
+					var obj = new Object();
+					var menu_no = ${item.menu_no};
+					var menu_name = '${item.menu_name}';
+					var menu_price = ${item.menu_price};
+					var quantity = ${item.quantity};
+					
+					$.ajax({
+						type : 'post',
+						url : '/order/'+order_no,
+						headers : {
+							"Content-Type" : "application/json",
+							"X-HTTP-Method-Override" : "POST"
+						},
+						dataType : 'text',
+						data : JSON.stringify({
+							order_no : order_no,
+							menu_no : menu_no,
+							menu_name : menu_name,
+							menu_price : menu_price,
+							quantity : quantity
+						}),
+						success : function(result){
+							
+						}
+					});
+					alert(result + menu_no + menu_name + menu_price + quantity);
+				</c:forEach>
+				$(location).attr('href', '/')
+			}
+		});
+		
+		
+		
+		
+		
+		
+		/*$.ajax({
+			type : 'post',
+			url : '/order',
+			headers : {
+				"Content-Type" : "application/json",
+				"X-HTTP-Method-Override" : "POST"
+			},
+			dataType : 'text',
+			data : JSON.stringify({
+				res_no : res_no,
+				menu_no : menu_no,
+				menu_name : menu_name,
+				menu_price : menu_price,
+				quantity : quantity,
+				member_id : member_id,
+				order_address : order_address,
+				order_detail_address : order_detail_address,
+				order_phone : order_phone,
+				order_request : order_request
+			}),
+			success : function(result){
+				//if(result == 'MINUS'){
+				//	alert("메뉴가 삭제되었습니다.");
+				//}
+				// 리스트로 출력 
+				getCartList();
+			}
+		});*/
+	});
 });
 
 </script>
@@ -192,15 +352,22 @@ $(document).ready(function(){
 				</colgroup>
 					<tr>
 						<td class="table-label"><label >주소</label></td>
-						<td><input type="text" class="form-control" name="" placeholder="주소 입력 "></td>
+						<td>
+							<div class="input-group">
+								<input type="text" class="form-control" id="order_address" name="order_address" placeholder="주소 입력 ">
+								<span class="input-group-btn">
+									<button class="btn btn-default btn-addr glyphicon glyphicon-search" type="button"></button>
+								</span>
+							</div>
+						</td>
 					</tr>
 					<tr>
-						<td class="table-label"><button class="glyphicon glyphicon-search"></button></td>
-						<td><input type="text" class="form-control" name="" placeholder="상세 주소 입력"></td>
+						<td class="table-label"></td>
+						<td><input type="text" class="form-control" id="order_detail_address" name="order_detail_address" placeholder="상세 주소 입력"></td>
 					</tr>
 					<tr>
 						<td class="table-label"><label>휴대폰 번호</label></td>
-						<td><input type="text" class="form-control" name="" placeholder="휴대폰 번호 들어갈 부분	"></td>
+						<td><input type="text" class="form-control order_phone" name="order_phone" placeholder="휴대폰 번호 들어갈 부분	"></td>
 					</tr>
 				</table>
 			</div>

@@ -11,6 +11,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.bendelivery.domain.MemberVO;
+
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 	private static final String LOGIN ="login";
 	private static Logger logger = LoggerFactory.getLogger(LoginInterceptor.class);
