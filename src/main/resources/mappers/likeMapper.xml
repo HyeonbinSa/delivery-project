@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bendelivery.mapper.LikeMapper">
+	<insert id="like">
+		insert into like_table (res_no, member_no)
+		values (#{res_no}, #{member_no})
+	</insert>
+	<select id="check" resultType="int">
+		select count(*) from like_table where res_no = #{res_no} and member_no = #{member_no}
+	</select>
+	<delete id="unlike">
+		delete from like_table where res_no = #{res_no} and member_no = #{member_no}
+	</delete>
+</mapper>

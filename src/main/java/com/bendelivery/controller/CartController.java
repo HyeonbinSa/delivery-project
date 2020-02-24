@@ -109,21 +109,26 @@ public class CartController {
 		}
 		return entity;
 	}
-	
+	// 메뉴의 수량 + 버튼 클릭 시 
 	@RequestMapping(value="/plus/{menu_no}", method = RequestMethod.PUT)
 	public ResponseEntity<String> plusQuantity(@RequestBody CartVO vo, HttpServletRequest request){
 		ResponseEntity<String> entity = null;
+		// 세션 id를 받아와서 
 		String session_id = request.getSession().getId();
+		// cartVO에 세션 id 값을 넣어
 		vo.setSession_id(session_id);
 		try {
+			// 해당 CartVO 데이터를 통해 수량 수정 
 			cart_service.updatePlus(vo);
-			entity = new ResponseEntity<String>("REMOVE", HttpStatus.OK);
+			// 결과값 전송 
+			entity = new ResponseEntity<String>("PLUS", HttpStatus.OK);
 		}catch(Exception e) {
 			e.printStackTrace();
 			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 		return entity;
 	}
+	// 메뉴의 수량 - 버튼 클릭 시 
 	@RequestMapping(value="/minus/{menu_no}", method = RequestMethod.PUT)
 	public ResponseEntity<String> minusQuantity(@RequestBody CartVO vo, HttpServletRequest request){
 		ResponseEntity<String> entity = null;
@@ -131,7 +136,7 @@ public class CartController {
 		vo.setSession_id(session_id);
 		try {
 			cart_service.updateMinus(vo);
-			entity = new ResponseEntity<String>("REMOVE", HttpStatus.OK);
+			entity = new ResponseEntity<String>("MINUS", HttpStatus.OK);
 		}catch(Exception e) {
 			e.printStackTrace();
 			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);

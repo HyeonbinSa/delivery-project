@@ -1,5 +1,7 @@
 package com.bendelivery.persistence;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -16,6 +18,10 @@ public class OrderDAOImpl implements OrderDAO{
 	@Override
 	public void createOrder(OrderVO vo) throws Exception {
 		session.insert(namespace+".order",vo);
+	}
+	@Override
+	public List<OrderVO> list(String member_id) throws Exception {
+		return session.selectList(namespace+".list",member_id);
 	}
 
 }

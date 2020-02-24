@@ -7,4 +7,7 @@
 		insert into order_menu_table (order_no, menu_no, menu_name, menu_price, quantity)
 		values (#{order_no}, #{menu_no}, #{menu_name}, #{menu_price}, #{quantity})
 	</insert>
+	<select id="list" resultType="OrderMenuVO">
+		select * from order_menu_table where order_no = #{order_no}
+	</select>
 </mapper>

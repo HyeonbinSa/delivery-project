@@ -296,7 +296,7 @@ $(document).ready(function(){
 					});
 					alert(result + menu_no + menu_name + menu_price + quantity);
 				</c:forEach>
-				$(location).attr('href', '/')
+				$(location).attr('href', '/');
 			}
 		});
 		

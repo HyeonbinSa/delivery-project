@@ -23,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.WebUtils;
 
 import com.bendelivery.domain.CartVO;
+import com.bendelivery.domain.LikeVO;
 import com.bendelivery.domain.MemberVO;
 import com.bendelivery.domain.MenuGroupVO;
 import com.bendelivery.domain.MenuVO;
@@ -30,6 +31,7 @@ import com.bendelivery.domain.ResOperationVO;
 import com.bendelivery.domain.RestaurantVO;
 import com.bendelivery.dto.UserLoginDTO;
 import com.bendelivery.service.CartService;
+import com.bendelivery.service.LikeService;
 import com.bendelivery.service.MemberService;
 import com.bendelivery.service.MenuGroupService;
 import com.bendelivery.service.MenuService;
@@ -54,6 +56,7 @@ public class UserController {
 	private ResOperationService res_operation_service;
 	@Inject
 	private CartService cart_service;
+	
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	// ----------- 로그인 -------------------------------------------------
@@ -157,7 +160,7 @@ public class UserController {
 		List<MenuVO> menu_list = menu_service.list(res_no);
 		// 운영 정보 전달
 		ResOperationVO operationVO = res_operation_service.getByRes(res_no);
-		// owner, 사장 정보 
+		
 		model.addAttribute("ownerVO", owner_service.read(owner_no));
 		model.addAttribute("resVO", res_service.read(res_no));
 		model.addAttribute("groupList", group_list);

@@ -10,4 +10,7 @@
 			SELECT LAST_INSERT_ID()
 		</selectKey>
 	</insert>
+	<select id="list" resultType="OrderVO">
+		select * from order_table where member_id = #{member_id} order by order_no desc
+	</select>
 </mapper>

@@ -251,6 +251,19 @@ pre{
 .nav-tabs > li.active > a{
 	color : red;
 }
+/* 찜 */
+.like-res{
+	color : #e6e6e6;
+	float : right;
+}
+.like-res.active-like{
+	color : red;
+}
+.like-res > span {
+	font-size :80%;
+	color : black;
+	padding : 0px 5px;
+}
 </style>
 <script>
 function getCartList(){
@@ -262,7 +275,7 @@ function getCartList(){
 		// 주문표 리스트가 하나도 없을 경우
 		if(data.length == 0){
 			str +="<div class='order-list'>"+"<div class='order-list-item'><div class='menu-name'>주문표에 담긴 메뉴가 없습니다.</div></div></div>";
-			str += "<div class='minimum-price'>최소 주문 금액</div><div class='total-price'>합계 금액</div><button type='submit' class='btn-order'>주문하기</button>";
+			str += "<div class='minimum-price'>최소 주문 금액</div><div class='total-price'>합계 금액</div><button class='btn-order'>주문하기</button>";
 			$(".order-list-form").html(str);
 			return;
 		}
@@ -282,7 +295,7 @@ function getCartList(){
 			"</div></div>";
 		});
 		// 총 금액 출력, 최소주문 금액 출력, 버튼 출력
-		str += "</div><div class='minimum-price'>최소 주문 금액 "+"<fmt:formatNumber value='${operationVO.minimum_price }' pattern='#,###' />"+"</div><div class='total-price'>합계 금액 "+total_price.toLocaleString()+"</div><button type='submit' class='btn-order'>주문하기</button>";
+		str += "</div><div class='minimum-price'>최소 주문 금액 "+"<fmt:formatNumber value='${operationVO.minimum_price }' pattern='#,###' />"+"</div><div class='total-price'>합계 금액 "+total_price.toLocaleString()+"</div><button type='button' onclick='goCheckout()' class='btn-order'>주문하기</button>";
 		// order-list-form 에 넣어줌 
 		$(".order-list-form").html(str);
 	});
@@ -357,17 +370,101 @@ function plus_quantity(menu_no){
 		}
 	});
 };	
+// 체크아웃 화면으로 이동 
+function goCheckout(){
+	window.location.href = '/user/checkout';
+}
+// 로그인 화면으로 이동 
+function goLogin(){
+	window.location.href = '/user/login';
+}
+// 찜하기 
+function like(res_no, member_no){
+	$.ajax({
+		type : 'post',
+		url : '/like/add',
+		headers : {
+			"Content-Type" : "application/json",
+			"X-HTTP-Method-Override" : "POST"
+		},
+		dataType : 'text',
+		data : JSON.stringify({
+			res_no : res_no,
+			member_no : member_no
+		}),
+		success : function(result){
+			if(result == 'LIKE_COMPLETE'){
+				alert("찜하기 목록에 추가됩니다!");
+			}else if(result == 'ALREADY'){
+				alert("이미 찜하기 목록에 있습니다.");
+			}
+		}
+	});
+}
+// 찜하기 취소 
+function unlike(res_no, member_no){
+	$.ajax({
+		type : 'delete',
+		url : '/like/delete',
+		headers : {
+			"Content-Type" : "application/json",
+			"X-HTTP-Method-Override" : "DELETE"
+		},
+		dataType : 'text',
+		data : JSON.stringify({
+			res_no : res_no,
+			member_no : member_no
+		}),
+		success : function(result){
+			if(result == 'UNLIKE'){
+				alert("찜하기 목록에서 삭제합니다.");
+			}else if(result == 'CHANGE'){
+			}
+		}
+	});
+}
+// 찜하기 되어있는지 확인
+function checkLike(res_no, member_no){
+	$.ajax({
+		type : 'post',
+		url : '/like/check',
+		headers : {
+			"Content-Type" : "application/json",
+			"X-HTTP-Method-Override" : "POST"
+		},
+		dataType : 'text',
+		data : JSON.stringify({
+			res_no : res_no,
+			member_no : member_no
+		}),
+		success : function(result){
+			if(result == 'LIKE'){
+				$(".like-res").addClass("active-like");
+			}else if(result == 'NOLIKE'){
+				$(".like-res").removeClass("active-like");
+			}
+		}
+	});
+}
 $(document).ready(function(){
-	var sid = '<%= session.getId()%>';
 	var Quantity = 1;
 	// 여러 메소드에서 접근할 수 있게 여기에 선언 
 	var price = 0;
-	// 수량이 1일 경우 모달 창 내에 있는 - 버튼 비활성화 
 	
-	
-		
+	// 로그인한계정이 있는지 확인 
+	var account = '${login}';
+	// 로그인한 계정이 있으면 
+	if(account != ''){
+		// 정보 가지고옴 
+		var res_no = Number('${resVO.res_no}');
+		var member_no = Number('${login.member_no}');
+		// 해당 찜 아이템이 있는지 체크 
+		checkLike(res_no, member_no);
+	}
 	// 리스트 출력
 	getCartList();
+
+	// 수량이 1일 경우 모달 창 내에 있는 - 버튼 비활성화 
 	if(Quantity == 1){
 		$(".modal-minus").attr("disabled", true);
 	}
@@ -484,15 +581,78 @@ $(document).ready(function(){
 			}
 		});
 	});
-	
-	
+	// modal 창에서 주문하기 버튼 클릭 시 장바구니 추가 및 이동 
+	$(".btn-modal-order").on("click", function(){
+		// 데이터베이스에 들어갈 데이터 가져오기 
+		var res_no = $(".res_no").val();
+		var menu_no = $(".menu_no").val();
+		var menu_name = $(".menu_name").val();
+		var menu_price = $(".menu_price").val();
+		var quantity = $(".quantity").val();
+		// ajax로 처리
+		$.ajax({
+			type : 'post',
+			url : '/cart',
+			headers : {
+				"Content-Type" : "application/json",
+				"X-HTTP-Method-Override" : "POST"
+			},
+			dataType : 'text',
+			data : JSON.stringify({
+				res_no : res_no,
+				menu_no : menu_no,
+				menu_name : menu_name,
+				menu_price : menu_price,
+				//session_id : session_id,
+				quantity : quantity
+			}),
+			success : function(result){
+				if(result == 'SUCCESS'){
+					// 모달창 닫기
+					$('#menu-detail-modal').modal('hide');
+					alert("장바구니에 추가 되었습니다.");
+				}else if(result == 'CHANGE'){
+					$('#menu-detail-modal').modal('hide');
+					alert("기존 상품이 삭제되었습니다.");
+				}
+				// 체크아웃 페이지로 이동
+				goCheckout();
+			}
+		});
+	});
+	// 찜하기 눌렀을 때 
+	$(".like-res").on("click", function(){
+		// 로그인한계정이 있는지 확인 
+		var account = '${login}';
+		// 로그인한 계정이 있으면 
+		if(account != ''){
+			// 식당 번호 및 회원 번호 가져옴
+			var res_no = '${resVO.res_no}';
+			var member_no = '${login.member_no}';
+			
+			// 이미 acitve 되어있으면 
+			if($(this).hasClass("active-like") === true){
+				unlike(res_no, member_no);
+				// active 클래스 제거
+				$(this).removeClass("active-like");
+			// active 클래스를 넣어주어 빨간색으로 변경 	
+			}else{
+				like(res_no, member_no);
+				$(this).addClass("active-like");
+			}	
+		// 로그인 되어있지 않으면 로그인 화면으로 이동 	
+		}else{
+			goLogin();
+		}
+		
+	});
 });
 </script>
 <div class="detail-container">
 	<div class="restaurant-detail">
 		<div class="restaurant-content col-md-8"><!-- 8:4 중 8 -->
 			<div class="restaurant-info">
-				<div class="restaurant-name"><strong>${resVO.res_name }</strong></div>
+				<div class="restaurant-name"><strong>${resVO.res_name }</strong><i class="like-res glyphicon glyphicon-heart"><span>찜하기</span></i></div>
 				<div class="restaurant-detail-info">
 					<table class="res-table">
 					<tr>

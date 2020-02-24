@@ -1,5 +1,7 @@
 package com.bendelivery.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -14,6 +16,10 @@ public class OrderServiceImpl implements OrderService{
 	@Override
 	public void createOrder(OrderVO vo) throws Exception {
 		 dao.createOrder(vo);
+	}
+	@Override
+	public List<OrderVO> list(String member_id) throws Exception {
+		return dao.list(member_id);
 	}
 
 }
