@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bendelivery.mapper.ReviewMapper">
+	<!-- review 추가  -->
+	<insert id="create">
+		insert into review_table (star, review_content, member_no, order_no, res_no)
+		values (#{star}, #{review_content},#{member_no},#{order_no},#{res_no})
+	</insert>
+	<!-- 리뷰 수정  -->
+	<!--  리뷰 삭제 -->
+	<!-- 리뷰 리스트 by 멤버 -->
+	<!-- 리뷰 리스트 by 식당 -->
+</mapper>

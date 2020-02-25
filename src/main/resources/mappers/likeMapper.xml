@@ -3,14 +3,21 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bendelivery.mapper.LikeMapper">
+	<!-- 찜하기 -->
 	<insert id="like">
 		insert into like_table (res_no, member_no)
 		values (#{res_no}, #{member_no})
 	</insert>
+	<!-- 찜하기 목록이 있는지 확인 -->
 	<select id="check" resultType="int">
 		select count(*) from like_table where res_no = #{res_no} and member_no = #{member_no}
 	</select>
+	<!-- 찜하기 취소 -->
 	<delete id="unlike">
 		delete from like_table where res_no = #{res_no} and member_no = #{member_no}
 	</delete>
+	<!-- 찜하기 목록 by member_no -->
+	<select id="listByMno" resultType="int">
+		select res_no from like_table where member_no = #{member_no}
+	</select>
 </mapper>

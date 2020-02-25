@@ -104,4 +104,16 @@ public class OrderController {
 		}
 		return entity;
 	}
+	
+	@RequestMapping(value="/addReview", method = RequestMethod.POST)
+	public ResponseEntity<String> updateReviewStatus(@RequestBody OrderVO vo){
+		ResponseEntity<String> entity = null;
+		try {
+			order_service.updateForReview(vo.getOrder_no());
+			entity = new ResponseEntity<String>("REVIEWUPDATE", HttpStatus.OK);
+		}catch(Exception e) {
+			entity = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
 }

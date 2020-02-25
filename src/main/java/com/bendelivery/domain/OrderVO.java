@@ -22,7 +22,15 @@ public class OrderVO {
 	private String order_status;
 	private Date order_date;
 	private String payment;
+	//추가 - 리뷰 남겼는지 확
+	private String review_status;
 	
+	public String getReview_status() {
+		return review_status;
+	}
+	public void setReview_status(String review_status) {
+		this.review_status = review_status;
+	}
 	public String getPayment() {
 		return payment;
 	}

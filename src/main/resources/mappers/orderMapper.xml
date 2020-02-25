@@ -13,4 +13,10 @@
 	<select id="list" resultType="OrderVO">
 		select * from order_table where member_id = #{member_id} order by order_no desc
 	</select>
+	<select id="getOrder" resultType="OrderVO">
+		select * from order_table where order_no = #{order_no}
+	</select>
+	<update id="updateForReview">
+		update order_table set review_status = 'exist' where order_no = #{order_no}
+	</update>
 </mapper>

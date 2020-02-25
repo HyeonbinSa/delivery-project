@@ -1,5 +1,7 @@
 package com.bendelivery.persistence;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -29,5 +31,9 @@ public class LikeDAOIpml implements LikeDAO {
 	@Override
 	public int check(LikeVO vo) throws Exception {
 		return session.selectOne(namespace+".check", vo);
+	}
+	@Override
+	public List<Integer> listByMno(int member_no) throws Exception {
+		return session.selectList(namespace+".listByMno", member_no);
 	}
 }

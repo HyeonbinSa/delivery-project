@@ -91,6 +91,7 @@ h2{
 	padding : 10px;
 	width : 48%;
 	margin : 1%;
+	background : #fff;
 }
 .order-item > div {
 	padding : 5px;
@@ -99,6 +100,11 @@ h2{
 	margin: 0px 1%;
 	width : 30%;
 	background : #fff;
+	border : 1px solid #999;
+}
+.btn.exist{
+	background : #e6e6e6;
+	color : #999;
 }
 .order-restaurant{
 	font-weight: bold;
@@ -114,12 +120,12 @@ h2{
 	padding : 30px 40px;
 	display:none;
 }
-.no-order-title{
+.no-title{
 	text-align : center;
 	font-size : 250%;
 	font-weight : bold;
 }
-.go-order{
+.go-btn{
 	background : red;
 	color : #fff;
 	padding : 20px;
@@ -127,13 +133,34 @@ h2{
 	text-align : center;
 	font-size : 130%;
 	font-weight : bold;
+}
+/* 찜 패널에 찜이 없을경우 */
+.no-like{
+	width : 100%;
+	padding : 30px 40px;
+	display:none;
+}	
+/* 찜식당 목록 */
+.like-item{
+	border : 1px solid #999;
+	padding : 10px;
+	width : 48%;
+	margin : 1%;
+}
+/* 리뷰가 없을 때 */
+.no-review{
+	width : 100%;
+	padding : 30px 40px;
+	
 }	
 </style>
 <script>
 function goResPage(res_no){
 	window.location.href = '/user/'+res_no;
 };
-	
+function goReview(order_no){
+	window.location.href = '/user/review/'+order_no;
+}
 $(document).ready(function(){
 	// 메뉴 탭 클릭시(아래 패널 별 메뉴 )
 	$(".menu-tab").on("click", function(){
@@ -154,39 +181,78 @@ $(document).ready(function(){
 	$("#myorder-panel").on("click", function(){
 		$.getJSON("/order/list" ,function(data){
 			var str = "";
-			// 데이터가 없을 경우 주문하러가기 창보여줌
-			if(data.length == 0){
+			
+			if(data.length != 0){
+				// 데이터의 수만큼
+				$(data).each(function(){
+					// 주문 번호 가져옴 
+					var order_no = this.order_no;
+					// 주문 날짜 가져옴 
+					var date = new Date(this.order_date);
+					// 메뉴 내용 담은 string;
+					var menu_str = "";
+					// total price 계산
+					var total = 0;
+					str += "<div class='order-item col-md-6'><div class='order-date'>"+date.toLocaleDateString()+"</div>"
+						+"<div class='order-restaurant order-restaurant-"+order_no+"'></div>"
+						+"<div class='order-menu order-menu-"+order_no+"'></div>"
+						+"<div class='button-set'>" 
+						+"<div class='btn btn-review "
+						+this.review_status;
+					if(this.review_status == 'none'){
+						str += "' onclick='goReview("+order_no+")'>리뷰 쓰기</div>";
+					}else{
+						str += "'>리뷰 쓰기</div>";
+					}
+						str+="<div class='btn btn-res' onclick='goResPage("+this.res_no+")'>가게 상세</div>"
+						+"<div class='btn'>주문 내역</div></div></div>";
+					$.getJSON("/order/"+order_no, function(item){
+						$(item).each(function(){
+							total += (this.menu_price*this.quantity);
+							menu_str += this.menu_name + " " +this.quantity+ "개/";
+						});
+						$(".order-menu-"+order_no).html(menu_str + total +"원");
+					});
+					$.getJSON("/order/getRes/"+this.res_no, function(item){
+						$(".order-restaurant-"+order_no).html(item.res_name);
+					});
+				});
+				$(".order-list").html(str);
+				$(".exist").attr("disabled", false);
+
+			}// 데이터가 없을 경우 주문하러가기 창보여줌
+			else{
 				$(".no-order").show();
 			}
-			// 데이터의 수만큼
-			$(data).each(function(){
-				// 주문 번호 가져옴 
-				var order_no = this.order_no;
-				// 주문 날짜 가져옴 
-				var date = new Date(this.order_date);
-				// 메뉴 내용 담은 string;
-				var menu_str = "";
-				// total price 계산
-				var total = 0;
-				str += "<div class='order-item col-md-6'><div class='order-date'>"+date.toLocaleDateString()+"</div>"
-					+"<div class='order-restaurant order-restaurant-"+order_no+"'></div>"
-					+"<div class='order-menu order-menu-"+order_no+"'></div>"
-					+"<div class='button-set'>"
-					+"<div class='btn'>리뷰 쓰기</div>"
-					+"<div class='btn btn-res' onclick='goResPage("+this.res_no+")'>가게 상세</div>"
-					+"<div class='btn'>주문 내역</div></div></div>";
-				$.getJSON("/order/"+order_no, function(item){
-					$(item).each(function(){
-						total += (this.menu_price*this.quantity);
-						menu_str += this.menu_name + " " +this.quantity+ "개/";
-					});
-					$(".order-menu-"+order_no).html(menu_str + total +"원");
+		});
+	});
+	// 찜 목록 or 주문내역이 없을 경우 식당 리스트로 가는 버튼 기능 
+	$(".go-order").on("click", function(){
+		$(location).attr("href","/user/list");
+	});
+	// 찜 목록 불러오기 
+	$("#like-panel").on("click", function(){
+		// 찜목록에 있는 식당 리스트를 가져옴 
+		$.getJSON("/like/list" ,function(data){
+			var str = "";
+			if(data.length != 0){
+				// 데이터가 들어있는 만큼 반복
+				$(data).each(function(){
+					// 찜하기 식당을 보여줄 태그 
+					str+="<div class='like-item col-md-6' onclick='goResPage("+this.res_no+")'>"
+						+"<div class='res-name'>"+this.res_name+"</div>"
+						+"<div class='res-info'>주문 날짜</div>"
+						+"<div class='res-menu'>음식 메뉴</div>"
+						+"</div>";
 				});
-				$.getJSON("/order/getRes/"+this.res_no, function(item){
-					$(".order-restaurant-"+order_no).html(item.res_name);
-				});
-			});
-			$(".order-list").html(str);
+				//리스트 목록에 넣어줌 
+				$(".like-list").html(str);
+			}
+			// 목록에 식당이 없을 경우 
+			else{
+				// 식당 없음 화면 보여줌
+				$(".no-like").show();
+			}
 		});
 	});
 });
@@ -213,35 +279,64 @@ $(document).ready(function(){
 		<div class="menu-tab user-order col-md-3" id="myorder-panel"><span>내 주문</span></div>
 	</div>
 	<div class="user-panel" >
+		<!-- 찜하기 패널  -->
 		<div class="panel like-panel">
 			<div class="panel-title like-panel-title">나의 찜목록</div>
+			<div class="like-list row">
+				<!--  찜해놓은 목록이 없을 때  -->
+				<div class="no-like">
+					<div class="no-title no-like-title">찜한 음식점이 없습니다.</div>
+					<div class="btn go-btn go-order">음식점 보러가기</div>
+				</div>
+				<!-- <div class="like-item col-md-6">
+					<div class="res-name">주문 날짜</div>
+					<div class="res-info">식당 이름</div>
+					<div class="res-menu">음식 메뉴</div>
+				</div>	-->
+			</div>
 		</div>
+		<!-- 쿠폰 패널  -->
 		<div class="panel coupon-panel">
 			<div class="panel-title coupon-panel-title">나의 쿠폰목록 </div>
 		</div>
+		<!-- 리뷰 패널  -->
 		<div class="panel review-panel">
 			<div class="panel-title review-panel-title">나의 리뷰목록</div>
+			<div class="review-list">
+				<!-- 작성한 리뷰가 없을 때  -->
+				<div class="no-review">
+					<div class="no-title no-order-title">작성하신 리뷰가 없습니다.</div>
+					<div class="btn go-btn go-order">주문 내역 가기</div>
+				</div>
+				<!-- 리뷰 목록 -->
+				<div class="review col-md-12">
+					<div class="review-res-name">식당이름-클릭하면 식당 상세 페이지로 이동</div>
+					<div class="review-star">별점</div>
+					<div class="review-content">리뷰 내용</div>
+				</div>
+			</div>
 		</div>
+		<!--주문 내역 패널  -->
 		<div class="panel myorder-panel">
 			<div class="panel-title myorder-panel-title">나의 주문내역</div>
 			<div class="order-list row">
+				<!--  주문 내역이 없을때 -->
 				<div class="no-order">
-					<div class="no-order-title">주문 내역이 없습니다.</div>
-					<div class="btn go-order">주문하러 가기</div>
+					<div class="no-title no-order-title">주문 내역이 없습니다.</div>
+					<div class="btn go-btn go-order">주문하러 가기</div>
 				</div>
 				</div>
-				<div class="order-item col-md-6">
-					<div class="order-date">주문 날짜</div>
+				<!-- <div class="order-item col-md-6">
+					<!-- <div class="order-date">주문 날짜</div>
 					<div class="order-restaurant">식당 이름</div>
 					<div class="order-menu">음식 메뉴</div>
 					<div class="button-set">
 						<div class="btn">리뷰 쓰기</div>
 						<div class="btn">가게 상세</div>
 						<div class="btn">주문 내역</div>
-					</div>
-				</div>
+					</div> 
+				</div> -->
 			</div>
 		</div>
 	</div>
-</div>
 <%@ include file="/WEB-INF/views/include/user_footer.jsp" %>

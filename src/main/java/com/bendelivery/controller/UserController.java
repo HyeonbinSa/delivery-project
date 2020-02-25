@@ -27,6 +27,7 @@ import com.bendelivery.domain.LikeVO;
 import com.bendelivery.domain.MemberVO;
 import com.bendelivery.domain.MenuGroupVO;
 import com.bendelivery.domain.MenuVO;
+import com.bendelivery.domain.OrderVO;
 import com.bendelivery.domain.ResOperationVO;
 import com.bendelivery.domain.RestaurantVO;
 import com.bendelivery.dto.UserLoginDTO;
@@ -35,6 +36,7 @@ import com.bendelivery.service.LikeService;
 import com.bendelivery.service.MemberService;
 import com.bendelivery.service.MenuGroupService;
 import com.bendelivery.service.MenuService;
+import com.bendelivery.service.OrderService;
 import com.bendelivery.service.OwnerService;
 import com.bendelivery.service.ResOperationService;
 import com.bendelivery.service.RestaurantService;
@@ -56,6 +58,8 @@ public class UserController {
 	private ResOperationService res_operation_service;
 	@Inject
 	private CartService cart_service;
+	@Inject
+	private OrderService order_service;
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
@@ -189,7 +193,15 @@ public class UserController {
 	public void mypageGET() {
 		
 	}
-	
+	@RequestMapping(value="/review/{order_no}", method = RequestMethod.GET)
+	public String reviewGET(@PathVariable("order_no") int order_no, Model model) throws Exception{
+		System.out.println("리뷰작성한 오더 넘버 : " +order_no);
+		OrderVO orderVO = order_service.getOrder(order_no);
+		String res_name = res_service.read(orderVO.getRes_no()).getRes_name();
+		model.addAttribute("orderVO", orderVO);
+		model.addAttribute("res_name", res_name);
+		return "/user/review";
+	}
 	@RequestMapping(value="/testhome", method = RequestMethod.GET)
 	public void testHome() {
 		

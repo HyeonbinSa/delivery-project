@@ -23,5 +23,13 @@ public class OrderDAOImpl implements OrderDAO{
 	public List<OrderVO> list(String member_id) throws Exception {
 		return session.selectList(namespace+".list",member_id);
 	}
+	@Override
+	public OrderVO getOrder(int order_no) throws Exception {
+		return session.selectOne(namespace+".getOrder", order_no);
+	}
+	@Override
+	public void updateForReview(int order_no) throws Exception {
+		session.update(namespace+".updateForReview", order_no);
+	}
 
 }
