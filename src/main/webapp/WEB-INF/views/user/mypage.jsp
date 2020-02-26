@@ -71,7 +71,6 @@ h2{
 }
 /* 메뉴 별 패널 */
 .user-panel{
-	background : aliceblue;
 	overflow : auto;
 	display :none;
 }
@@ -151,8 +150,59 @@ h2{
 .no-review{
 	width : 100%;
 	padding : 30px 40px;
-	
+	display : none;
 }	
+/* review 목록 item*/
+.review-list{
+	margin : 0px;
+}
+.review-item{
+	width : 48%;
+	margin : 1%;
+	padding : 20px;
+	border : 1px solid #e6e6e6;
+	margin-bottom:10px;
+	background : white;
+}
+.review-button-set{
+	text-align : center;
+}
+.btn-update, .btn-delete{
+	border : 1px solid red;
+	background : #fff;
+	color : red;
+	margin: 0px 10px;
+}
+.review-res-name{
+	font-size : 170%;
+	font-weight : bold;
+	margin-bottom : 5px;
+}
+.review-star{
+	padding-bottom : 10px;
+}
+.review-star > span{
+	font-size:130%;
+	font-weight:bold;
+}
+.star-set{
+	color: white;
+    text-shadow:-1px 0 gray,0 1px gray,1px 0 gray,0 -1px gray;
+}
+.star-set span.on{
+	text-shadow:-1px 0 yellow,0 1px yellow,1px 0 yellow,0 -1px yellow;
+	color : yellow;
+}
+.review-content{
+	overflow: auto;
+	height : 40px;
+	margin : 10px;
+}
+/* 쿠폰이 없을 때 */
+.no-coupon{
+	width : 100%;
+	padding : 30px 40px;
+}
 </style>
 <script>
 function goResPage(res_no){
@@ -255,6 +305,41 @@ $(document).ready(function(){
 			}
 		});
 	});
+	// 메뉴에서 리뷰관리를 눌렀을 때 
+	$("#review-panel").on("click", function(){
+		// 해당 사용자가 작성한 리뷰를 가져옴 
+		$.getJSON("/review/list" ,function(data){
+			var str = "";
+			if(data.length != 0){
+				// 데이터가 들어있는 만큼 반복
+				$(data).each(function(){
+					// 리뷰를 보여줄 태그
+					str+="<div class='review-item col-md-6'>"
+						+"<div class='review-res-name'>"+this.res_name+"</div>"
+						+"<div class='review-star'><span>별점 : </span>"
+						+"<span class='star-set'>";
+						for(var num=1; num<=5; num++){
+							if(num <= this.star){
+								str+="<span class='glyphicon glyphicon-star on'></span>"
+							}else{
+								str+="<span class='glyphicon glyphicon-star'></span>"
+							}
+						}
+					str+="</span>"+"</div>"
+						+"<div class='review-content'>"
+						+this.review_content
+						+"</div>"
+						+"<div class='review-button-set'>"
+							+"<div class='btn btn-update'>리뷰 수정</div>"
+							+"<div class='btn btn-delete'>리뷰 삭제</div></div></div>";
+				});
+				$(".review-list").html(str);
+			}
+			else{
+				$(".no-review").show();
+			}
+		});
+	});
 });
 </script>
 
@@ -298,22 +383,40 @@ $(document).ready(function(){
 		<!-- 쿠폰 패널  -->
 		<div class="panel coupon-panel">
 			<div class="panel-title coupon-panel-title">나의 쿠폰목록 </div>
+			<!-- 사용 가능한 쿠폰이  없을 때  -->
+				<div class="no-coupon">
+					<div class="no-title no-coupon-title">사용 가능한 쿠폰이 없습니다.</div>
+					<div class="btn go-btn go-order">주문 내역 가기</div>
+				</div>
 		</div>
 		<!-- 리뷰 패널  -->
 		<div class="panel review-panel">
 			<div class="panel-title review-panel-title">나의 리뷰목록</div>
-			<div class="review-list">
+			<div class="review-list row">
 				<!-- 작성한 리뷰가 없을 때  -->
 				<div class="no-review">
 					<div class="no-title no-order-title">작성하신 리뷰가 없습니다.</div>
 					<div class="btn go-btn go-order">주문 내역 가기</div>
 				</div>
 				<!-- 리뷰 목록 -->
-				<div class="review col-md-12">
+				<!-- <div class="review-item col-md-6">
 					<div class="review-res-name">식당이름-클릭하면 식당 상세 페이지로 이동</div>
-					<div class="review-star">별점</div>
-					<div class="review-content">리뷰 내용</div>
-				</div>
+					<div class="review-star"><span>별점 : </span>
+						<span class="star-set">
+							<span class="glyphicon glyphicon-star on" id="1"></span>
+							<span class="glyphicon glyphicon-star" id="2"></span>
+							<span class="glyphicon glyphicon-star" id="3"></span>
+							<span class="glyphicon glyphicon-star" id="4"></span>
+							<span class="glyphicon glyphicon-star" id="5"></span>
+						</span>
+					</div>
+					<div class="review-content">
+					</div>
+					<div class="review-button-set">
+						<div class="btn btn-update">리뷰 수정</div>
+						<div class="btn btn-delete">리뷰 삭제</div>
+					</div> 
+				</div>-->
 			</div>
 		</div>
 		<!--주문 내역 패널  -->

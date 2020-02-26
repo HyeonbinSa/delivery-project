@@ -10,6 +10,21 @@ public class ReviewVO {
 	private int res_no;				// 식당 번호 
 	private int order_no;			// 오더 번호
 	private Date reg_date;		 	// 댓글 등록일
+	private String res_name;		// 식당명 
+	private String member_nickname;	// 닉네임
+
+	public String getMember_nickname() {
+		return member_nickname;
+	}
+	public void setMember_nickname(String member_nickname) {
+		this.member_nickname = member_nickname;
+	}
+	public String getRes_name() {
+		return res_name;
+	}
+	public void setRes_name(String res_name) {
+		this.res_name = res_name;
+	}
 	public int getReview_no() {
 		return review_no;
 	}
@@ -56,7 +71,7 @@ public class ReviewVO {
 	public String toString() {
 		return "ReviewVO [review_no=" + review_no + ", star=" + star + ", review_content=" + review_content
 				+ ", member_no=" + member_no + ", res_no=" + res_no + ", order_no=" + order_no + ", reg_date="
-				+ reg_date + "]";
+				+ reg_date + ", res_name=" + res_name + ", member_nickname=" + member_nickname + "]";
 	}
 	
 	

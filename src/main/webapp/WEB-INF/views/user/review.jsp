@@ -76,7 +76,7 @@ $(document).ready(function(){
 	$('.star-set span').click(function(){
          $(this).parent().children("span").removeClass("on");   
          $(this).addClass("on").prevAll("span").addClass("on");
-         $(".star-rate").val($(this).attr("id"));
+         $(".star").val($(this).attr("id"));
          return false;
      });
 	// 리뷰 입력 시 글자수 확인 
@@ -85,8 +85,10 @@ $(document).ready(function(){
 		$(".limit-text").html(content.length+"/300");
 	});
 	$(".btn-review").on("click", function(){
+		var res_name = $(".res-name").html();
 		var res_no = $(".res_no").val();
 		var member_no = $(".member_no").val();
+		var member_nickname = $(".member_nickname").val();
 		var order_no =  Number($(".order_no").val());
 		var review_content =  $(".review-content").val();
 		var star = $(".star").val();
@@ -99,6 +101,8 @@ $(document).ready(function(){
 			},
 			dataType : 'text',
 			data : JSON.stringify({
+				res_name : res_name,
+				member_nickname : member_nickname,
 				res_no : res_no,
 				member_no : member_no,
 				order_no : order_no,
@@ -143,6 +147,7 @@ $(document).ready(function(){
 				<input type="hidden" class="star" class="star-rate" value="1">
 				<input type="hidden" class="order_no" value="${orderVO.order_no}">
 				<input type="hidden" class="member_no" value="${login.member_no }" >
+				<input type="hidden" class="member_nickname" value="${login.member_nickname }" >
 				<input type="hidden" class="res_no" value="${orderVO.res_no }" >
 				<span class="star-title">별점 : </span>
 				<span class="star-set">

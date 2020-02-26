@@ -5,11 +5,21 @@
 <mapper namespace="com.bendelivery.mapper.ReviewMapper">
 	<!-- review 추가  -->
 	<insert id="create">
-		insert into review_table (star, review_content, member_no, order_no, res_no)
-		values (#{star}, #{review_content},#{member_no},#{order_no},#{res_no})
+		insert into review_table (star, review_content, member_no, order_no, res_no, res_name, member_nickname)
+		values (#{star}, #{review_content},#{member_no},#{order_no},#{res_no}, #{res_name}, #{member_nickname})
 	</insert>
 	<!-- 리뷰 수정  -->
+	
 	<!--  리뷰 삭제 -->
+	<delete id="delete">
+		delete from review_table where review_no = #{review_no}
+	</delete>
 	<!-- 리뷰 리스트 by 멤버 -->
+	<select id="listByMember" resultType="ReviewVO">
+		select * from review_table where member_no = #{member_no} order by reg_date desc
+	</select>
 	<!-- 리뷰 리스트 by 식당 -->
+	<select id="listByRes" resultType="ReviewVO">
+		select * from review_table where res_no = #{res_no} order by reg_date desc
+	</select>
 </mapper>

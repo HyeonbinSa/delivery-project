@@ -264,6 +264,47 @@ pre{
 	color : black;
 	padding : 0px 5px;
 }
+/* 리뷰 패널 관련 css*/
+.review-list{
+	margin-top : 5px;
+	padding : 10px;
+}
+.review-item{
+	padding : 20px;
+	border : 1px solid #999;
+	margin : 10px 5px;
+}
+/* 리뷰 안에 있는 내용 CSs*/
+.review-member{
+	font-size : 150%;
+	font-weight : bold;
+	margin-bottom : 5px;
+}
+.review-star{
+	padding-bottom : 10px;
+}
+.review-star > span{
+	font-size:120%;
+	font-weight:bold;
+}
+.star-set{
+	color: white;
+    text-shadow:-1px 0 gray,0 1px gray,1px 0 gray,0 -1px gray;
+}
+.star-set span.on{
+	text-shadow:-1px 0 yellow,0 1px yellow,1px 0 yellow,0 -1px yellow;
+	color : yellow;
+}
+.review-content{
+	overflow: auto;
+	height : 40px;
+	margin : 10px;
+}
+.review-date{
+	color : #e6e6e6;
+	font-size : 60%;
+	margin :  0px 10px;
+}
 </style>
 <script>
 function getCartList(){
@@ -646,6 +687,40 @@ $(document).ready(function(){
 		}
 		
 	});
+	// 메뉴에서 리뷰관리를 눌렀을 때 
+	$(".review").on("click", function(){
+		// 해당 사용자가 작성한 리뷰를 가져옴 
+		$.getJSON("/review/list/${resVO.res_no}" ,function(data){
+			var str = "";
+			if(data.length != 0){
+				// 데이터가 들어있는 만큼 반복
+				$(data).each(function(){
+					var date = new Date(this.reg_date);
+					// 리뷰를 보여줄 태그
+					str+="<div class='review-item'>"
+						+"<div class='review-member'>"+this.member_nickname+"<span class='review-date'>"+date.toLocaleDateString()+"</span></div>"
+						+"<div class='review-star'><span>별점 : </span>"
+						+"<span class='star-set'>";
+						for(var num=1; num<=5; num++){
+							if(num <= this.star){
+								str+="<span class='glyphicon glyphicon-star on'></span>"
+							}else{
+								str+="<span class='glyphicon glyphicon-star'></span>"
+							}
+						}
+					str+="</span>"+"</div>"
+						+"<div class='review-content'>"
+						+this.review_content
+						+"</div>"
+						+"</div>";
+				});
+				$(".review-list").html(str);
+			}
+			else{
+				$(".no-review").show();
+			}
+		});
+	});
 });
 </script>
 <div class="detail-container">
@@ -714,7 +789,11 @@ $(document).ready(function(){
 						</c:if>
 					</div>
 				</div>
-				<div class="panel review-panel" style="display:none">b</div>
+				<div class="panel review-panel" style="display:none">
+					<div class="review-list">
+						
+					</div>
+				</div>	
 				<div class="panel information-panel" style="display:none">
 					<div class="info-item">
 						<div class="info-item-title">
