@@ -261,4 +261,9 @@ public class OwnerController {
 		rttr.addFlashAttribute("result", "operationSuccess");
 		return "redirect:/owner/operation";
 	}
+	// 주문확인  페이지 이동
+	@RequestMapping(value="/order", method = RequestMethod.GET)
+	public void orderPageGet() {
+			
+	}
 }

@@ -10,4 +10,5 @@
 	<select id="list" resultType="OrderMenuVO">
 		select * from order_menu_table where order_no = #{order_no}
 	</select>
+
 </mapper>

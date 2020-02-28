@@ -2,6 +2,7 @@ package com.bendelivery.controller;
 
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,6 +25,9 @@ import com.bendelivery.service.ReviewService;
 public class ReviewController {
 	@Inject
 	private ReviewService review_service;
+	
+	@Resource(name="uploadPath")
+	String uploadPath;
 	
 	@RequestMapping(value="/add", method = RequestMethod.POST)
 	public ResponseEntity<String> addReview(@RequestBody ReviewVO vo)throws Exception{

@@ -29,6 +29,14 @@ public class OrderServiceImpl implements OrderService{
 	public void updateForReview(int order_no) throws Exception {
 		dao.updateForReview(order_no);
 	}
+	@Override
+	public List<OrderVO> listByRes(int res_no) throws Exception {
+		return dao.listByRes(res_no);
+	}
+	@Override
+	public List<OrderVO> listByResAndStatus(OrderVO vo) throws Exception {
+		return dao.listByResAndStatus(vo);
+	}
 	
 
 }

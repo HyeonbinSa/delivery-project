@@ -80,6 +80,8 @@ public class OrderController {
 		}
 		return entity;
 	}
+	
+	// 해당 오더 번호의 메뉴 가져옴 
 	@RequestMapping(value="/{order_no}", method = RequestMethod.GET)
 	public ResponseEntity<List<OrderMenuVO>> getOrderMenuList(@PathVariable int order_no, Model model)throws Exception {
 		ResponseEntity<List<OrderMenuVO>> entity = null;
@@ -91,6 +93,7 @@ public class OrderController {
 		}
 		return entity;
 	}
+	// MyPage에서 식당 이름 가져오기 위함 
 	@RequestMapping(value="/getRes/{res_no}", method = RequestMethod.GET)
 	public ResponseEntity<RestaurantVO> getRes(@PathVariable int res_no)throws Exception {
 		ResponseEntity<RestaurantVO> entity = null;
@@ -104,7 +107,7 @@ public class OrderController {
 		}
 		return entity;
 	}
-	
+	// 리뷰 추가 -> review_status : none -> exist 
 	@RequestMapping(value="/addReview", method = RequestMethod.POST)
 	public ResponseEntity<String> updateReviewStatus(@RequestBody OrderVO vo){
 		ResponseEntity<String> entity = null;
@@ -116,4 +119,30 @@ public class OrderController {
 		}
 		return entity;
 	}
+	// Owner 페이지에서 주문 확인하기 위한 메소드
+	@RequestMapping(value="/list/{res_no}", method = RequestMethod.GET)
+	public ResponseEntity<List<OrderVO>> listByRes(@PathVariable int res_no)throws Exception {
+		ResponseEntity<List<OrderVO>> entity = null;
+		System.out.println(res_no);
+		try {
+			entity = new ResponseEntity<List<OrderVO>>(order_service.listByRes(res_no), HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<List<OrderVO>>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
+	// Owner 페이지에서 주문 확인하기 위한 메소드
+	@RequestMapping(value="/ownerlist", method = RequestMethod.POST)
+		public ResponseEntity<List<OrderVO>> listByResAndStatus(@RequestBody OrderVO vo)throws Exception {
+			ResponseEntity<List<OrderVO>> entity = null;
+			System.out.println(vo);
+			try {
+				entity = new ResponseEntity<List<OrderVO>>(order_service.listByResAndStatus(vo), HttpStatus.OK);
+			}catch(Exception e) {
+				e.printStackTrace();
+				entity = new ResponseEntity<List<OrderVO>>(HttpStatus.BAD_REQUEST);
+			}
+			return entity;
+		}
 }

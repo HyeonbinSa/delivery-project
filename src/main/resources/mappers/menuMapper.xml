@@ -11,6 +11,6 @@
 	
 	<select id="list" resultType="MenuVO">
 		select * from menu_table where res_no = #{res_no} order by menu_no asc
-	</select>	
+	</select>
 </mapper>
 	

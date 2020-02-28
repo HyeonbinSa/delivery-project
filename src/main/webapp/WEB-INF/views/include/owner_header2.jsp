@@ -27,13 +27,19 @@
  	background : #fafafa;
  	color : #999;
  }
+ .navbar{
+	margin-bottom : 0px;
+}
+.category-nav{
+	height: 56px;
+}
 </style>	
 <body>
 <div class="wrapper">
 	<!-- Header Start -->
 	<div class="header">
 		<div class="header-nav">
-			<a href="/owner/"><img class="logo-img" style="width:100px;"src="/images/logo-yogiyo.png" alt="로고이미지" ></a>
+			<a href="/owner/"><img class="logo-img" style="width:100px;"src="/images/new_logo.png" alt="로고이미지" ></a>
 			<div class="navbar">
 				 <c:if test="${owner_login != null}">
 					<button class="btn btn-default nav-btn" onclick="location.href='/owner/logout'">로그아웃</button>
@@ -54,8 +60,7 @@
 				<ul class="nav navbar-nav category-nav-ul">
 					<li><a href="/owner/menus">메뉴 관리</a></li>
 					<li><a href="/owner/operation">가게 정보 관리</a></li>
-					<li><a>주문확인</a></li>
-					<li><a>내 정보 관리</a></li>
+					<li><a href="/owner/order">주문 관리</a></li>
 					<li><a>영업일 관리</a></li>
 					<li><a>배달 지역 관리</a></li>
 					<li><a>할인 관리</a></li>

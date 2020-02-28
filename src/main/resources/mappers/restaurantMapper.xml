@@ -32,7 +32,7 @@
 	</select>
 	<!-- admin 페이지에서 식당 입점 허가 -->
 	<update id="permission">
-		update restaurant_table set permission= "OK", permit_date = now(), permit_admin = "#{permit_admin}" where res_no = #{res_no}
+		update restaurant_table set permission= "OK", permit_date = now(), permit_admin = #{permit_admin} where res_no = #{res_no}
 	</update>
 	<!-- 사장님 회원가입 시 해당 사장님 owner_no를 통해 식당 입점 허가 정보 가져옴 -->
 	<select id="getPermitInfo" resultType="String">

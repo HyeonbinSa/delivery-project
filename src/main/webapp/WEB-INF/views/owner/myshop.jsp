@@ -54,8 +54,8 @@
 				</div>
 				<div class="menu-item col-md-4">
 					<div class="item-wrap">
-					<span class="glyphicon glyphicon-calendar icon"></span>
-					<div class="menu-title">운영 정보</div>
+					<span class="glyphicon glyphicon-th-list icon" onclick="location.href='/owner/order'"></span>
+					<div class="menu-title">주문 관리</div>
 					</div>
 				</div>
 				<div class="menu-item col-md-4" onclick="location.href='/owner/menus'">

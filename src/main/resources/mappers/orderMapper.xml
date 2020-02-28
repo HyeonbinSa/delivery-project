@@ -10,12 +10,23 @@
 			SELECT LAST_INSERT_ID()
 		</selectKey>
 	</insert>
+	<!-- 회원의 주문 목록 -->
 	<select id="list" resultType="OrderVO">
 		select * from order_table where member_id = #{member_id} order by order_no desc
 	</select>
+	
 	<select id="getOrder" resultType="OrderVO">
 		select * from order_table where order_no = #{order_no}
 	</select>
+	<!-- Owner 페이지에서 주문 확인하기 위한 list  -->
+	<select id="listByRes" resultType="OrderVO">
+		select * from order_table where res_no = #{res_no} order by order_no desc
+	</select>
+	<!-- Owner 페이지에서 주문 확인하기 위한 list + status  -->
+	<select id="listByResandStatus" resultType="OrderVO">
+		select * from order_table where res_no = #{res_no} and order_status = #{order_status} order by order_no desc
+	</select>
+	<!-- 해당 주문에 대한 리뷰 작성시 status 변경 none -> exist  -->
 	<update id="updateForReview">
 		update order_table set review_status = 'exist' where order_no = #{order_no}
 	</update>

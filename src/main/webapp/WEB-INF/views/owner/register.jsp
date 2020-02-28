@@ -20,6 +20,7 @@
     margin-top: 10px;
 }
 </style>
+<script type="text/javascript" src="/resources/js/addressapi.js"></script>
 <script>
 var result = "${result}";
 if(result == "fail"){
