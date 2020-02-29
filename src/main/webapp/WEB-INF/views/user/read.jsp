@@ -305,6 +305,15 @@ pre{
 	font-size : 60%;
 	margin :  0px 10px;
 }
+.review_img{
+	width : 100%;
+	height : 310px;
+	overflow : hidden;
+}
+.image{
+	width:100%;
+	height : auto;
+}
 </style>
 <script>
 function getCartList(){
@@ -709,7 +718,10 @@ $(document).ready(function(){
 							}
 						}
 					str+="</span>"+"</div>"
-						+"<div class='review-content'>"
+					if(this.review_img != "" && this.review_img != null){
+						str+="<div class='review_img'>"+"<img class='image' src='review/displayFile?fileName="+this.review_img+"'/></div>";
+					}
+					str+="<div class='review-content'>"
 						+this.review_content
 						+"</div>"
 						+"</div>";

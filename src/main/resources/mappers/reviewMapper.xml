@@ -5,8 +5,8 @@
 <mapper namespace="com.bendelivery.mapper.ReviewMapper">
 	<!-- review 추가  -->
 	<insert id="create">
-		insert into review_table (star, review_content, member_no, order_no, res_no, res_name, member_nickname)
-		values (#{star}, #{review_content},#{member_no},#{order_no},#{res_no}, #{res_name}, #{member_nickname})
+		insert into review_table (star, review_content, member_no, order_no, res_no, res_name, member_nickname , review_img)
+		values (#{star}, #{review_content},#{member_no},#{order_no},#{res_no}, #{res_name}, #{member_nickname}, #{review_img})
 	</insert>
 	<!-- 리뷰 수정  -->
 	

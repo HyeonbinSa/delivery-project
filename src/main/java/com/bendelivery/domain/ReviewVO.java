@@ -12,9 +12,16 @@ public class ReviewVO {
 	private Date reg_date;		 	// 댓글 등록일
 	private String res_name;		// 식당명 
 	private String member_nickname;	// 닉네임
+	private String review_img;		// 리뷰 이미지 
 
 	public String getMember_nickname() {
 		return member_nickname;
+	}
+	public String getReview_img() {
+		return review_img;
+	}
+	public void setReview_img(String review_img) {
+		this.review_img = review_img;
 	}
 	public void setMember_nickname(String member_nickname) {
 		this.member_nickname = member_nickname;

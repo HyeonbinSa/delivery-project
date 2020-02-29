@@ -69,8 +69,54 @@
     color: #FFF;
     margin-top: 7px;
 }
+/* 리뷰 파일 업로드 */
+.review-file{
+	width : 100%;
+	text-align : center;
+	padding : 20px;
+	
+}
+/* 파일 넣을 공간 */
+.fileDrop{
+	padding : 30px;
+	background : #fff;
+	width : 100%;
+	height : 200px;
+	border : 1px solid #999;
+}
+.fileDrop-title{
+	font-size : 160%;
+	padding : 10px;
+	
+}
+.camera-icon{
+	font-size : 200%;
+	padding : 10px;
+}
 </style>
 <script>
+function checkImageType(fileName){
+	var pattern = /jpg$|gif$|png$|jpeg$/i;
+	
+	return fileName.match(pattern);
+}
+function getOriginalName(fileName){
+	if(checkImageType(fileName)){
+		return;
+	}
+	var idx = fileName.indexOf("_") + 1;
+	return fileName.substr(idx);
+}
+function getImageLink(fileName){
+	if(!checkImageType(fileName)){
+		return;
+	}
+	// /년/월/일 -> 경로 추출을 위함 
+	var front = fileName.substr(0, 12);
+	//	파일 앞의 s_ 를 제거하기위함.
+	var end = fileName.substr(14);
+	return front + end;
+}
 $(document).ready(function(){
 	// 별 체크한 만큼 노란색 별표시 하기 위함 
 	$('.star-set span').click(function(){
@@ -91,6 +137,7 @@ $(document).ready(function(){
 		var member_nickname = $(".member_nickname").val();
 		var order_no =  Number($(".order_no").val());
 		var review_content =  $(".review-content").val();
+		var review_img = $(".review_img").val();
 		var star = $(".star").val();
 		$.ajax({
 			type : 'post',
@@ -107,7 +154,8 @@ $(document).ready(function(){
 				member_no : member_no,
 				order_no : order_no,
 				review_content : review_content,
-				star : star
+				star : star,
+				review_img : review_img
 			}),
 			success : function(result){
 				if(result == 'ADDREVIEW'){
@@ -136,6 +184,62 @@ $(document).ready(function(){
 			}
 		});
 	});
+	// 파일 업로드를 위함
+	$(".fileDrop").on("dragenter dragover", function(event){
+		// 기본 동작이 작동하지 않도록 설정 
+		event.preventDefault();
+	});
+	$(".fileDrop").on("drop", function(event){
+		// 기본 동작이 작동하지 않도록 설정 
+		event.preventDefault();
+		// 전달된 파일의 데이터를 가져옴 
+		var files = event.originalEvent.dataTransfer.files;
+		
+		var file = files[0];
+		//alert(file.name);
+		//console.log(file);
+		var formData = new FormData();
+		
+		formData.append("file", file);
+		
+		$.ajax({
+			url : '/review/uploadImage',
+			data : formData,
+			dataType : 'text',
+			processData : false,
+			contentType : false,
+			type : 'POST',
+			success : function(data){
+				var str = "";
+				if(checkImageType(data)){
+					str += "<div>"
+						+"<a href='displayFile?fileName="+getImageLink(data)+"'>"
+						+"<img src='displayFile?fileName="+data+"'/>"
+						+"</a><small data-src="+data+">X</small></div>";
+					alert(data);
+				}
+				$(".review_img").val(getImageLink(data));
+				$(".fileDrop").hide();
+				$(".uploadedList").append(str);
+			}
+		});
+	});
+	$(".uploadedList").on("click","small", function(event){
+		var that = $(this);
+		
+		$.ajax({
+			url:"deleteFile",
+			type:"POST",
+			data : {fileName:$(this).attr("data-src")},
+			dataType : "text",
+			success : function(result){
+				if(result == 'deleted'){
+					that.parent("div").remove();
+					$(".fileDrop").show();
+				}
+			}
+		});
+	});
 });
 </script>
 <div class="review-wrap">
@@ -149,6 +253,7 @@ $(document).ready(function(){
 				<input type="hidden" class="member_no" value="${login.member_no }" >
 				<input type="hidden" class="member_nickname" value="${login.member_nickname }" >
 				<input type="hidden" class="res_no" value="${orderVO.res_no }" >
+				<input type="hidden" class="review_img" value="">
 				<span class="star-title">별점 : </span>
 				<span class="star-set">
 					<span class="glyphicon glyphicon-star on" id="1"></span>
@@ -161,6 +266,13 @@ $(document).ready(function(){
 			<div class="review-text">
 				<textarea name="review_content" class="form-control review-content" maxlength="300" rows="5"></textarea>
 				<div class="text-limit"><span class="limit-text">0/300</span></div>
+			</div>
+			<div class="review-file">
+				<div class="fileDrop">
+					<div class="fileDrop-title">첨부파일을 드래그해주세요.</div>
+					<i class="glyphicon glyphicon-camera camera-icon"></i>
+				</div>
+				<div class="uploadedList"></div>
 			</div>
 			<div class="submitbtn">
 				<div class="btn btn-default btn-review">리뷰 등록</div>

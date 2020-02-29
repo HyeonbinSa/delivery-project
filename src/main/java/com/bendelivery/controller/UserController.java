@@ -1,24 +1,34 @@
 package com.bendelivery.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.WebUtils;
 
@@ -40,6 +50,7 @@ import com.bendelivery.service.OrderService;
 import com.bendelivery.service.OwnerService;
 import com.bendelivery.service.ResOperationService;
 import com.bendelivery.service.RestaurantService;
+import com.bendelivery.util.MediaUtils;
 
 @Controller
 @RequestMapping(value="/user")
@@ -60,7 +71,8 @@ public class UserController {
 	private CartService cart_service;
 	@Inject
 	private OrderService order_service;
-	
+	@Resource(name="uploadPath")
+	String uploadPath;
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	// ----------- 로그인 -------------------------------------------------
@@ -207,4 +219,55 @@ public class UserController {
 		
 	}
 	
+	@ResponseBody
+	@RequestMapping("/review/displayFile")
+	public ResponseEntity<byte[]> displayFile(String fileName)throws Exception{
+		InputStream in = null;
+		// 실제 파일 데이터를 결과로 받기 위함.
+		ResponseEntity<byte[]> entity = null;
+		try {
+			// 확장자
+			String formatName = fileName.substring(fileName.lastIndexOf(".")+1);
+			//MIME 타입 지
+			MediaType mType = MediaUtils.getMediaType(formatName);
+			
+			HttpHeaders headers = new HttpHeaders();
+			
+			in = new FileInputStream(uploadPath+fileName);
+			
+			if(mType != null) {
+				headers.setContentType(mType);
+			}else {
+				// 파일명 가져오기
+				fileName = fileName.substring(fileName.indexOf("_")+1);
+				headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+				headers.add("Content-Disposition", "attachment; filename=\""+new String(fileName.getBytes("UTF-8"), "ISO-8859-1")+"\"");
+			}
+			// 파일에서 데이터를 읽어내는 부분 
+			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers, HttpStatus.CREATED);
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST);
+		}finally {
+			in.close();
+		}
+		return entity;
+		
+	}
+	@ResponseBody
+	@RequestMapping(value="/review/deleteFile", method=RequestMethod.POST)
+	public ResponseEntity<String> deleteFile(String fileName){
+		String formatName = fileName.substring(fileName.lastIndexOf(".")+1);
+		
+		MediaType mType = MediaUtils.getMediaType(formatName);
+		
+		if(mType != null) {
+			String front = fileName.substring(0,12);
+			String end = fileName.substring(14);
+			new File(uploadPath + (front+end).replace('/', File.separatorChar)).delete();
+		}
+		new File(uploadPath + fileName.replace('/', File.separatorChar)).delete();
+		return new ResponseEntity<String>("deleted", HttpStatus.OK);
+	}
 }

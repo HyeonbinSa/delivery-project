@@ -31,7 +31,7 @@
 	</beans:bean>
 	<!-- 파일 업로드 경로 (String Type) -->
 	<beans:bean id="uploadPath" class="java.lang.String">
-		<beans:constructor-arg value="/resources/upload"/>
+		<beans:constructor-arg value="/Users/sahyeonbin/Desktop/MyProject/Yogiyo/DeliveryProject/src/main/webapp/resources/upload"/>
 	</beans:bean>
 	
 	

@@ -48,6 +48,7 @@
 	overflow:auto;
 	margin-bottom: 20px;
 }
+
 /* 주문 정보 가지고 있음 */
 .order-item{
 	padding : 15px;
@@ -102,6 +103,17 @@ $(document).ready(function(){
 		$(this).addClass("on");
 		// 클릭 된 탭에 id 값 가지고옴 
 		var order_status = $(this).attr("id");
+		switch(order_status){
+		case "wait":
+			var status = "주문 대기";
+			break;
+		case "ing":
+			var status = "조리 중";
+			break;
+		case "done":
+			var status = "완료";
+			break;
+		}
 		// ajax 시작 (주문 목록 가져옴 (res_no, order_status 를 통해 ))
 		$.ajax({
 			type : 'POST',
@@ -135,7 +147,7 @@ $(document).ready(function(){
 						str += "<div class='order-item row'>"
 							+"<div class='order-time col-md-2'>"+time.getHours() + ":"+time.getMinutes() + ":" + time.getSeconds()+"</div>"
 							+"<div class='order-detail col-md-8'>"
-							+"<div class='order-status'><span class='order-summary order-summary-"+this.order_no+"'></span><span class='status'>주문 대기</span></div>"
+							+"<div class='order-status'><span class='order-summary order-summary-"+this.order_no+"'></span><span class='status'>"+status+"</span></div>"
 							+"<div class='menu-summary order-menu-"+this.order_no+"'></div>"
 							+"<div class='order-address'>주   소 :"+this.order_address+"</div>"
 							+"<div class='order-request'>요청사항 : "+this.order_request+"</div>"

@@ -203,6 +203,16 @@ h2{
 	width : 100%;
 	padding : 30px 40px;
 }
+.review_img{
+	text-align : center;
+	width : 100%;
+	height : 230px;
+	overflow : hidden;
+}
+.image{
+	width:80%;
+	height : auto;
+}
 </style>
 <script>
 function goResPage(res_no){
@@ -325,8 +335,11 @@ $(document).ready(function(){
 								str+="<span class='glyphicon glyphicon-star'></span>"
 							}
 						}
-					str+="</span>"+"</div>"
-						+"<div class='review-content'>"
+					str+="</span>"+"</div>";
+					if(this.review_img != "" && this.review_img != null){
+						str+="<div class='review_img'>"+"<img class='image' src='review/displayFile?fileName="+this.review_img+"'/></div>";
+					}
+					str +="<div class='review-content'>"
 						+this.review_content
 						+"</div>"
 						+"<div class='review-button-set'>"
