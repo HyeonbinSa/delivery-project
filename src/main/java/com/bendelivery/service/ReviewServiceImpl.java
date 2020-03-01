@@ -28,4 +28,9 @@ public class ReviewServiceImpl implements ReviewService{
 	public List<ReviewVO> listByRes(int res_no) throws Exception {
 		return dao.listByRes(res_no);
 	}
+
+	@Override
+	public void updateStatus(int review_no) throws Exception {
+		dao.updateStatus(review_no);
+	}
 }

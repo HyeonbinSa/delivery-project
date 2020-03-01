@@ -349,7 +349,6 @@ function getCartList(){
 		// order-list-form 에 넣어줌 
 		$(".order-list-form").html(str);
 	});
-	
 };
 //메뉴 삭제
 function delete_menu(menu_no){

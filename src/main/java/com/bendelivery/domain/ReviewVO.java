@@ -13,7 +13,14 @@ public class ReviewVO {
 	private String res_name;		// 식당명 
 	private String member_nickname;	// 닉네임
 	private String review_img;		// 리뷰 이미지 
-
+	private String reply_status;	// 답변 여부
+	
+	public String getReply_status() {
+		return reply_status;
+	}
+	public void setReply_status(String reply_status) {
+		this.reply_status = reply_status;
+	}
 	public String getMember_nickname() {
 		return member_nickname;
 	}

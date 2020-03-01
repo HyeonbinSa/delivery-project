@@ -76,7 +76,7 @@
 						<div class="menu-title">사장님 공지/한마디</div>
 					</div>
 				</div>
-				<div class="menu-item col-md-4">
+				<div class="menu-item col-md-4" onclick="location.href='/owner/review'">
 					<div class="item-wrap">
 						<span class="glyphicon glyphicon-thumbs-up icon"></span>
 						<div class="menu-title">리뷰 관리</div>

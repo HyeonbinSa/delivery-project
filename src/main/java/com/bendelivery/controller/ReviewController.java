@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bendelivery.domain.MemberVO;
+import com.bendelivery.domain.ReplyVO;
 import com.bendelivery.domain.ReviewVO;
 import com.bendelivery.service.ReviewService;
 import com.bendelivery.util.MediaUtils;
@@ -138,5 +139,18 @@ public class ReviewController {
 		}
 		return entity;
 		
+	}
+	@RequestMapping(value="/updateStatus", method = RequestMethod.PUT)
+	public ResponseEntity<String> updateStatus(@RequestBody ReplyVO vo)throws Exception{
+		ResponseEntity<String> entity = null;
+		try {
+			review_service.updateStatus(vo.getReview_no());
+			entity = new ResponseEntity<String>("UPDATE", HttpStatus.OK);
+		}catch(Exception e) {
+			entity = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		}
+		
+		
+		return entity;
 	}
 }

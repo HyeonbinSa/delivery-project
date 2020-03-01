@@ -8,4 +8,5 @@ public interface ReviewDAO {
 	public void create(ReviewVO vo)throws Exception;
 	public List<ReviewVO> listByMember(int member_no)throws Exception;
 	public List<ReviewVO> listByRes(int res_no)throws Exception;
+	public void updateStatus(int review_no)throws Exception;
 }

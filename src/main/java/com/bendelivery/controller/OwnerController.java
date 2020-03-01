@@ -1,16 +1,24 @@
 package com.bendelivery.controller;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,6 +26,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.WebUtils;
@@ -30,9 +39,11 @@ import com.bendelivery.domain.RestaurantVO;
 import com.bendelivery.dto.OwnerLoginDTO;
 import com.bendelivery.service.MenuGroupService;
 import com.bendelivery.service.MenuService;
+import com.bendelivery.service.OrderService;
 import com.bendelivery.service.OwnerService;
 import com.bendelivery.service.ResOperationService;
 import com.bendelivery.service.RestaurantService;
+import com.bendelivery.util.MediaUtils;
 
 @Controller
 @RequestMapping(value="/owner")
@@ -48,6 +59,9 @@ public class OwnerController {
 	@Inject
 	private ResOperationService res_operation_service;
 	private static Logger logger = LoggerFactory.getLogger(AdminController.class);
+	
+	@Resource(name="uploadPath")
+	String uploadPath;
 	
 	@RequestMapping(value="/register", method = RequestMethod.GET)
 	public void registerRestaurantGET() throws Exception{
@@ -265,5 +279,46 @@ public class OwnerController {
 	@RequestMapping(value="/order", method = RequestMethod.GET)
 	public void orderPageGet() {
 			
+	}
+	// 리뷰페이지 이동
+	@RequestMapping(value="/review", method = RequestMethod.GET)
+	public void reviewPageGet() {
+		
+	}
+	@ResponseBody
+	@RequestMapping("/review/displayFile")
+	public ResponseEntity<byte[]> displayFile(String fileName)throws Exception{
+		InputStream in = null;
+		// 실제 파일 데이터를 결과로 받기 위함.
+		ResponseEntity<byte[]> entity = null;
+		try {
+			// 확장자
+			String formatName = fileName.substring(fileName.lastIndexOf(".")+1);
+			//MIME 타입 지
+			MediaType mType = MediaUtils.getMediaType(formatName);
+			
+			HttpHeaders headers = new HttpHeaders();
+			
+			in = new FileInputStream(uploadPath+fileName);
+			
+			if(mType != null) {
+				headers.setContentType(mType);
+			}else {
+				// 파일명 가져오기
+				fileName = fileName.substring(fileName.indexOf("_")+1);
+				headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+				headers.add("Content-Disposition", "attachment; filename=\""+new String(fileName.getBytes("UTF-8"), "ISO-8859-1")+"\"");
+			}
+			// 파일에서 데이터를 읽어내는 부분 
+			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers, HttpStatus.CREATED);
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST);
+		}finally {
+			in.close();
+		}
+		return entity;
+		
 	}
 }

@@ -22,4 +22,7 @@
 	<select id="listByRes" resultType="ReviewVO">
 		select * from review_table where res_no = #{res_no} order by reg_date desc
 	</select>
+	<update id="updateStatus">
+		update review_table set reply_status = 'exist' where review_no = #{review_no}
+	</update>
 </mapper>

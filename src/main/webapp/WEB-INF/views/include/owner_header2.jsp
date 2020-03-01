@@ -61,10 +61,10 @@
 					<li><a href="/owner/menus">메뉴 관리</a></li>
 					<li><a href="/owner/operation">가게 정보 관리</a></li>
 					<li><a href="/owner/order">주문 관리</a></li>
+					<li class="li-review"><a href="/owner/review">리뷰 관리</a></li>
 					<li><a>영업일 관리</a></li>
 					<li><a>배달 지역 관리</a></li>
 					<li><a>할인 관리</a></li>
-					<li><a>리뷰 관리</a></li>
 					<li><a>영업 시간 관리</a></li>
 				</ul>
 			</div>

@@ -30,4 +30,9 @@ public class ReviewDAOImpl implements ReviewDAO {
 	public List<ReviewVO> listByRes(int res_no) throws Exception {
 		return session.selectList(namespace+".listByRes", res_no);
 	}
+
+	@Override
+	public void updateStatus(int review_no) throws Exception {
+		session.update(namespace+".updateStatus", review_no);
+	}
 }
