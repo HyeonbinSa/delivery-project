@@ -36,8 +36,8 @@ public class ReplyDAOImpl implements ReplyDAO{
 	}
 
 	@Override
-	public List<ReplyVO> list() throws Exception {
-		return session.selectList(namespace+".list");
+	public List<ReplyVO> list(int res_no) throws Exception {
+		return session.selectList(namespace+".list", res_no);
 	}
 
 }

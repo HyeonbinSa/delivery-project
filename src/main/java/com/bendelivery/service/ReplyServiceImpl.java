@@ -34,8 +34,8 @@ public class ReplyServiceImpl implements ReplyService{
 	}
 
 	@Override
-	public List<ReplyVO> list() throws Exception {
-		return dao.list();
+	public List<ReplyVO> list(int res_no) throws Exception {
+		return dao.list(res_no);
 	}
 
 }

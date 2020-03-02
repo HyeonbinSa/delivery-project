@@ -9,5 +9,5 @@ public interface ReplyDAO {
 	public void update(ReplyVO vo)throws Exception;
 	public void delete(int reply_no)throws Exception;
 	public ReplyVO read(int review_no)throws Exception;
-	public List<ReplyVO> list()throws Exception;
+	public List<ReplyVO> list(int res_no)throws Exception;
 }

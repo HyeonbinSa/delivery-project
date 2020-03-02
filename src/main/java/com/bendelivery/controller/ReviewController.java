@@ -84,6 +84,7 @@ public class ReviewController {
 		
 		return entity;
 	}
+	
 	@RequestMapping(value="/list/{res_no}", method = RequestMethod.GET)
 	public ResponseEntity<List<ReviewVO>> listByRes(@PathVariable int res_no)throws Exception{
 		ResponseEntity<List<ReviewVO>> entity = null;
@@ -93,10 +94,9 @@ public class ReviewController {
 		}catch(Exception e) {
 			entity = new ResponseEntity<List<ReviewVO>>(HttpStatus.BAD_REQUEST);
 		}
-		
-		
 		return entity;
 	}
+	
 	// 파일 업로드
 	@ResponseBody
 	@RequestMapping(value="/uploadImage", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")

@@ -18,13 +18,14 @@ public class UploadFileUtils {
 		UUID uid = UUID.randomUUID();
 		// 만든 고유번호에 파일명을 붙임.
 		String savedName = uid.toString() + "_" + originalName;
-		// 저장 경로
+		// 저장 경로 (날짜기반 저장경로)
 		String savedPath = calcPath(uploadPath);
 		
 		File target = new File(uploadPath + savedPath, savedName);
-		
+		// 파일을 복사함.
 		FileCopyUtils.copy(fileData, target);
 		
+		// 파일 형식
 		String formatName = originalName.substring(originalName.lastIndexOf(".")+1);
 		
 		String uploadedFileName = null;

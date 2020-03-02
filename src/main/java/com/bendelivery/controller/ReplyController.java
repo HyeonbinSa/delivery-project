@@ -41,11 +41,21 @@ public class ReplyController {
 	public ResponseEntity<ReplyVO> getReply(@RequestBody ReplyVO vo)throws Exception {
 		ResponseEntity<ReplyVO> entity = null;
 		try {
-			
 			entity = new ResponseEntity<ReplyVO>(reply_service.read(vo.getReview_no()), HttpStatus.OK);
 		}catch(Exception e) {
 			e.printStackTrace();
 			entity = new ResponseEntity<ReplyVO>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
+	@RequestMapping(value="/count", method = RequestMethod.POST)
+	public ResponseEntity<Integer> getCount(@RequestBody ReplyVO vo)throws Exception {
+		ResponseEntity<Integer> entity = null;
+		try {
+			entity = new ResponseEntity<Integer>(reply_service.list(vo.getRes_no()).size(), HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
 		}
 		return entity;
 	}
