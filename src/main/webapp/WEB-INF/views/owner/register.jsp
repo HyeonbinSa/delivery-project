@@ -19,6 +19,23 @@
     font-weight: bold;
     margin-top: 10px;
 }
+.fileDrop{
+	float :left;
+	width: 100px;
+	height : 140px;
+	border : 1px dotted #999;
+	text-align : center;
+	padding :20px;
+}
+.camera-icon{
+	vertical-align : center;
+}
+.uploadedList{
+	float :left;
+	width: 100px;
+	height : 140px;
+	display:none;
+}
 </style>
 <script type="text/javascript" src="/resources/js/addressapi.js"></script>
 <script>
@@ -26,6 +43,48 @@ var result = "${result}";
 if(result == "fail"){
 	alert("입력하신 정보가 확인되지 않습니다. 다시 확인해 주시기 바랍니다. (문의 전화 : 고객만족센터 1661-5270)");
 }
+$(document).ready(function(){
+	//파일 업로드를 위함
+	$(".fileDrop").on("dragenter dragover", function(event){
+		// 기본 동작이 작동하지 않도록 설정 
+		event.preventDefault();
+	});
+	$(".fileDrop").on("drop", function(event){
+		// 기본 동작이 작동하지 않도록 설정 
+		event.preventDefault();
+		// 전달된 파일의 데이터를 가져옴 
+		var files = event.originalEvent.dataTransfer.files;
+		
+		var file = files[0];
+		//alert(file.name);
+		//console.log(file);
+		var formData = new FormData();
+		
+		formData.append("file", file);
+		
+		$.ajax({
+			url : '/review/uploadImage',
+			data : formData,
+			dataType : 'text',
+			processData : false,
+			contentType : false,
+			type : 'POST',
+			success : function(data){
+				var str = "";
+				if(checkImageType(data)){
+					str += "<div>"
+						+"<a href='displayFile?fileName="+getImageLink(data)+"'>"
+						+"<img src='displayFile?fileName="+data+"'/>"
+						+"</a><small data-src="+data+">X</small></div>";
+					alert(data);
+				}
+				$(".review_img").val(getImageLink(data));
+				$(".fileDrop").hide();
+				$(".uploadedList").append(str);
+			}
+		});
+	});
+});
 </script>
 <!-- 입점 신청 start -->
 <div class="home-content">
@@ -48,6 +107,26 @@ if(result == "fail"){
 			<tr>
 				<th>사업자 대표명</th>
 				<td><input type="text" name="owner_name"/></td>
+			</tr>
+			<tr>
+				<th>사업자등록증 사본등록</th>
+				<td>
+					<div class="uploadedList"></div>
+					<div class="fileDrop">
+						<p> 첨부파일 드래그 </p>
+						<i class="glyphicon glyphicon-camera camera-icon"></i>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<th>영업신고증 사본등록</th>
+				<td>
+					<div class="uploadedList"></div>
+					<div class="fileDrop">
+						<p> 첨부파일 드래그 </p>
+						<i class="glyphicon glyphicon-camera camera-icon"></i>
+					</div>
+				</td>
 			</tr>
 			<tr>
 				<th>휴대폰 번호</th>

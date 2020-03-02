@@ -149,12 +149,14 @@ public class UserController {
 		return "redirect:/user/login";
 		
 	}
+	
 	// 식당 전체 리스트 출력 페이지
 	@RequestMapping(value="/list", method = RequestMethod.GET)
 	public void listGET(Model model)throws Exception {
 		model.addAttribute("list", res_service.getList());
 		logger.info("user - list page get------------------------------------");
 	}
+	
 	// 카테고리별 리스트 출력 페이지
 	@RequestMapping(value="/list/{category}", method = RequestMethod.GET)
 	public String listByCategory(@PathVariable("category") String category, Model model)throws Exception{
@@ -164,6 +166,7 @@ public class UserController {
 		
 		return "/user/list";
 	}
+	
 	@RequestMapping(value="/{res_no}", method = RequestMethod.GET)
 	public String readGET(@PathVariable("res_no") int res_no, Model model)throws Exception{
 		logger.info("read - "+res_no+"get------------------------------------");
@@ -184,6 +187,7 @@ public class UserController {
 		model.addAttribute("operationVO", operationVO);
 		return "/user/read";
 	}
+	
 	@RequestMapping(value="/checkout", method = RequestMethod.GET)
 	public void checkoutPageGet(HttpServletRequest request, Model model) throws Exception{
 		HttpSession session = request.getSession();
@@ -205,6 +209,7 @@ public class UserController {
 	public void mypageGET() {
 		
 	}
+	
 	@RequestMapping(value="/review/{order_no}", method = RequestMethod.GET)
 	public String reviewGET(@PathVariable("order_no") int order_no, Model model) throws Exception{
 		System.out.println("리뷰작성한 오더 넘버 : " +order_no);
@@ -214,13 +219,14 @@ public class UserController {
 		model.addAttribute("res_name", res_name);
 		return "/user/review";
 	}
+	
 	@RequestMapping(value="/testhome", method = RequestMethod.GET)
 	public void testHome() {
 		
 	}
 	
 	@ResponseBody
-	@RequestMapping("/review/displayFile")
+	@RequestMapping("/displayFile")
 	public ResponseEntity<byte[]> displayFile(String fileName)throws Exception{
 		InputStream in = null;
 		// 실제 파일 데이터를 결과로 받기 위함.

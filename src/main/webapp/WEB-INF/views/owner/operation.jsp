@@ -70,15 +70,98 @@ th{
     color: #FFF;
     margin-top: 7px;
 }
- </style>
- <script>
- var result = "${result}";
+.fileDrop{
+	float : left;
+	background : #fff;
+	border : 1px dotted #999;
+	text-align :center;
+	padding : 20px;	
+	width : 80px;
+	height : 80px;
+	vertical-align:center;
+}
+.uploadImage{
+	margin-right : 10px;
+	float :left;
+	width : 80px;
+	height : 80px;
+}
+.thumbnail{
+	width : 80px;
+	height : 80px;
+}
+</style>
+<script>
+var result = "${result}";
  
- if(result == "ModifySuccess"){
-	 alert("가게 정보가 수정되었습니다.");
- }else if(result == "operationSuccess"){
+if(result == "ModifySuccess"){
+	alert("가게 정보가 수정되었습니다.");
+}else if(result == "operationSuccess"){
 	alert("가게의 운영 정보가 수정되었습니다.");
- }
+}
+function checkImageType(fileName){
+	var pattern = /jpg$|gif$|png$|jpeg$/i;
+	
+	return fileName.match(pattern);
+}
+function getOriginalName(fileName){
+	
+	if(checkImageType(fileName)){
+		return;
+	}
+	var idx = fileName.indexOf("_") + 1;
+
+	return fileName.substr(idx);
+}
+function getImageLink(fileName){
+	if(!checkImageType(fileName)){
+		return;
+	}
+	// /년/월/일 -> 경로 추출을 위함 
+	var front = fileName.substr(0, 12);
+	//	파일 앞의 s_ 를 제거하기위함.
+	var end = fileName.substr(14);
+		return front +"s_"+ end;
+	}
+$(document).ready(function(){	
+	//파일 업로드를 위함
+	$(".fileDrop").on("dragenter dragover", function(event){
+		// 기본 동작이 작동하지 않도록 설정 
+		event.preventDefault();
+	});
+	$(".fileDrop").on("drop", function(event){
+		// 기본 동작이 작동하지 않도록 설정 
+		event.preventDefault();
+		// 전달된 파일의 데이터를 가져옴 
+		var files = event.originalEvent.dataTransfer.files;
+		
+		var file = files[0];
+		//alert(file.name);
+		//console.log(file);
+		var formData = new FormData();
+		
+		formData.append("file", file);
+		
+		$.ajax({
+			url : '/owner/uploadThumb',
+			data : formData,
+			dataType : 'text',
+			processData : false,
+			contentType : false,
+			type : 'POST',
+			success : function(data){
+				var str = "";
+				if(checkImageType(data)){
+					$(".thumbnail").attr("src", "displayFile?fileName="+data);
+					$(".res_thumbnail").val(data);
+				}
+				//$(".review_img").val(getImageLink(data));
+				//$(".fileDrop").hide();
+				//$(".uploadImage").html(str);
+			}
+		});
+	});
+});
  </script>
  <div class="home-content">
  	<div class="res-information">
@@ -86,6 +169,7 @@ th{
  		<hr>
  		<!-- 가게 기본 정보 입력 -->
  		<form method="post" action="/owner/modifyinfo">
+ 		<input type="hidden" class="res_thumbnail" name="res_thumbnail" value="">
  		<table class="res-information-table">
  			<colgroup>
  				<col width="20%">
@@ -93,6 +177,22 @@ th{
  			</colgroup>
  			<tr>
  				<td class="table-title" colspan=2>기본 정보</td>
+ 			</tr>
+ 			<tr>
+ 				<th>가게 썸네일</th>
+ 				<td>
+ 					<div class="uploadImage">
+ 						<c:if test="${resVO.res_thumbnail != null }">
+ 							<img class='thumbnail' src="displayFile?fileName=${resVO.res_thumbnail }">
+ 						</c:if>
+ 						<c:if test="${resVO.res_thumbnail == null }">
+ 							<img class='thumbnail' src='../resources/image/no_image.png'/>
+ 						</c:if>
+					</div>
+ 					<div  class="fileDrop">
+						<i class="glyphicon glyphicon-edit camera-icon"></i>
+					</div>
+				</td>
  			</tr>
  			<tr>
  				<th>가게번호</th>

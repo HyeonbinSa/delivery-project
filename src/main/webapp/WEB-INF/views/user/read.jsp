@@ -314,6 +314,10 @@ pre{
 	width:100%;
 	height : auto;
 }
+.thumbnail{
+	width : 70px;
+	height : 70px;
+}
 </style>
 <script>
 function getCartList(){
@@ -718,7 +722,7 @@ $(document).ready(function(){
 						}
 					str+="</span>"+"</div>"
 					if(this.review_img != "" && this.review_img != null){
-						str+="<div class='review_img'>"+"<img class='image' src='review/displayFile?fileName="+this.review_img+"'/></div>";
+						str+="<div class='review_img'>"+"<img class='image' src='displayFile?fileName="+this.review_img+"'/></div>";
 					}
 					str+="<div class='review-content'>"
 						+this.review_content
@@ -743,7 +747,14 @@ $(document).ready(function(){
 					<table class="res-table">
 					<tr>
 						<td class="res-table-logo">
-							<div class="logo-thubmnail"></div>
+							<div class="logo-thubmnail">
+								<c:if test="${resVO.res_thumbnail != null }">
+			 						<img class='thumbnail' src="displayFile?fileName=${resVO.res_thumbnail }">
+			 					</c:if>
+			 					<c:if test="${resVO.res_thumbnail == null }">
+			 						<img class='thumbnail' src='/resources/image/no_image.png'/>
+	 							</c:if>
+							</div>
 						</td>
 						<td class="res-table-info">
 							<div class="res-review" style="font-size:13px"><span class="text">별점</span><span>5.0</span></div>

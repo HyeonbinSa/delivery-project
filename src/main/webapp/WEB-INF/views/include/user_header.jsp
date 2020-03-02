@@ -29,7 +29,7 @@ $(document).ready(function(){
 	<!-- Header Start -->
 	<div class="header">
 		<div class="header-nav">
-			<a href="/"><img class="logo-img" style="width:100px;"src="/images/logo-yogiyo.png" alt="로고이미지" ></a>
+			<a href="/"><img class="logo-img" style="width:100px;"src="/images/new_logo.png" alt="로고이미지" ></a>
 			<div class="navbar">
 				 <c:if test="${not empty login }">
 					<button class="btn btn-default nav-btn" onclick="location.href='/user/logout'">로그아웃</button>
@@ -67,6 +67,7 @@ $(document).ready(function(){
 					<li class="전체보기"><a href="/user/list">전체보기</a></li>
 					<li class="1인분"><a href="/user/list/1인분">1인분</a></li>
 					<li class="프랜차이즈"><a href="/user/list/프랜차이즈">프랜차이즈</a></li>
+					<li class="야식"><a href="/user/list/야식">야식</a></li>
 					<li class="한식"><a href="/user/list/한식">한식</a></li>
 					<li class="치킨"><a href="/user/list/치킨">치킨</a></li>
 					<li class="피자양식"><a href="/user/list/피자양식">피자/양식</a></li>

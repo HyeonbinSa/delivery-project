@@ -337,7 +337,7 @@ $(document).ready(function(){
 						}
 					str+="</span>"+"</div>";
 					if(this.review_img != "" && this.review_img != null){
-						str+="<div class='review_img'>"+"<img class='image' src='review/displayFile?fileName="+this.review_img+"'/></div>";
+						str+="<div class='review_img'>"+"<img class='image' src='displayFile?fileName="+this.review_img+"'/></div>";
 					}
 					str +="<div class='review-content'>"
 						+this.review_content

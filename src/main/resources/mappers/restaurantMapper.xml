@@ -12,13 +12,13 @@
 		values (#{res_name}, #{res_tel}, #{category}, #{res_postcode}, #{res_address}, #{res_detailAddress}, #{res_extraAddress}, #{owner_no})
 	</insert>
 	<select id="resList" resultType="RestaurantVO">
-		select res_no, res_name, res_regdate, category, permission, permit_date
+		select res_no, res_name, res_regdate, category, permission, permit_date, res_thumbnail
 		from restaurant_table
 		where res_no > 0 
 		order by res_no desc, res_regdate desc
 	</select>
 	<select id="listByCategory" resultType="RestaurantVO">
-		select res_no, res_name, res_regdate, category, permission, permit_date
+		select res_no, res_name, res_regdate, category, permission, permit_date, res_thumbnail
 		from restaurant_table
 		where category = #{category}
 		order by res_no desc, res_regdate desc
@@ -40,6 +40,6 @@
 	</select>
 	<!-- 가게 정보 수정 -->
 	<update id="updateResInfo">
-		update restaurant_table set res_tel = #{res_tel}, res_intro = #{res_intro} where res_no = #{res_no}
+		update restaurant_table set res_thumbnail = #{res_thumbnail}, res_tel = #{res_tel}, res_intro = #{res_intro} where res_no = #{res_no}
 	</update>
 </mapper>

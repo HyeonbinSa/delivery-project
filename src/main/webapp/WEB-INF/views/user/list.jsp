@@ -46,6 +46,7 @@
 	margin:0;
 	padding: 5px;
 	background:#fafafa;
+	height : 600px;
 }
 .res-item{
 	height : 118px;
@@ -76,48 +77,19 @@
 	width:50%;
 
 }
-
+.thumbnail{
+	width : 70px;
+	height : 70px;
+	margin : 0px;
+}
 </style>
-<!--  
-<div class="category-nav">
-	<nav class="navbar navbar-default category-navbar">
-		<div class="collapse navbar-collapse category-collapse" id="bs-example-navbar-collapse-1">
-			<ul class="nav navbar-nav category-nav-ul">
-				<li><button class="glyphicon glyphicon-search res-search"></button></li>
-				<li><a>전체보기</a></li>
-				<li><a>1인분</a></li>
-				<li><a>프랜차이즈</a></li>
-				<li><a>한식</a></li>
-				<li><a>치킨</a></li>
-				<li><a>피자/양식</a></li>
-				<li><a>중국집</a></li>
-				<li><a>일식/돈까스</a></li>
-				<li><a>족발/보쌈</a></li>
-				<li><a>분식</a></li>
-				<li><a>카페/디저트</a></li>
-				<li><a>편의점</a></li>
-				<li class="dropdown ">
-	          		<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">정렬 방식<span class="caret"></span></a>
-	          		<ul class="dropdown-menu orderby-ul" role="menu">
-		            <li><a href="#">별점 순 </a></li>
-		            <li><a href="#">리뷰 많은 순</a></li>
-		            <li><a href="#">최소 주문 금액 순</a></li>
-		            <li><a href="#">거리 순</a></li>
-		            <li><a href="#">배달 시간 순</a></li>
-	          		</ul>
-	          	</li>
-			</ul>
-		</div>
-	</nav>
-</div>
--->
 <div class="main-container">
 	<!-- 식당 리스트 출력 -->
 	<div class="row res-list">
 		
 		<!-- 식당 내용 출력 -->
 		<!-- 1번째는 예시 -->
-		<div class="res-item col-md-6">
+		<!-- <div class="res-item col-md-6">
 			<div class="res-info">
 				<table class="res-table">
 					<tr>
@@ -135,17 +107,24 @@
 					</tr>	
 				</table>
 			</div>
-		</div>
+		</div>-->
 		<c:forEach items="${list }" var="resVO">
 			<div class="res-item col-md-6">
 				<div class="res-info" onclick="location.href='/user/${resVO.res_no}'">
 					<table class="res-table">
 						<tr>
 							<td class="res-table-logo">
-								<div class="logo-thubmnail"></div>
+								<div class="logo-thubmnail">
+									<c:if test="${resVO.res_thumbnail != null }">
+			 							<img class='thumbnail' src="/user/displayFile?fileName=${resVO.res_thumbnail }">
+			 						</c:if>
+			 						<c:if test="${resVO.res_thumbnail == null }">
+			 							<img class='thumbnail' src='/resources/image/no_image.png'/>
+	 								</c:if>
+								</div>
 							</td>
 							<td class="res-detail-info">
-								<div class="res-name">${resVO.res_name }<span>/ ${resVO.category }</span></div>
+								<div class="res-name">${resVO.res_name }</div>
 								<div class="res-review" style="font-size:11px"><span>별점5.0</span><span>리뷰200</span>|<span>사장님댓글200</span></div>
 								<div class="order-info" style="font-size:11px"><span>요기서결제</span><span>13500이상 배달</span></div>
 								<div class="event-info" style="font-size:11px"><span>2000원할인</span></div>

@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.WebUtils;
@@ -44,6 +45,7 @@ import com.bendelivery.service.OwnerService;
 import com.bendelivery.service.ResOperationService;
 import com.bendelivery.service.RestaurantService;
 import com.bendelivery.util.MediaUtils;
+import com.bendelivery.util.UploadFileUtils;
 
 @Controller
 @RequestMapping(value="/owner")
@@ -285,8 +287,15 @@ public class OwnerController {
 	public void reviewPageGet() {
 		
 	}
+	// 파일 업로드
 	@ResponseBody
-	@RequestMapping("/review/displayFile")
+	@RequestMapping(value="/uploadThumb", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
+	public ResponseEntity<String> uploadImage(MultipartFile file )throws Exception{
+		return new ResponseEntity<>(UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes()), HttpStatus.CREATED);
+	}
+	
+	@ResponseBody
+	@RequestMapping("/displayFile")
 	public ResponseEntity<byte[]> displayFile(String fileName)throws Exception{
 		InputStream in = null;
 		// 실제 파일 데이터를 결과로 받기 위함.

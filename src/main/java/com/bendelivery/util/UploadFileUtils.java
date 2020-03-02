@@ -12,11 +12,13 @@ import org.imgscalr.Scalr;
 import org.springframework.util.FileCopyUtils;
 
 public class UploadFileUtils {
+	// controller에서 사용될 메소드
 	public static String uploadFile(String uploadPath, String originalName, byte[] fileData)throws Exception{
+		// 고유 번호 만들기 위함.
 		UUID uid = UUID.randomUUID();
-		
+		// 만든 고유번호에 파일명을 붙임.
 		String savedName = uid.toString() + "_" + originalName;
-		
+		// 저장 경로
 		String savedPath = calcPath(uploadPath);
 		
 		File target = new File(uploadPath + savedPath, savedName);
@@ -35,7 +37,7 @@ public class UploadFileUtils {
 		
 		return uploadedFileName;
 	}
-	// 날짜를 통해 경로를 계산 
+	// 날짜를 통해 경로를 계산  ( /20/02/29/ 이런식으로)
 	private static String calcPath(String uploadPath) {
 		Calendar cal = Calendar.getInstance();
 		

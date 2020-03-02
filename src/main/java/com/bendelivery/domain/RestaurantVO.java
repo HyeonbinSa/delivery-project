@@ -19,7 +19,15 @@ public class RestaurantVO {
 	private Date permit_date;
 	private String permit_admin;
 	private String res_intro;
+	private String res_thumbnail;
 	
+	
+	public String getRes_thumbnail() {
+		return res_thumbnail;
+	}
+	public void setRes_thumbnail(String res_thumbnail) {
+		this.res_thumbnail = res_thumbnail;
+	}
 	public String getRes_intro() {
 		return res_intro;
 	}
@@ -113,6 +121,7 @@ public class RestaurantVO {
 				+ ", res_tel=" + res_tel + ", category=" + category + ", res_postcode=" + res_postcode
 				+ ", res_address=" + res_address + ", res_detailAddress=" + res_detailAddress + ", res_extraAddress="
 				+ res_extraAddress + ", permission=" + permission + ", permit_date=" + permit_date + ", permit_admin="
-				+ permit_admin + ", res_intro=" + res_intro + ", owner_no=" + owner_no + "]";
+				+ permit_admin + ", res_intro=" + res_intro + ", res_thumbnail=" + res_thumbnail + ", owner_no="
+				+ owner_no + "]";
 	}
 }
