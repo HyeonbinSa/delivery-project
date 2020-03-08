@@ -116,6 +116,7 @@ function getOriginalName(fileName){
 
 	return fileName.substr(idx);
 }
+
 function getImageLink(fileName){
 	if(!checkImageType(fileName)){
 		return;
@@ -163,6 +164,14 @@ $(document).ready(function(){
 				//$(".uploadImage").html(str);
 			}
 		});
+	});
+	$(".pay").on("click", function(){
+		var str= ".pay_"+$(this).val();
+		if($(this).prop("checked")){
+			$(str).val(1);
+		}else{
+			$(str).val(0);
+		}
 	});
 });
  </script>
@@ -232,7 +241,9 @@ $(document).ready(function(){
  		<!-- 운영 정보 입력 -->
  		<form method="post" action="/owner/modifyoperation">
  			<input type="hidden" name="res_no" value="${resVO.res_no}">
- 			<input type="hidden" name="res_payment" value="">
+ 			<input type="hidden" class="pay_here" name="pay_here" value="1">
+ 			<input type="hidden" class="pay_card" name="pay_card" value="0">
+ 			<input type="hidden" class="pay_cash" name="pay_cash" value="0">
  			<table class="res-information-table">
 	 			<colgroup>
 	 				<col width="20%">
@@ -262,13 +273,13 @@ $(document).ready(function(){
 	 				<th>결제 방식</th>
 	 				<td>
 	 					<label class="payment-check">
-							<input type="checkbox"> 여기서 결제
+							<input type="checkbox" class="pay" value="here" checked> 여기서 결제
 						</label>
 						<label class="payment-check">
-							<input type="checkbox"> 현금결제
+							<input type="checkbox" class="pay" value="cash"> 현금결제
 						</label>
 						<label class="payment-check">	
-							<input type="checkbox"> 신용카드
+							<input type="checkbox" class="pay" value="card"> 신용카드
 						</label>	
 					</td>
 	 			</tr>

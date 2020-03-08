@@ -75,6 +75,22 @@
 }
 .second-content{
 	margin-top : 20px;
+	background : #fff;
+	padding : 5px 10px;
+}
+.slide{
+	margin : 0px 12%;
+}
+.item>img{
+	width : 100%;
+}
+.col-md-4{
+	padding :5px;
+}
+.second-item{
+	border : 1px solid #999;
+	border-radius : 5px;
+	padding : 10px;
 }
 </style>
 	<!-- Owner Home Content -->
@@ -154,9 +170,15 @@
 			</div>
 		</div>
 		<div class="second-content row">
-			<div class="col-md-4">d</div>
-			<div class="col-md-4">d</div>
-			<div class="col-md-4">d</div>
+			<div class="col-md-4">
+				<div class="second-item">입점신청</div>
+			</div>
+			<div class="col-md-4">
+				<div class="second-item">알뜰쇼핑</div>
+			</div>
+			<div class="col-md-4">
+				<div class="second-item">이용약관</div>
+			</div>
 		</div>
 	</div>
 	

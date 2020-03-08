@@ -4,12 +4,12 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bendelivery.mapper.RestaurantOperationMapper">
 	<insert id="create">
-		insert into res_operation_table (res_no, start_time, end_time, minimum_price)
-		values (#{res_no}, #{start_time}, #{end_time}, #{minimum_price})
+		insert into res_operation_table (res_no, start_time, end_time, minimum_price, pay_here, pay_card, pay_cash)
+		values (#{res_no}, #{start_time}, #{end_time}, #{minimum_price}, #{pay_here}, #{pay_card}, #{pay_cash})
 	</insert>
 	<update id="updateOperationInfo">
 		update res_operation_table 
-		set start_time = #{start_time}, end_time = #{end_time}, minimum_price = #{minimum_price} 
+		set start_time = #{start_time}, end_time = #{end_time}, minimum_price = #{minimum_price},pay_here = #{pay_here}, pay_card =#{pay_card}, pay_cash =#{pay_cash}
 		where res_no = #{res_no}
 	</update>
 	<select id="getByRes" resultType="ResOperationVO">

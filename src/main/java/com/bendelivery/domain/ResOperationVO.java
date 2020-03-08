@@ -6,6 +6,28 @@ public class ResOperationVO {
 	private String start_time;
 	private String end_time;
 	private int minimum_price;
+	private boolean pay_here;
+	private boolean pay_cash;
+	private boolean pay_card;
+	
+	public boolean isPay_here() {
+		return pay_here;
+	}
+	public void setPay_here(boolean pay_here) {
+		this.pay_here = pay_here;
+	}
+	public boolean isPay_cash() {
+		return pay_cash;
+	}
+	public void setPay_cash(boolean pay_cash) {
+		this.pay_cash = pay_cash;
+	}
+	public boolean isPay_card() {
+		return pay_card;
+	}
+	public void setPay_card(boolean pay_card) {
+		this.pay_card = pay_card;
+	}
 	public int getRes_no() {
 		return res_no;
 	}

@@ -243,7 +243,7 @@ function reviewList(res_no){
 				str+="</span>"+"</div>";
 				// 리뷰에 이미지가 있을 경우
 				if(this.review_img != "" && this.review_img != null){
-					str+="<div class='review_img'>"+"<img class='image' src='review/displayFile?fileName="+this.review_img+"'/></div>";
+					str+="<div class='review_img'>"+"<img class='image' src='displayFile?fileName="+this.review_img+"'/></div>";
 				}
 				// 리뷰 내용 출력
 				str+="<div class='review-content'>"
