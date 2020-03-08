@@ -46,7 +46,7 @@ $(document).ready(function(){
 	</div>
 	<!-- Header End -->
 	<!-- SerchBox Start -->
-	<div class="searchbox">
+	<div class="searchbox" style="background-image:url('/images/bg-top.png');background-position: center;">
 		<div class="main-search">
 			<button class="btn btn-default glyphicon glyphicon-map-marker"></button>
 			<div class="input-group search-group">

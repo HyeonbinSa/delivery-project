@@ -90,6 +90,9 @@ th{
 	width : 80px;
 	height : 80px;
 }
+.payment-check{
+	margin : 0px 5px;
+}
 </style>
 <script>
 var result = "${result}";
@@ -229,6 +232,7 @@ $(document).ready(function(){
  		<!-- 운영 정보 입력 -->
  		<form method="post" action="/owner/modifyoperation">
  			<input type="hidden" name="res_no" value="${resVO.res_no}">
+ 			<input type="hidden" name="res_payment" value="">
  			<table class="res-information-table">
 	 			<colgroup>
 	 				<col width="20%">
@@ -252,6 +256,20 @@ $(document).ready(function(){
 	 					<input type="text" class="form-control" name="minimum_price" value="${operationVO.minimum_price }" placeholder="메뉴가격 (ex. 5000)" aria-describedby="sizing-addon2">
 						<span class="input-group-addon" id="sizing-addon2">원</span>
 						</div>
+					</td>
+	 			</tr>
+	 			<tr>
+	 				<th>결제 방식</th>
+	 				<td>
+	 					<label class="payment-check">
+							<input type="checkbox"> 여기서 결제
+						</label>
+						<label class="payment-check">
+							<input type="checkbox"> 현금결제
+						</label>
+						<label class="payment-check">	
+							<input type="checkbox"> 신용카드
+						</label>	
 					</td>
 	 			</tr>
 	 			<tr>

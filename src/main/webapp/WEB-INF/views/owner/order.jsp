@@ -4,7 +4,7 @@
 <style>
 .order-contet{
 	width:100%;
-	height:100%;
+	height:90%;
 	border:1px solid #999;
 	overflow:auto;
 }
