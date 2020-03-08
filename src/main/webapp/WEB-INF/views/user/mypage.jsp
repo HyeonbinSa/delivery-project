@@ -221,6 +221,40 @@ function goResPage(res_no){
 function goReview(order_no){
 	window.location.href = '/user/review/'+order_no;
 }
+function getReview(res_no){
+	// ajax로 처리
+	$.getJSON("/review/list/"+res_no, function(data){
+		var total_star = 0;
+		if(data.length != 0){
+			$(data).each(function(){
+				total_star += this.star;
+			});
+			$(".total-star-"+res_no).html("★"+ (total_star/data.length).toFixed(1));
+			$(".review-count-"+res_no).html(" 리뷰 "+ data.length + "개 ");
+		}
+	});
+}
+function getReply(res_no){
+	// ajax로 처리
+	$.ajax({
+		type : 'POST',
+		url : '/reply/count',
+		headers : {
+			"Content-Type" : "application/json",
+			"X-HTTP-Method-Override" : "POST"
+		},
+		dataType : 'text',
+		data : JSON.stringify({
+			res_no : res_no
+		}),
+		success : function(result){
+			//alert(result);
+			if(result != 0){
+				$(".reply-count-"+res_no).html(" | 사장님 댓글 " + result +"개");
+			}
+		}
+	});
+}
 $(document).ready(function(){
 	// 메뉴 탭 클릭시(아래 패널 별 메뉴 )
 	$(".menu-tab").on("click", function(){
@@ -299,14 +333,17 @@ $(document).ready(function(){
 				// 데이터가 들어있는 만큼 반복
 				$(data).each(function(){
 					// 찜하기 식당을 보여줄 태그 
+				
 					str+="<div class='like-item col-md-6' onclick='goResPage("+this.res_no+")'>"
 						+"<div class='res-name'>"+this.res_name+"</div>"
 						+"<div class='res-info'>주문 날짜</div>"
 						+"<div class='res-menu'>음식 메뉴</div>"
 						+"</div>";
+				
 				});
 				//리스트 목록에 넣어줌 
 				$(".like-list").html(str);
+					
 			}
 			// 목록에 식당이 없을 경우 
 			else{

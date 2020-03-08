@@ -73,6 +73,13 @@
 .res-table-logo{
 	width:70px;
 }
+.res-name{
+	font-weight : bold;
+}
+.total-star{
+	color : #ffa800;
+	font-size : 110%;
+}
 .res-detail-info{
 	width:50%;
 
@@ -81,6 +88,10 @@
 	width : 70px;
 	height : 70px;
 	margin : 0px;
+}
+.payment{
+	font-weight : bold;
+	color : #f0001e;
 }
 </style>
 <script>
@@ -92,8 +103,8 @@ function getReview(res_no){
 			$(data).each(function(){
 				total_star += this.star;
 			});
-			$(".total-star-"+res_no).html("별점 "+ (total_star/data.length).toFixed(1));
-			$(".review-count-"+res_no).html(" 리뷰 "+ data.length + "개 ");
+			$(".total-star-"+res_no).html((total_star/data.length).toFixed(1));
+			$(".review-count-"+res_no).html(data.length);
 		}
 	});
 }
@@ -113,40 +124,40 @@ function getReply(res_no){
 		success : function(result){
 			//alert(result);
 			if(result != 0){
-				$(".reply-count-"+res_no).html(" | 사장님 댓글 " + result +"개");
+				$(".reply-count-"+res_no).html(result);
 			}
 		}
 	});
 }
 function getOperation(res_no){
-	
+	// ajax로 처리
+	$.ajax({
+		type : 'POST',
+		url : '/restaurant/getOperation',
+		headers : {
+			"Content-Type" : "application/json",
+			"X-HTTP-Method-Override" : "POST"
+		},
+		dataType : 'text',
+		data : JSON.stringify({
+			res_no : res_no
+		}),
+		success : function(result){
+			if(result.length != 0){
+				var obj = JSON.parse(result);
+				$(".minimum-price-"+res_no).html(obj.minimum_price);
+				if(obj.pay_here == 1){
+					$(".payment-"+res_no).html("여기서결제");	
+				}
+			}
+		}
+	});
 }
 </script>
 <div class="main-container">
 	<!-- 식당 리스트 출력 -->
 	<div class="row res-list">
-		
 		<!-- 식당 내용 출력 -->
-		<!-- 1번째는 예시 -->
-		<!-- <div class="res-item col-md-6">
-			<div class="res-info">
-				<table class="res-table">
-					<tr>
-						<td class="res-table-logo">
-							<div class="logo-thubmnail"></div>
-						</td>
-						<td class="res-detail-info">
-							<div class="res-name">이것을 틀을짜기 위한 예시</div>
-							<div class="res-review" style="font-size:11px"><span>별점5.0</span><span>리뷰200</span>|<span>사장님댓글200</span></div>
-							<div class="order-info" style="font-size:11px"><span>요기서결제</span><span>13500이상 배달</span></div>
-							<div class="event-info" style="font-size:11px"><span>2000원할인</span></div>
-						</td>
-						<td>
-						</td>
-					</tr>	
-				</table>
-			</div>
-		</div>-->
 		<c:forEach items="${list }" var="resVO">
 			<div class="res-item col-md-6">
 				<div class="res-info" onclick="location.href='/user/${resVO.res_no}'">
@@ -164,9 +175,9 @@ function getOperation(res_no){
 							</td>
 							<td class="res-detail-info">
 								<div class="res-name">${resVO.res_name }</div>
-								<div class="res-review" style="font-size:11px"><span class="total-star-${resVO.res_no }">별점 0.0 </span><span class="review-count-${resVO.res_no }">리뷰 0개</span><span class="reply-count-${resVO.res_no }"></span></div>
-								<div class="order-info" style="font-size:11px"><span>요기서결제</span><span>13500이상 배달</span></div>
-								<div class="event-info" style="font-size:11px"><span>2000원할인</span></div>
+								<div class="res-review" style="font-size:11px"><span class="total-star">★<span class="total-star-${resVO.res_no }">0.0</span></span><span> 리뷰 <span class="review-count-${resVO.res_no }">0</span>개 </span><span> | 사장님 댓글 <span class="reply-count-${resVO.res_no }">0</span>개</span></div>
+								<div class="order-info" style="font-size:11px"><span class="payment payment-${resVO.res_no }">여기서결제</span><span> | <span class="minimum-price-${resVO.res_no }">10000</span> 이상 배달 가능</span></div>
+								<div class="event-info" style="font-size:11px"><span></span></div>
 							</td>
 							<td>
 							</td>

@@ -318,6 +318,12 @@ pre{
 	width : 70px;
 	height : 70px;
 }
+.no-review{
+	text-align : center;
+	font-size : 200%;
+	font-weight : bold;
+	padding :20px;
+}
 </style>
 <script>
 function getCartList(){
@@ -779,7 +785,9 @@ $(document).ready(function(){
 					<li class="information"><a>정보</a></li>		
 				</ul>
 				<div class="panel menu-panel">
-					<div class="photo-menu">포토메뉴의 위치</div>
+					<c:if test="">
+					<div class="photo-menu" style="display:none;">포토메뉴의 위치</div>
+					</c:if>
 					<div class="toggle-menu">
 						<!-- 식당의 메뉴 그룹 데이터가 있으면 -->
 						<c:if test="${groupList != null }">
@@ -813,7 +821,7 @@ $(document).ready(function(){
 				</div>
 				<div class="panel review-panel" style="display:none">
 					<div class="review-list">
-						
+						<div class="no-review" style="display:none;">작성된 리뷰가 없습니다. </div>
 					</div>
 				</div>	
 				<div class="panel information-panel" style="display:none">
