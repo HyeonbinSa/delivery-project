@@ -8,7 +8,22 @@ public class OwnerVO {
 	private String owner_id;
 	private String owner_pw;
 	private String owner_number;
+	private String permit_img;
+	private String registration_img;
 	
+	
+	public String getPermit_img() {
+		return permit_img;
+	}
+	public void setPermit_img(String permit_img) {
+		this.permit_img = permit_img;
+	}
+	public String getRegistration_img() {
+		return registration_img;
+	}
+	public void setRegistration_img(String registration_img) {
+		this.registration_img = registration_img;
+	}
 	public String getOwner_number() {
 		return owner_number;
 	}

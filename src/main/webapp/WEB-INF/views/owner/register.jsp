@@ -43,27 +43,47 @@ var result = "${result}";
 if(result == "fail"){
 	alert("입력하신 정보가 확인되지 않습니다. 다시 확인해 주시기 바랍니다. (문의 전화 : 고객만족센터 1661-5270)");
 }
+function checkImageType(fileName){
+	var pattern = /jpg$|gif$|png$|jpeg$/i;
+	
+	return fileName.match(pattern);
+}
+function getOriginalName(fileName){
+	if(checkImageType(fileName)){
+		return;
+	}
+	var idx = fileName.indexOf("_") + 1;
+	return fileName.substr(idx);
+}
+function getImageLink(fileName){
+	if(!checkImageType(fileName)){
+		return;
+	}
+	// /년/월/일 -> 경로 추출을 위함 
+	var front = fileName.substr(0, 12);
+	//	파일 앞의 s_ 를 제거하기위함.
+	var end = fileName.substr(14);
+	return front + end;
+}
 $(document).ready(function(){
 	//파일 업로드를 위함
 	$(".fileDrop").on("dragenter dragover", function(event){
 		// 기본 동작이 작동하지 않도록 설정 
 		event.preventDefault();
 	});
-	$(".fileDrop").on("drop", function(event){
+	$(".fileDrop1").on("drop", function(event){
 		// 기본 동작이 작동하지 않도록 설정 
 		event.preventDefault();
 		// 전달된 파일의 데이터를 가져옴 
 		var files = event.originalEvent.dataTransfer.files;
 		
 		var file = files[0];
-		//alert(file.name);
-		//console.log(file);
 		var formData = new FormData();
 		
 		formData.append("file", file);
 		
 		$.ajax({
-			url : '/review/uploadImage',
+			url : '/owner/uploadThumb',
 			data : formData,
 			dataType : 'text',
 			processData : false,
@@ -75,12 +95,47 @@ $(document).ready(function(){
 					str += "<div>"
 						+"<a href='displayFile?fileName="+getImageLink(data)+"'>"
 						+"<img src='displayFile?fileName="+data+"'/>"
-						+"</a><small data-src="+data+">X</small></div>";
+						+"</a></div>";
 					alert(data);
 				}
-				$(".review_img").val(getImageLink(data));
-				$(".fileDrop").hide();
-				$(".uploadedList").append(str);
+				$(".registration_img").val(getImageLink(data));
+				$(".fileDrop1").hide();
+				$(".uploadedList1").append(str);
+				$(".uploadedList1").show();
+			}
+		});
+	});
+	$(".fileDrop2").on("drop", function(event){
+		// 기본 동작이 작동하지 않도록 설정 
+		event.preventDefault();
+		// 전달된 파일의 데이터를 가져옴 
+		var files = event.originalEvent.dataTransfer.files;
+		
+		var file = files[0];
+		var formData = new FormData();
+		
+		formData.append("file", file);
+		
+		$.ajax({
+			url : '/owner/uploadThumb',
+			data : formData,
+			dataType : 'text',
+			processData : false,
+			contentType : false,
+			type : 'POST',
+			success : function(data){
+				var str = "";
+				if(checkImageType(data)){
+					str += "<div>"
+						+"<a href='displayFile?fileName="+getImageLink(data)+"'>"
+						+"<img src='displayFile?fileName="+data+"'/>"
+						+"</a></div>";
+					alert(data);
+				}
+				$(".permit_img").val(getImageLink(data));
+				$(".fileDrop2").hide();
+				$(".uploadedList2").append(str);
+				$(".uploadedList2").show();
 			}
 		});
 	});
@@ -92,6 +147,8 @@ $(document).ready(function(){
 <p>운영중인 음식점을 요기요에 신청하세요. 온라인 입점신청 중 어려움이 있으시면 고객센터(1661-5270)로 연락주세요</p>
 <hr>
 	<form method="post">
+	<input type="hidden" name="permit_img" class="permit_img" value="">
+	<input type="hidden" name="registration_img" class="registration_img" value="">
 	<div>
 		</div>
 		<h3>사업자 정보</h3>
@@ -111,8 +168,8 @@ $(document).ready(function(){
 			<tr>
 				<th>사업자등록증 사본등록</th>
 				<td>
-					<div class="uploadedList"></div>
-					<div class="fileDrop">
+					<div class="uploadedList uploadedList1"></div>
+					<div class="fileDrop fileDrop1">
 						<p> 첨부파일 드래그 </p>
 						<i class="glyphicon glyphicon-camera camera-icon"></i>
 					</div>
@@ -121,8 +178,8 @@ $(document).ready(function(){
 			<tr>
 				<th>영업신고증 사본등록</th>
 				<td>
-					<div class="uploadedList"></div>
-					<div class="fileDrop">
+					<div class="uploadedList uploadedList2"></div>
+					<div class="fileDrop fileDrop2">
 						<p> 첨부파일 드래그 </p>
 						<i class="glyphicon glyphicon-camera camera-icon"></i>
 					</div>

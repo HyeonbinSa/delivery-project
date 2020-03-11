@@ -78,7 +78,7 @@ public class OwnerController {
 		res_service.register(res_vo);
 		logger.info("Register Restaurant post------------------------------------");
 		
-		return "redirect:/owner/home";
+		return "redirect:/owner/";
 	}
 	@RequestMapping(value="/", method = RequestMethod.GET)
 	public String homeGet() {

@@ -8,8 +8,8 @@
 		values (#{res_name}, #{res_owner}, #{category}, #{res_phone}, #{owner_number}, #{res_postcode}, #{res_address}, #{res_detail_address}, #{res_extra_address}, #{startTime}, #{endTime})
 	</insert>-->
 	<insert id="join"><!-- 입점 신청 시 사업자 정보 등록  -->
-		insert into owner_table (owner_name, owner_phone, owner_number)
-		values (#{owner_name}, #{owner_phone}, #{owner_number})
+		insert into owner_table (owner_name, owner_phone, owner_number, permit_img, registration_img)
+		values (#{owner_name}, #{owner_phone}, #{owner_number}, #{permit_img}, #{registration_img})
 	</insert>
 	<select id="getNo" resultType="int"><!-- 사업자 등록 번호로 해당 DB 번호 가져오기 -->
 		select owner_no from owner_table where owner_number = #{owner_number}

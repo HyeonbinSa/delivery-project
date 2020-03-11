@@ -21,7 +21,6 @@ public class RestaurantVO {
 	private String res_intro;
 	private String res_thumbnail;
 	
-	
 	public String getRes_thumbnail() {
 		return res_thumbnail;
 	}

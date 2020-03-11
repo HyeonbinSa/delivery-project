@@ -93,6 +93,14 @@
 	padding : 10px;
 }
 </style>
+<script>
+var result = "${result}";
+if(result == "checking"){
+	alert("입점 신청이 검토 중입니다.(문의 전화 : 고객만족센터 1661-5270)");
+}else if(result == "nodata"){
+	alert("해당 사업자번호와 휴대폰 번호로 등록된 입점 신청 데이터가 없습니다. (문의 전화 : 고객만족센터 1661-5270)");
+}
+</script>
 	<!-- Owner Home Content -->
 	<div class="home-content">
 		<!-- 사장님 광고 배너 + 로그인 화면  -->

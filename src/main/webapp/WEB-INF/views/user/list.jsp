@@ -93,18 +93,28 @@
 	font-weight : bold;
 	color : #f0001e;
 }
+.minimum-price{
+	color : #808080;
+}
 </style>
 <script>
 function getReview(res_no){
 	// ajax로 처리
 	$.getJSON("/review/list/"+res_no, function(data){
 		var total_star = 0;
+		var str="";
 		if(data.length != 0){
 			$(data).each(function(){
 				total_star += this.star;
 			});
-			$(".total-star-"+res_no).html((total_star/data.length).toFixed(1));
-			$(".review-count-"+res_no).html(data.length);
+			str+="<span class='total-star'>★"+(total_star/data.length).toFixed(1)+"</span>"
+				+"<span> 리뷰 "+data.length+"개 </span>";
+			//$(".total-star-"+res_no).html((total_star/data.length).toFixed(1));
+			//$(".review-count-"+res_no).html(data.length);
+			$(".res-review-"+res_no).html(str);
+		}
+		else{
+			$(".res-review-"+res_no).html("첫번째 리뷰를 남겨주세요!!!");
 		}
 	});
 }
@@ -124,7 +134,8 @@ function getReply(res_no){
 		success : function(result){
 			//alert(result);
 			if(result != 0){
-				$(".reply-count-"+res_no).html(result);
+				
+				$(".res-review-"+res_no).append("<span> | 사장님 댓글 "+result+"개</span>");
 			}
 		}
 	});
@@ -145,10 +156,13 @@ function getOperation(res_no){
 		success : function(result){
 			if(result.length != 0){
 				var obj = JSON.parse(result);
-				$(".minimum-price-"+res_no).html(obj.minimum_price);
+				
+				//$(".minimum-price-"+res_no).html(obj.minimum_price);
 				if(obj.pay_here == 1){
-					$(".payment-"+res_no).html("여기서결제");	
+					//"<span class='payment'>여기서결제</span>"
+					$(".order-info-"+res_no).html("<span class='payment'>여기서결제</span>");	
 				}
+				$(".order-info-"+res_no).append(" | <span class='minimum-price'>"+obj.minimum_price+"원 이상 배달 </span>");
 			}
 		}
 	});
@@ -175,8 +189,8 @@ function getOperation(res_no){
 							</td>
 							<td class="res-detail-info">
 								<div class="res-name">${resVO.res_name }</div>
-								<div class="res-review" style="font-size:11px"><span class="total-star">★<span class="total-star-${resVO.res_no }">0.0</span></span><span> 리뷰 <span class="review-count-${resVO.res_no }">0</span>개 </span><span> | 사장님 댓글 <span class="reply-count-${resVO.res_no }">0</span>개</span></div>
-								<div class="order-info" style="font-size:11px"><span class="payment payment-${resVO.res_no }">여기서결제</span><span> | <span class="minimum-price-${resVO.res_no }">10000</span> 이상 배달 가능</span></div>
+								<div class="res-review res-review-${resVO.res_no }" style="font-size:11px"></div>
+								<div class="order-info order-info-${resVO.res_no }" style="font-size:11px"></div>
 								<div class="event-info" style="font-size:11px"><span></span></div>
 							</td>
 							<td>
