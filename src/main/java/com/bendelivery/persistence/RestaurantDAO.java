@@ -2,6 +2,7 @@ package com.bendelivery.persistence;
 
 import java.util.List;
 
+import com.bendelivery.domain.Criteria;
 import com.bendelivery.domain.RestaurantVO;
 
 public interface RestaurantDAO {
@@ -13,4 +14,6 @@ public interface RestaurantDAO {
 	public void permit(RestaurantVO vo)throws Exception;
 	public String getPermitInfo(int owner_no)throws Exception;
 	public void modifyInfo(RestaurantVO vo)throws Exception;
+	public List<RestaurantVO> listCri(Criteria cri)throws Exception;
+	public int countPaging(Criteria cri)throws Exception;
 }

@@ -33,11 +33,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.WebUtils;
 
 import com.bendelivery.domain.CartVO;
+import com.bendelivery.domain.Criteria;
 import com.bendelivery.domain.LikeVO;
 import com.bendelivery.domain.MemberVO;
 import com.bendelivery.domain.MenuGroupVO;
 import com.bendelivery.domain.MenuVO;
 import com.bendelivery.domain.OrderVO;
+import com.bendelivery.domain.PageMaker;
 import com.bendelivery.domain.ResOperationVO;
 import com.bendelivery.domain.RestaurantVO;
 import com.bendelivery.dto.UserLoginDTO;
@@ -152,8 +154,15 @@ public class UserController {
 	
 	// 식당 전체 리스트 출력 페이지
 	@RequestMapping(value="/list", method = RequestMethod.GET)
-	public void listGET(Model model)throws Exception {
-		model.addAttribute("list", res_service.getList());
+	public void listGET(Criteria cri, Model model)throws Exception {
+		//model.addAttribute("list", res_service.getList());
+		// 페이징 처리 위함 
+		//Criteria cri = new Criteria();
+		PageMaker pm = new PageMaker();
+		pm.setCri(cri);
+		pm.setTotalCount(res_service.countPaging(cri));
+		model.addAttribute("list", res_service.listCri(cri));
+		model.addAttribute("pageMaker", pm);
 		logger.info("user - list page get------------------------------------");
 	}
 	

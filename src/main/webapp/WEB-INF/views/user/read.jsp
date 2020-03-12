@@ -323,6 +323,13 @@ pre{
 	font-weight : bold;
 	padding :20px;
 }
+.no-menu{
+	text-align : center;
+	font-size : 200%;
+	font-weight : bold;
+	padding :20px;
+	display : none;
+}
 </style>
 <script>
 function getCartList(){
@@ -505,6 +512,10 @@ function checkLike(res_no, member_no){
 	});
 }
 $(document).ready(function(){
+	// 메뉴가 없을 경우 "메뉴가없습니다"출력 
+	if('${groupList}'=='[]'){
+		$(".no-menu").show();
+	}
 	var Quantity = 1;
 	// 여러 메소드에서 접근할 수 있게 여기에 선언 
 	var price = 0;
@@ -521,7 +532,7 @@ $(document).ready(function(){
 	}
 	// 리스트 출력
 	getCartList();
-
+	
 	// 수량이 1일 경우 모달 창 내에 있는 - 버튼 비활성화 
 	if(Quantity == 1){
 		$(".modal-minus").attr("disabled", true);
@@ -788,6 +799,7 @@ $(document).ready(function(){
 					<div class="photo-menu" style="display:none;">포토메뉴의 위치</div>
 					</c:if>
 					<div class="toggle-menu">
+						<div class="no-menu">메뉴가 없습니다. </div>
 						<!-- 식당의 메뉴 그룹 데이터가 있으면 -->
 						<c:if test="${groupList != null }">
 							<!-- 메뉴 그룹 만큼 반복 -->
@@ -815,7 +827,7 @@ $(document).ready(function(){
 										</c:forEach>
 								</c:if>
 							</c:forEach>
-						</c:if>
+						</c:if>			
 					</div>
 				</div>
 				<div class="panel review-panel" style="display:none">

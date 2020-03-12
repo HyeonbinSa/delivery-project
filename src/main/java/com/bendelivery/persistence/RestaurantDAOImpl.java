@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.bendelivery.domain.Criteria;
 import com.bendelivery.domain.RestaurantVO;
 
 @Repository
@@ -47,6 +48,14 @@ public class RestaurantDAOImpl implements RestaurantDAO{
 	@Override
 	public List<RestaurantVO> listByCategory(String category) throws Exception {
 		return session.selectList(namespace+".listByCategory", category);
+	}
+	@Override
+	public List<RestaurantVO> listCri(Criteria cri) throws Exception {
+		return session.selectList(namespace+".listCri", cri);
+	}
+	@Override
+	public int countPaging(Criteria cri) throws Exception {
+		return session.selectOne(namespace+".countPaging", cri);
 	}
 	
 }

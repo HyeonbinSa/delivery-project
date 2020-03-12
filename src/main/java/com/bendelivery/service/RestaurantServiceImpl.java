@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.bendelivery.domain.Criteria;
 import com.bendelivery.domain.RestaurantVO;
 import com.bendelivery.persistence.RestaurantDAO;
 
@@ -52,5 +53,13 @@ public class RestaurantServiceImpl implements RestaurantService{
 	@Override
 	public List<RestaurantVO> listByCategory(String category) throws Exception {
 		return dao.listByCategory(category);
+	}
+	@Override
+	public List<RestaurantVO> listCri(Criteria cri) throws Exception {
+		return dao.listCri(cri);
+	}
+	@Override
+	public int countPaging(Criteria cri) throws Exception {
+		return dao.countPaging(cri);
 	}
 }

@@ -41,12 +41,14 @@
 /* 식당 리스트 */
 .res_list{
 	margin:5px;
+	overflow : auto;
 }
 .main-container{
 	margin:0;
 	padding: 5px;
 	background:#fafafa;
-	height : 600px;
+	
+	overflow : auto;
 }
 .res-item{
 	height : 118px;
@@ -207,6 +209,20 @@ function getOperation(res_no){
 				});
 			</script>
 		</c:forEach>
+		<div class="text-center">
+			<ul class="pagination">
+				<c:if test="${pageMaker.prev }">
+					<li><a href="list${pageMaker.makeQuery(startPage -1) }">&laquo;</a></li>
+				</c:if>
+				<c:forEach begin="${pageMaker.startPage }" end ="${pageMaker.endPage }" var="index">
+					<li <c:out value="${pageMaker.cri.page == index ? 'class= active' : '' }"/>>
+					<a href="list${pageMaker.makeQuery(index) }">${index }</a>
+				</c:forEach>
+				<c:if test="${pageMaker.next && pageMaker.endPage > 0 }">
+					<li><a href="list${pageMaker.makeQuery(endPage + 1) }">&raquo;</a></li>
+				</c:if>
+			</ul>
+		</div>
 	</div>
 </div>
 

@@ -23,6 +23,21 @@
 		where category = #{category}
 		order by res_no desc, res_regdate desc
 	</select>
+	<!-- 페이징 처리하기 위함 -->
+	<select id="listCri" resultType="RestaurantVO">
+		select *
+		from restaurant_table
+		order by res_no desc, res_regdate desc
+		limit #{pageStart}, ${perPageNum}
+	</select>
+	<!--  카테고리별 list Paging -->
+	<select id="listCriByCategory" resultType="RestaurantVO">
+		select *
+		from restaurant_table
+		where category = #{category}
+		order by res_no desc, res_regdate desc
+		limit #{pageStart}, ${perPageNum}
+	</select>
 	<select id="read" resultType="RestaurantVO">
 		select * from restaurant_table where res_no  = #{res_no}
 	</select>
@@ -42,4 +57,7 @@
 	<update id="updateResInfo">
 		update restaurant_table set res_thumbnail = #{res_thumbnail}, res_tel = #{res_tel}, res_intro = #{res_intro} where res_no = #{res_no}
 	</update>
+	<select id="countPaging" resultType="int">
+		select count(res_no) from restaurant_table 
+	</select>
 </mapper>
