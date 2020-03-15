@@ -1,9 +1,11 @@
 package com.bendelivery.persistence;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -56,6 +58,14 @@ public class RestaurantDAOImpl implements RestaurantDAO{
 	@Override
 	public int countPaging(Criteria cri) throws Exception {
 		return session.selectOne(namespace+".countPaging", cri);
+	}
+	@Override
+	public List<RestaurantVO> listCriByCategory(HashMap<String, Object> map) throws Exception {
+		return session.selectList(namespace+".listCriByCategory", map);
+	}
+	@Override
+	public int countPagingByCategory(String category) throws Exception {
+		return session.selectOne(namespace+".countPagingByCategory", category);
 	}
 	
 }

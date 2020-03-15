@@ -164,15 +164,21 @@ public class UserController {
 		model.addAttribute("list", res_service.listCri(cri));
 		model.addAttribute("pageMaker", pm);
 		logger.info("user - list page get------------------------------------");
+		logger.info("Page Maker total = " + pm.getTotalCount() + "------------------------------------");
 	}
 	
 	// 카테고리별 리스트 출력 페이지
 	@RequestMapping(value="/list/{category}", method = RequestMethod.GET)
-	public String listByCategory(@PathVariable("category") String category, Model model)throws Exception{
+	public String listByCategory(@PathVariable("category") String category, Criteria cri, Model model)throws Exception{
 		model.addAttribute("category", category);
-		model.addAttribute("list", res_service.listByCategory(category));
+		//model.addAttribute("list", res_service.listByCategory(category));
+		PageMaker pm = new PageMaker();
+		pm.setCri(cri);
+		pm.setTotalCount(res_service.countPagingByCategory(category));
+		model.addAttribute("pageMaker", pm);
+		model.addAttribute("list", res_service.listCriByCategory(cri, category));
 		logger.info("user - "+ category +"list page get------------------------------------");
-		
+		logger.info("Page Maker total = " + pm.getTotalCount() + "------------------------------------");
 		return "/user/list";
 	}
 	

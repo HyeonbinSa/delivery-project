@@ -209,8 +209,25 @@ function getOperation(res_no){
 				});
 			</script>
 		</c:forEach>
-		<div class="text-center">
+		
+	</div>
+	<div class="text-center">
 			<ul class="pagination">
+			<!-- 카테고리별 보기 했을때  -->
+			<c:if test="${category != null }">
+				<c:if test="${pageMaker.prev }">
+					<li><a href="${category }${pageMaker.makeQuery(startPage -1) }">&laquo;</a></li>
+				</c:if>
+				<c:forEach begin="${pageMaker.startPage }" end ="${pageMaker.endPage }" var="index">
+					<li <c:out value="${pageMaker.cri.page == index ? 'class= active' : '' }"/>>
+					<a href="${category }${pageMaker.makeQuery(index) }">${index }</a>
+				</c:forEach>
+				<c:if test="${pageMaker.next && pageMaker.endPage > 0 }">
+					<li><a href="${category }${pageMaker.makeQuery(endPage + 1) }">&raquo;</a></li>
+				</c:if>
+			</c:if>
+			<!-- 전체보기 => 카테고리가 없을때  -->
+			<c:if test="${category == null }">
 				<c:if test="${pageMaker.prev }">
 					<li><a href="list${pageMaker.makeQuery(startPage -1) }">&laquo;</a></li>
 				</c:if>
@@ -221,9 +238,9 @@ function getOperation(res_no){
 				<c:if test="${pageMaker.next && pageMaker.endPage > 0 }">
 					<li><a href="list${pageMaker.makeQuery(endPage + 1) }">&raquo;</a></li>
 				</c:if>
+			</c:if>
 			</ul>
 		</div>
-	</div>
 </div>
 
 <%@ include file="/WEB-INF/views/include/user_footer.jsp" %>

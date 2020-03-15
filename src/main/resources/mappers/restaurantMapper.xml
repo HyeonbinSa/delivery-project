@@ -30,9 +30,9 @@
 		order by res_no desc, res_regdate desc
 		limit #{pageStart}, ${perPageNum}
 	</select>
-	<!--  카테고리별 list Paging -->
-	<select id="listCriByCategory" resultType="RestaurantVO">
-		select *
+	<!-- 페이징(카테고리별)  -->
+	<select id="listCriByCategory" parameterType="hashmap" resultType="RestaurantVO">
+		select res_no, res_name, res_regdate, category, permission, permit_date, res_thumbnail
 		from restaurant_table
 		where category = #{category}
 		order by res_no desc, res_regdate desc
@@ -59,5 +59,8 @@
 	</update>
 	<select id="countPaging" resultType="int">
 		select count(res_no) from restaurant_table 
+	</select>
+	<select id="countPagingByCategory" resultType="int">
+		select count(res_no) from restaurant_table where category = #{category}
 	</select>
 </mapper>

@@ -1,5 +1,6 @@
 package com.bendelivery.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.bendelivery.domain.Criteria;
@@ -16,4 +17,6 @@ public interface RestaurantService {
 	public void modifyInfo(RestaurantVO vo)throws Exception;
 	public List<RestaurantVO> listCri(Criteria cri)throws Exception;
 	public int countPaging(Criteria cri)throws Exception;
+	public int countPagingByCategory(String category)throws Exception;
+	public List<RestaurantVO> listCriByCategory(Criteria cri, String category) throws Exception;
 }

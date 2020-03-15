@@ -1,5 +1,6 @@
 package com.bendelivery.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -61,5 +62,17 @@ public class RestaurantServiceImpl implements RestaurantService{
 	@Override
 	public int countPaging(Criteria cri) throws Exception {
 		return dao.countPaging(cri);
+	}
+	@Override
+	public List<RestaurantVO> listCriByCategory(Criteria cri, String category) throws Exception {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("category", category);
+		map.put("pageStart", cri.getPageStart());
+		map.put("perPageNum", cri.getPerPageNum());
+		return dao.listCriByCategory(map);
+	}
+	@Override
+	public int countPagingByCategory(String category) throws Exception {
+		return dao.countPagingByCategory(category);
 	}
 }
