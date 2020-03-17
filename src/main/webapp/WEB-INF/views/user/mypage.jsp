@@ -3,8 +3,7 @@
 <%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="/WEB-INF/views/include/user_header.jsp" %>
-<script>
-</script>
+
 <style>
 /* 리스트 페이지 searchbox 사이즈 변경*/
 .searchbox{
@@ -213,6 +212,18 @@ h2{
 	width:80%;
 	height : auto;
 }
+.res-table-logo{
+	width : 80px;
+	height : 80px;
+}
+.logo-thumnail{
+	width: 80px;
+	height : 80px;
+}
+.thumbnail{
+	width: 70px;
+	height : 70px;
+}
 </style>
 <script>
 function goResPage(res_no){
@@ -335,10 +346,26 @@ $(document).ready(function(){
 					// 찜하기 식당을 보여줄 태그 
 				
 					str+="<div class='like-item col-md-6' onclick='goResPage("+this.res_no+")'>"
-						+"<div class='res-name'>"+this.res_name+"</div>"
-						+"<div class='res-info'>주문 날짜</div>"
-						+"<div class='res-menu'>음식 메뉴</div>"
-						+"</div>";
+						
+						+"<table class='res-table'>"
+						+"<tr>"
+							+"<td class='res-table-logo'>"
+								+"<div class='logo-thubmnail'>";
+									if(this.res_thumbnail != null){
+			 							str+="<img class='thumbnail' src='/user/displayFile?fileName="+this.res_thumbnail+"'>";
+									}else{
+										str+="<img class='thumbnail' src='/resources/image/no_image.png'/>";
+									}
+								str+="</div>"
+								+"</td>"
+								+"<td class='res-detail-info'>"
+								+"<div class='res-name'>"+this.res_name+"</div>"
+								+"<div class='res-review res-review-${resVO.res_no }' style='font-size:11px'></div>"
+								+"</td>"
+								+"</tr>"	
+								+"</table>"
+								+"</div>";
+					
 				
 				});
 				//리스트 목록에 넣어줌 
@@ -422,6 +449,9 @@ $(document).ready(function(){
 				<div class="no-like">
 					<div class="no-title no-like-title">찜한 음식점이 없습니다.</div>
 					<div class="btn go-btn go-order">음식점 보러가기</div>
+				</div>
+				<div class="like-item col-md-6">
+					
 				</div>
 				<!-- <div class="like-item col-md-6">
 					<div class="res-name">주문 날짜</div>

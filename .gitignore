@@ -103,9 +103,7 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-# image File
-*.jpeg
-*.jpg
-*.png
+# Upload Image File
+upload/
 
 # End of https://www.gitignore.io/api/macos,eclipse,java-web

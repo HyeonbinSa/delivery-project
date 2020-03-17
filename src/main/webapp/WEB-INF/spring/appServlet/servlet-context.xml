@@ -31,7 +31,10 @@
 	</beans:bean>
 	<!-- 파일 업로드 경로 (String Type) -->
 	<beans:bean id="uploadPath" class="java.lang.String">
-		<beans:constructor-arg value="/Users/sahyeonbin/Desktop/MyProject/Yogiyo/DeliveryProject/src/main/webapp/resources/upload"/>
+		<!-- Mac 테스트용  -->
+		<!--  <beans:constructor-arg value="/Users/sahyeonbin/Desktop/MyProject/Yogiyo/DeliveryProject/src/main/webapp/resources/upload"/>-->
+		<!-- AWS 배포 -->
+		<beans:constructor-arg value="/var/lib/tomcat8/webapps/upload"></beans:constructor-arg>
 	</beans:bean>
 	
 	
@@ -60,6 +63,8 @@
 			<mapping path="/owner/myshop"/>
 			<mapping path="/owner/menus"/>
 			<mapping path="/owner/operation"/>
+			<mapping path="/owner/review"/>
+			<mapping path="/owner/order"/>
 			<beans:ref bean="ownerInterceptor"/>
 		</interceptor>
 		
