@@ -39,5 +39,13 @@ public class OrderDAOImpl implements OrderDAO{
 	public List<OrderVO> listByResAndStatus(OrderVO vo) throws Exception {
 		return session.selectList(namespace+".listByResandStatus", vo);
 	}
+	@Override
+	public void updateIng(int order_no) throws Exception {
+		session.update(namespace+".updateIng", order_no);
+	}
+	@Override
+	public void updateDone(int order_no) throws Exception {
+		session.update(namespace+".updateDone", order_no);
+	}
 
 }

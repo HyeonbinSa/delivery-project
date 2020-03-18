@@ -224,6 +224,15 @@ h2{
 	width: 70px;
 	height : 70px;
 }
+.status{
+	width : 100%;
+	text-align : center;
+	text-weight : bold;
+	font-size : 150%;
+	background-color : #e6e6e6;
+	border : 1px solid #999;
+	border-radius : 5px;
+}
 </style>
 <script>
 function goResPage(res_no){
@@ -301,16 +310,23 @@ $(document).ready(function(){
 					str += "<div class='order-item col-md-6'><div class='order-date'>"+date.toLocaleDateString()+"</div>"
 						+"<div class='order-restaurant order-restaurant-"+order_no+"'></div>"
 						+"<div class='order-menu order-menu-"+order_no+"'></div>"
-						+"<div class='button-set'>" 
-						+"<div class='btn btn-review "
-						+this.review_status;
-					if(this.review_status == 'none'){
-						str += "' onclick='goReview("+order_no+")'>리뷰 쓰기</div>";
-					}else{
-						str += "'>리뷰 쓰기</div>";
+						+"<div class='button-set'>"; 
+					if(this.order_status == 'wait'){
+						str += "<div class='status status-wait'>접수 대기 중</div>";
+					}else if(this.order_status == 'ing'){
+						str += "<div class='status status-ing'>주문 조리 중</div>";
+					}else if(this.order_status == 'done'){
+						str += "<div class='btn btn-review "
+							+this.review_status;
+						if(this.review_status == 'none'){
+							str += "' onclick='goReview("+order_no+")'>리뷰 쓰기</div>";
+						}else{
+							str += "'>리뷰 쓰기</div>";
+						}
+							str+="<div class='btn btn-res' onclick='goResPage("+this.res_no+")'>가게 상세</div>"
+							+"<div class='btn'>주문 내역</div>";
 					}
-						str+="<div class='btn btn-res' onclick='goResPage("+this.res_no+")'>가게 상세</div>"
-						+"<div class='btn'>주문 내역</div></div></div>";
+					str += "</div></div>";
 					$.getJSON("/order/"+order_no, function(item){
 						$(item).each(function(){
 							total += (this.menu_price*this.quantity);
@@ -345,26 +361,25 @@ $(document).ready(function(){
 				$(data).each(function(){
 					// 찜하기 식당을 보여줄 태그 
 				
-					str+="<div class='like-item col-md-6' onclick='goResPage("+this.res_no+")'>"
-						
+					str +="<div class='like-item col-md-6' onclick='goResPage("+this.res_no+")'>"
 						+"<table class='res-table'>"
 						+"<tr>"
-							+"<td class='res-table-logo'>"
-								+"<div class='logo-thubmnail'>";
-									if(this.res_thumbnail != null){
-			 							str+="<img class='thumbnail' src='/user/displayFile?fileName="+this.res_thumbnail+"'>";
-									}else{
-										str+="<img class='thumbnail' src='/resources/image/no_image.png'/>";
-									}
-								str+="</div>"
-								+"</td>"
-								+"<td class='res-detail-info'>"
-								+"<div class='res-name'>"+this.res_name+"</div>"
-								+"<div class='res-review res-review-${resVO.res_no }' style='font-size:11px'></div>"
-								+"</td>"
-								+"</tr>"	
-								+"</table>"
-								+"</div>";
+						+"<td class='res-table-logo'>"
+						+"<div class='logo-thubmnail'>";
+						if(this.res_thumbnail != null){
+							str+="<img class='thumbnail' src='/user/displayFile?fileName="+this.res_thumbnail+"'>";
+						}else{
+							str+="<img class='thumbnail' src='/resources/image/no_image.png'/>";
+						}
+					str+="</div>"
+						+"</td>"
+						+"<td class='res-detail-info'>"
+						+"<div class='res-name'>"+this.res_name+"</div>"
+						+"<div class='res-review res-review-${resVO.res_no }' style='font-size:11px'></div>"
+						+"</td>"
+						+"</tr>"	
+						+"</table>"
+						+"</div>";
 					
 				
 				});

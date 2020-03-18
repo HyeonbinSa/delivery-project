@@ -93,6 +93,49 @@
 }
 </style>
 <script>
+// 주문 접수 대기 -> 조리 중 
+function goIng(order_no){
+	// ajax로 처리
+	$.ajax({
+		type : 'PUT',
+		url : '/order/goIng',
+		headers : {
+			"Content-Type" : "application/json",
+			"X-HTTP-Method-Override" : "PUT"
+		},
+		dataType : 'text',
+		data : JSON.stringify({
+			order_no : order_no
+		}),
+		success : function(result){
+			if(result == "COMPLETE_ING"){
+				alert("접수가 완료되었습니다.");
+			}
+		}
+	});
+}
+// 조리 중 -> 조리 완료 
+function goDone(order_no){// ajax로 처리
+	$.ajax({
+		type : 'PUT',
+		url : '/order/goDone',
+		headers : {
+			"Content-Type" : "application/json",
+			"X-HTTP-Method-Override" : "PUT"
+		},
+		dataType : 'text',
+		data : JSON.stringify({
+			order_no : order_no
+		}),
+		success : function(result){
+			if(result == "COMPLETE_DONE"){
+				alert("조리가 완료되었습니다.");
+			}
+		}
+	});
+	
+}
+
 $(document).ready(function(){
 	var res_no = ${resVO.res_no};
 	// 메뉴 탭 클릭 시 
@@ -105,10 +148,11 @@ $(document).ready(function(){
 		var order_status = $(this).attr("id");
 		switch(order_status){
 		case "wait":
-			var status = "주문 대기";
+			var status = "접수 대기";
 			break;
 		case "ing":
 			var status = "조리 중";
+			var btn = "완료"
 			break;
 		case "done":
 			var status = "완료";
@@ -152,10 +196,15 @@ $(document).ready(function(){
 							+"<div class='order-address'>주   소 :"+this.order_address+"</div>"
 							+"<div class='order-request'>요청사항 : "+this.order_request+"</div>"
 							+"</div>"
-							+"<div class='button-set col-md-2'>"
-							+"<div class='btn btn-receipt'>접수</div>"
-							+"</div>" 				
-							+"</div>";
+							+"<div class='button-set col-md-2'>";
+							if(order_status == "wait"){
+								str+="<div class='btn btn-receipt' onclick='goIng("+this.order_no+")'>접수</div>";
+							}
+							else if(order_status == "ing"){
+								str+="<div class='btn btn-receipt' onclick='goDone("+this.order_no+")'>완료</div>";
+							}
+							str +="</div>" 				
+								+"</div>";
 						$(".order-panel").html(str);
 						// 해당 주문의 메뉴 내역 출력 
 						$.getJSON("/order/"+this.order_no ,function(item){

@@ -11,5 +11,6 @@ public interface OrderService {
 	public void updateForReview(int order_no)throws Exception;
 	public List<OrderVO> listByRes(int res_no)throws Exception;
 	public List<OrderVO> listByResAndStatus(OrderVO vo)throws Exception;
-	
+	public void updateIng(int order_no)throws Exception;
+	public void updateDone(int order_no)throws Exception;
 }

@@ -134,15 +134,41 @@ public class OrderController {
 	}
 	// Owner 페이지에서 주문 확인하기 위한 메소드
 	@RequestMapping(value="/ownerlist", method = RequestMethod.POST)
-		public ResponseEntity<List<OrderVO>> listByResAndStatus(@RequestBody OrderVO vo)throws Exception {
-			ResponseEntity<List<OrderVO>> entity = null;
-			System.out.println(vo);
-			try {
-				entity = new ResponseEntity<List<OrderVO>>(order_service.listByResAndStatus(vo), HttpStatus.OK);
-			}catch(Exception e) {
-				e.printStackTrace();
-				entity = new ResponseEntity<List<OrderVO>>(HttpStatus.BAD_REQUEST);
-			}
-			return entity;
+	public ResponseEntity<List<OrderVO>> listByResAndStatus(@RequestBody OrderVO vo)throws Exception {
+		ResponseEntity<List<OrderVO>> entity = null;
+		System.out.println(vo);
+		try {
+			entity = new ResponseEntity<List<OrderVO>>(order_service.listByResAndStatus(vo), HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<List<OrderVO>>(HttpStatus.BAD_REQUEST);
 		}
+		return entity;
+	}
+	// 주문 접수 
+	@RequestMapping(value="/goIng", method = RequestMethod.PUT)
+	public ResponseEntity<String> updateIng(@RequestBody OrderVO vo) throws Exception{
+		ResponseEntity<String> entity = null;
+		try {
+			order_service.updateIng(vo.getOrder_no());
+			entity = new ResponseEntity<String>("COMPLETE_ING", HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
+	// 완료  
+	@RequestMapping(value="/goDone", method = RequestMethod.PUT)
+	public ResponseEntity<String> updateDone(@RequestBody OrderVO vo) throws Exception {			
+		ResponseEntity<String> entity = null;
+		try {
+			order_service.updateDone(vo.getOrder_no());
+			entity = new ResponseEntity<String>("COMPLETE_DONE", HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
 }

@@ -24,7 +24,14 @@ public class OrderVO {
 	private String payment;
 	//추가 - 리뷰 남겼는지 확
 	private String review_status;
+	private Date confirm_time;
 	
+	public Date getConfirm_time() {
+		return confirm_time;
+	}
+	public void setConfirm_time(Date confirm_time) {
+		this.confirm_time = confirm_time;
+	}
 	public String getReview_status() {
 		return review_status;
 	}

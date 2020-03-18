@@ -24,7 +24,7 @@
     margin-top: 7px;
 }
 .login-title{
-	height:40px;
+	height:60px;
 	margin-top:5px;
 	text-align:center;
 	margin-bottom:10px;
@@ -108,7 +108,7 @@ $(document).ready(function(){
 <!-- new Login Start -->
 <div class="login-container">
 	<form class="login-form" method="post" action="/user/loginPost">
-		<div class="login-title"><a href="/"><img class="container-logo-img" style="width:100px;"src="/images/logo-yogiyo.png" alt="로고이미지" ></a></div>
+		<div class="login-title"><a href="/"><img class="container-logo-img" style="width:100px;"src="/images/new_logo.png" alt="로고이미지" ></a></div>
 		<!-- 입력폼 시작 -->
 		<input type="text" class="form-control" id="loginEmail" name="member_id" placeholder="이메일 주소 입력(필수)">
 		<span class="error-span id-error">이메일 형식이 맞지 않습니다.(ex. bendelivery@benworld.com)</span>

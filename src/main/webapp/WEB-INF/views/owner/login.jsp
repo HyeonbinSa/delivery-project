@@ -32,7 +32,7 @@ if(result == "already"){
     margin-top: 7px;
 }
 .login-title{
-	height:40px;
+	height:60px;
 	margin-top:5px;
 	text-align:center;
 	margin-bottom:10px;
@@ -90,7 +90,7 @@ if(result == "already"){
 <!-- new Login Start -->
 <div class="login-container">
 	<form class="login-form" method="post">
-		<div class="login-title"><a href="/"><img class="container-logo-img" style="width:100px;"src="/images/logo-yogiyo.png" alt="로고이미지" ></a></div>
+		<div class="login-title"><a href="/"><img class="container-logo-img" style="width:100px;"src="/images/new_logo.png" alt="로고이미지" ></a></div>
 		<!-- 입력폼 시작 -->
 		<input type="text" class="form-control" id="loginEmail" name="owner_id" placeholder="아이디 입력">
 		<input type="password" class="form-control" id="loginPw" name="owner_pw" placeholder="비밀번호 입력">

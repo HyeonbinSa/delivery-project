@@ -30,4 +30,12 @@
 	<update id="updateForReview">
 		update order_table set review_status = 'exist' where order_no = #{order_no}
 	</update>
+	<!-- 조리 중으로 업데이트  -->
+	<update id="updateIng">
+		update order_table set order_status = 'ing', confirm_time = now() where order_no = #{order_no}
+	</update>
+	<!-- 조리 완료 없데이트  -->
+	<update id="updateDone">
+		update order_table set order_status = 'done', confirm_time = now() where order_no = #{order_no}
+	</update> 
 </mapper>

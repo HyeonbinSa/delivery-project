@@ -182,7 +182,7 @@ if(result == "checking"){
 				<div class="second-item">입점신청</div>
 			</div>
 			<div class="col-md-4">
-				<div class="second-item">알뜰쇼핑</div>
+				<div class="second-item">입점 신청 방법</div>
 			</div>
 			<div class="col-md-4">
 				<div class="second-item">이용약관</div>
