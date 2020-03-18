@@ -48,6 +48,7 @@ public class ReplyController {
 		}
 		return entity;
 	}
+	
 	@RequestMapping(value="/count", method = RequestMethod.POST)
 	public ResponseEntity<Integer> getCount(@RequestBody ReplyVO vo)throws Exception {
 		ResponseEntity<Integer> entity = null;

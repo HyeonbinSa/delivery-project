@@ -330,6 +330,26 @@ pre{
 	padding :20px;
 	display : none;
 }
+.reply{
+	background : #f0f0f0;
+	width : 100%;
+	padding : 10px;
+	display : none;
+}
+.reply-owner{
+	font-weight : bold;
+	font-size : 130%;
+	padding : 5px;
+}
+.reply-date{
+	color : #999;
+	font-size : 80%;
+}
+.reply-content{
+	margin-top : 15px;
+	color : black;
+	font-size: 110%;
+}
 </style>
 <script>
 function getCartList(){
@@ -507,6 +527,34 @@ function checkLike(res_no, member_no){
 				$(".like-res").addClass("active-like");
 			}else if(result == 'NOLIKE'){
 				$(".like-res").removeClass("active-like");
+			}
+		}
+	});
+}
+// 사장님 답글 가져오기 
+function getReply(review_no){
+	$.ajax({
+		type : 'post',
+		url : '/reply/read',
+		headers : {
+			"Content-Type" : "application/json",
+			"X-HTTP-Method-Override" : "POST"
+		},
+		dataType : 'JSON',
+		data : JSON.stringify({
+			review_no : review_no
+		}),
+		success : function(result){
+			if(result != null){
+				// reply내용 가져옴 
+				var reply_content = result.reply_content;
+				var date = new Date(result.reg_date);
+				var str = "";
+				str += "<i class='glyphicon glyphicon-hand-right'></i><span class='reply-owner'>사장님</span>"
+					+"<span class='reply-date'>"+date.toLocaleDateString()+"</span>"
+					+"<div class='reply-content'>"+reply_content+"</div>";
+				$(".reply-"+review_no).html(str);
+				$(".reply-"+review_no).show();
 			}
 		}
 	});
@@ -743,7 +791,9 @@ $(document).ready(function(){
 					str+="<div class='review-content'>"
 						+this.review_content
 						+"</div>"
+						+"<div class='reply reply-"+this.review_no+"'></div>"// 여기에 사장님 댓글이 있으면 들어가야함.
 						+"</div>";
+					getReply(this.review_no);
 				});
 				$(".review-list").html(str);
 			}
