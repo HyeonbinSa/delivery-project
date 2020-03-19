@@ -205,7 +205,7 @@ h2{
 .review_img{
 	text-align : center;
 	width : 100%;
-	height : 230px;
+	height : 228px;
 	overflow : hidden;
 }
 .image{
@@ -272,6 +272,67 @@ function getReply(res_no){
 			if(result != 0){
 				$(".reply-count-"+res_no).html(" | 사장님 댓글 " + result +"개");
 			}
+		}
+	});
+}
+function updateReview(review_no){
+	location.href = "/user/updateReview/"+review_no;
+}
+function deleteReview(review_no){
+	// ajax로 처리
+	$.ajax({
+		type : 'DELETE',
+		url : '/review/delete',
+		headers : {
+			"Content-Type" : "application/json",
+			"X-HTTP-Method-Override" : "DELETE"
+		},
+		dataType : 'text',
+		data : JSON.stringify({
+			review_no : review_no
+		}),
+		success : function(result){
+			if(result == "REVIEWDELETE"){
+				alert("리뷰를 삭제하였습니다.");
+				getReviewList();
+			}
+		}
+	});
+}
+// 접속한 사용자가 작성한 리뷰를 가져옴 
+function getReviewList(){
+	$.getJSON("/review/list" ,function(data){
+		var str = "";
+		if(data.length != 0){
+			// 데이터가 들어있는 만큼 반복
+			$(data).each(function(){
+				// 리뷰를 보여줄 태그
+				str+="<div class='review-item col-md-6 review-item-"+this.review_no+"'>"
+					+"<div class='review-res-name'>"+this.res_name+"</div>"
+					+"<div class='review-star'><span>별점 : </span>"
+					+"<span class='star-set'>";
+					for(var num=1; num<=5; num++){
+						if(num <= this.star){
+							str+="<span class='glyphicon glyphicon-star on'></span>"
+						}else{
+							str+="<span class='glyphicon glyphicon-star'></span>"
+						}
+					}
+				str+="</span>"+"</div>";
+				if(this.review_img != "" && this.review_img != null){
+					str+="<div class='review_img'>"+"<img class='image' src='displayFile?fileName="+this.review_img+"'/></div>";
+				}
+				str +="<div class='review-content'>"
+					+this.review_content
+					+"</div>"
+					+"<div class='review-button-set'>"
+						+"<div class='btn btn-update' onclick=\"location.href='/user/updateReview/"+this.review_no+"'\">리뷰 수정</div>"
+						+"<div class='btn btn-delete' onclick='deleteReview("+this.review_no+")'>리뷰 삭제</div></div></div>";
+			});
+			$(".review-list").html(str);
+		}
+		else{
+			$(".no-review").show();
 		}
 	});
 }
@@ -397,40 +458,7 @@ $(document).ready(function(){
 	// 메뉴에서 리뷰관리를 눌렀을 때 
 	$("#review-panel").on("click", function(){
 		// 해당 사용자가 작성한 리뷰를 가져옴 
-		$.getJSON("/review/list" ,function(data){
-			var str = "";
-			if(data.length != 0){
-				// 데이터가 들어있는 만큼 반복
-				$(data).each(function(){
-					// 리뷰를 보여줄 태그
-					str+="<div class='review-item col-md-6'>"
-						+"<div class='review-res-name'>"+this.res_name+"</div>"
-						+"<div class='review-star'><span>별점 : </span>"
-						+"<span class='star-set'>";
-						for(var num=1; num<=5; num++){
-							if(num <= this.star){
-								str+="<span class='glyphicon glyphicon-star on'></span>"
-							}else{
-								str+="<span class='glyphicon glyphicon-star'></span>"
-							}
-						}
-					str+="</span>"+"</div>";
-					if(this.review_img != "" && this.review_img != null){
-						str+="<div class='review_img'>"+"<img class='image' src='displayFile?fileName="+this.review_img+"'/></div>";
-					}
-					str +="<div class='review-content'>"
-						+this.review_content
-						+"</div>"
-						+"<div class='review-button-set'>"
-							+"<div class='btn btn-update'>리뷰 수정</div>"
-							+"<div class='btn btn-delete'>리뷰 삭제</div></div></div>";
-				});
-				$(".review-list").html(str);
-			}
-			else{
-				$(".no-review").show();
-			}
-		});
+		getReviewList();
 	});
 });
 </script>

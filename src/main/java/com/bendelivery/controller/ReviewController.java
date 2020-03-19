@@ -84,7 +84,35 @@ public class ReviewController {
 		
 		return entity;
 	}
+	// 수정하기 위해서 리뷰 번호로 가져옴 
+	@RequestMapping(value="/get/{review_no}", method = RequestMethod.GET)
+	public ResponseEntity<ReviewVO> getReview(@PathVariable("review_no") int review_no)throws Exception{
+		ResponseEntity<ReviewVO> entity = null;
+		try {
+			ReviewVO review = review_service.getReview(review_no);
+			entity = new ResponseEntity<ReviewVO>(review, HttpStatus.OK);
+		}catch(Exception e) {
+			entity = new ResponseEntity<ReviewVO>(HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
 	
+	// 리뷰 수정
+	@RequestMapping(value="/update", method = RequestMethod.PUT)
+	public ResponseEntity<String> updateReview(@RequestBody ReviewVO vo)throws Exception{
+		ResponseEntity<String> entity;
+		System.out.println("Review Controller - 리뷰 업데이트 ");
+		try {
+			review_service.updateReview(vo);
+			entity = new ResponseEntity<String>("REVIEWUPDATE", HttpStatus.OK);
+		}catch(Exception e) {
+			entity = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
+	
+	// 식당 번호별 리뷰 목록 가져오기 
 	@RequestMapping(value="/list/{res_no}", method = RequestMethod.GET)
 	public ResponseEntity<List<ReviewVO>> listByRes(@PathVariable int res_no)throws Exception{
 		ResponseEntity<List<ReviewVO>> entity = null;
@@ -96,7 +124,19 @@ public class ReviewController {
 		}
 		return entity;
 	}
-	
+	// 리뷰 삭제 
+	@RequestMapping(value="/delete", method = RequestMethod.DELETE)
+	public ResponseEntity<String> deleteReview(@RequestBody ReviewVO vo)throws Exception{
+		ResponseEntity<String> entity;
+		System.out.println("Review Controller - 리뷰 업데이트 ");
+		try {
+			review_service.deleteReview(vo.getReview_no());
+			entity = new ResponseEntity<String>("REVIEWDELETE", HttpStatus.OK);
+		}catch(Exception e) {
+			entity = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
 	// 파일 업로드
 	@ResponseBody
 	@RequestMapping(value="/uploadImage", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")

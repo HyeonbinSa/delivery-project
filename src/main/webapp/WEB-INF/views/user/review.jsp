@@ -60,7 +60,7 @@
 	padding : 0px 20px;
 	float:right;
 }
-.btn-review{
+.btn-review, .btn-update{
 	width: 100%;
     height: 40px;
     border-radius: 0;
@@ -73,14 +73,14 @@
 .review-file{
 	width : 100%;
 	text-align : center;
-	padding : 20px;
-	
+	margin : 0px;
+	background : #e6e6e6;
 }
 /* 파일 넣을 공간 */
 .fileDrop{
 	padding : 30px;
 	background : #fff;
-	width : 100%;
+
 	height : 200px;
 	border : 1px solid #999;
 }
@@ -92,6 +92,13 @@
 .camera-icon{
 	font-size : 200%;
 	padding : 10px;
+}
+.review-img{
+	width : 100%;
+}
+.uploadedList{
+	height : auto;
+	display : none;
 }
 </style>
 <script>
@@ -117,7 +124,62 @@ function getImageLink(fileName){
 	var end = fileName.substr(14);
 	return front + end;
 }
+// 리뷰 수정하려고 들어온 경우
+function getReview(review_no){
+	$.getJSON("/review/get/"+review_no ,function(data){
+		if(data != null){
+			$(".review-content").text(data.review_content);
+			$(".limit-text").html(data.review_content.length+"/300");
+			$(".star").val(data.star);
+			for(var i =1; i<=data.star; i++){
+				$("#"+i).addClass("on");
+			}
+			$(".order_no").val(data.order_no);
+			$(".res_no").val(data.res_no);
+			if(data.review_img != null && data.review_img != ''){
+				$(".review_img").val(data.review_img);
+				$(".fileDrop").addClass("col-md-6");
+				$(".uploadedList").addClass("col-md-6");
+				$(".uploadedList").show();
+				$(".uploadedList").html("<img class='review-img' src='displayFile?fileName="+data.review_img+"'/>");
+			}
+			$(".submitbtn").html("<div class='btn btn-default btn-update' onclick='updateReview("+data.review_no+")'>리뷰 수정</div>");
+		}
+	});
+
+}
+// 리뷰 수정 메소드
+function updateReview(review_no){
+	var review_content =  $(".review-content").val();
+	var review_img = $(".review_img").val();
+	var star = $(".star").val();
+	$.ajax({
+		type : 'put',
+		url : '/review/update',
+		headers : {
+			"Content-Type" : "application/json",
+			"X-HTTP-Method-Override" : "PUT"
+		},
+		dataType : 'text',
+		data : JSON.stringify({
+			review_no : review_no,
+			review_content : review_content,
+			star : star,
+			review_img : review_img
+		}),
+		success : function(result){
+			if(result == "REVIEWUPDATE"){
+				// 마이페이지로 이동
+				$(location).attr("href", "/user/mypage")
+				alert("리뷰가 수정되었습니다.");
+			}
+		}
+	});
+}
 $(document).ready(function(){
+	if('${review_no}' != ''){
+		getReview('${review_no}');
+	}
 	// 별 체크한 만큼 노란색 별표시 하기 위함 
 	$('.star-set span').click(function(){
          $(this).parent().children("span").removeClass("on");   
@@ -130,6 +192,7 @@ $(document).ready(function(){
 		var content = $(this).val();
 		$(".limit-text").html(content.length+"/300");
 	});
+	// 리뷰 등록
 	$(".btn-review").on("click", function(){
 		var res_name = $(".res-name").html();
 		var res_no = $(".res_no").val();
@@ -184,6 +247,7 @@ $(document).ready(function(){
 			}
 		});
 	});
+	
 	// 파일 업로드를 위함
 	$(".fileDrop").on("dragenter dragover", function(event){
 		// 기본 동작이 작동하지 않도록 설정 
@@ -212,15 +276,17 @@ $(document).ready(function(){
 			success : function(data){
 				var str = "";
 				if(checkImageType(data)){
-					str += "<div>"
+					str += ""
 						+"<a href='displayFile?fileName="+getImageLink(data)+"'>"
-						+"<img src='displayFile?fileName="+data+"'/>"
-						+"</a><small data-src="+data+">X</small></div>";
+						+"<img class='review-img' src='displayFile?fileName="+getImageLink(data)+"'/>"
+						+"</a>";
 					alert(data);
 				}
 				$(".review_img").val(getImageLink(data));
-				$(".fileDrop").hide();
-				$(".uploadedList").append(str);
+				$(".fileDrop").addClass("col-md-6");
+				$(".uploadedList").addClass("col-md-6");
+				$(".uploadedList").show();
+				$(".uploadedList").html(str);
 			}
 		});
 	});
@@ -267,12 +333,12 @@ $(document).ready(function(){
 				<textarea name="review_content" class="form-control review-content" maxlength="300" rows="5"></textarea>
 				<div class="text-limit"><span class="limit-text">0/300</span></div>
 			</div>
-			<div class="review-file">
+			<div class="review-file row">
+				<div class="uploadedList"></div>
 				<div class="fileDrop">
 					<div class="fileDrop-title">첨부파일을 드래그해주세요.</div>
 					<i class="glyphicon glyphicon-camera camera-icon"></i>
 				</div>
-				<div class="uploadedList"></div>
 			</div>
 			<div class="submitbtn">
 				<div class="btn btn-default btn-review">리뷰 등록</div>

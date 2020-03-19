@@ -35,4 +35,19 @@ public class ReviewDAOImpl implements ReviewDAO {
 	public void updateStatus(int review_no) throws Exception {
 		session.update(namespace+".updateStatus", review_no);
 	}
+
+	@Override
+	public ReviewVO getReview(int review_no) throws Exception {
+		return session.selectOne(namespace+".getReview", review_no);
+	}
+
+	@Override
+	public void updateReview(ReviewVO vo) throws Exception {
+		session.update(namespace+".updateReview", vo);
+	}
+
+	@Override
+	public void deleteReview(int review_no) throws Exception {
+		session.delete(namespace+".delete", review_no);
+	}
 }

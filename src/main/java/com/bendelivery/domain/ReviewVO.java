@@ -14,7 +14,15 @@ public class ReviewVO {
 	private String member_nickname;	// 닉네임
 	private String review_img;		// 리뷰 이미지 
 	private String reply_status;	// 답변 여부
+	private Date modify_date; 		// 리뷰 수정 
 	
+	
+	public Date getModify_date() {
+		return modify_date;
+	}
+	public void setModify_date(Date modify_date) {
+		this.modify_date = modify_date;
+	}
 	public String getReply_status() {
 		return reply_status;
 	}

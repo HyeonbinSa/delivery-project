@@ -33,4 +33,19 @@ public class ReviewServiceImpl implements ReviewService{
 	public void updateStatus(int review_no) throws Exception {
 		dao.updateStatus(review_no);
 	}
+
+	@Override
+	public ReviewVO getReview(int review_no) throws Exception {
+		return dao.getReview(review_no);
+	}
+
+	@Override
+	public void updateReview(ReviewVO vo) throws Exception {
+		dao.updateReview(vo);
+	}
+
+	@Override
+	public void deleteReview(int review_no) throws Exception {
+		dao.deleteReview(review_no);
+	}
 }

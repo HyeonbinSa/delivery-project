@@ -8,7 +8,6 @@
 		insert into review_table (star, review_content, member_no, order_no, res_no, res_name, member_nickname , review_img)
 		values (#{star}, #{review_content},#{member_no},#{order_no},#{res_no}, #{res_name}, #{member_nickname}, #{review_img})
 	</insert>
-	<!-- 리뷰 수정  -->
 	
 	<!--  리뷰 삭제 -->
 	<delete id="delete">
@@ -24,5 +23,15 @@
 	</select>
 	<update id="updateStatus">
 		update review_table set reply_status = 'exist' where review_no = #{review_no}
+	</update>
+	<!-- 리뷰 수정하기 위해 review_no를 통해 review 가져옴 -->
+	<select id="getReview" resultType="ReviewVO">
+		select * from review_table where review_no = #{review_no}
+	</select>
+	<!-- 리뷰 수정  -->
+	<update id="updateReview">
+		update review_table
+		set review_content = #{review_content}, star = #{star}, review_img = #{review_img}, modify_date = now()
+		where review_no = #{review_no}
 	</update>
 </mapper>

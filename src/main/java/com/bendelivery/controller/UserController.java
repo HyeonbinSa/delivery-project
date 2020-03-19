@@ -234,6 +234,12 @@ public class UserController {
 		model.addAttribute("res_name", res_name);
 		return "/user/review";
 	}
+	@RequestMapping(value="/updateReview/{review_no}", method = RequestMethod.GET)
+	public String updateReviewGET(@PathVariable("review_no") int review_no, Model model) throws Exception{
+		model.addAttribute("review_no", review_no);
+		
+		return "/user/review";
+	}
 	
 	@RequestMapping(value="/testhome", method = RequestMethod.GET)
 	public void testHome() {
@@ -241,7 +247,7 @@ public class UserController {
 	}
 	
 	@ResponseBody
-	@RequestMapping("/displayFile")
+	@RequestMapping(value= {"/displayFile","/updateReview/displayFile"})
 	public ResponseEntity<byte[]> displayFile(String fileName)throws Exception{
 		InputStream in = null;
 		// 실제 파일 데이터를 결과로 받기 위함.
