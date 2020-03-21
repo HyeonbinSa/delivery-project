@@ -22,7 +22,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.WebUtils;
 
 import com.bendelivery.domain.AdminVO;
+import com.bendelivery.domain.Criteria;
 import com.bendelivery.domain.MemberVO;
+import com.bendelivery.domain.PageMaker;
 import com.bendelivery.domain.RestaurantVO;
 import com.bendelivery.dto.AdminLoginDTO;
 import com.bendelivery.service.AdminService;
@@ -62,11 +64,27 @@ public class AdminController {
 		rttr.addFlashAttribute("result", "success");
 		return "redirect:/admin/list";
 	}
-	
-	@RequestMapping(value= {"/list", "/newlist"}, method = RequestMethod.GET)
-	public void listGET(Model model)throws Exception {
-		model.addAttribute("list", service.getList());
-		logger.info("list get------------------------------------");
+	// 입점한 식당 목록 
+	@RequestMapping(value= "/newlist", method = RequestMethod.GET)
+	public void listGET(Criteria cri, Model model)throws Exception {
+		// 페이징 
+		PageMaker pm = new PageMaker();
+		pm.setCri(cri);
+		pm.setTotalCount(service.countPagingByPermission("none"));
+		model.addAttribute("list", service.listCriByPermission(cri, "none"));
+		model.addAttribute("pageMaker", pm);
+		logger.info("Admin Page - (permit:none)list get------------------------------------");
+	}
+	// 입점 신청한 식당 목록 
+	@RequestMapping(value= "/list", method = RequestMethod.GET)
+	public void listPermittedGET(Criteria cri, Model model)throws Exception {
+		// 페이징 
+		PageMaker pm = new PageMaker();
+		pm.setCri(cri);
+		pm.setTotalCount(service.countPagingByPermission("OK"));
+		model.addAttribute("list", service.listCriByPermission(cri, "OK"));
+		model.addAttribute("pageMaker", pm);
+		logger.info("Admin Page - (permit:OK)list get------------------------------------");
 	}
 	
 	@RequestMapping(value="/read", method = RequestMethod.GET)

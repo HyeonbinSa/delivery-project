@@ -75,4 +75,16 @@ public class RestaurantServiceImpl implements RestaurantService{
 	public int countPagingByCategory(String category) throws Exception {
 		return dao.countPagingByCategory(category);
 	}
+	@Override
+	public int countPagingByPermission(String permission) throws Exception {
+		return dao.countPagingByPermission(permission);
+	}
+	@Override
+	public List<RestaurantVO> listCriByPermission(Criteria cri, String permission) throws Exception {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("permission", permission);
+		map.put("pageStart", cri.getPageStart());
+		map.put("perPageNum", cri.getPerPageNum());
+		return dao.listCriByPermission(map);
+	}
 }

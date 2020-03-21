@@ -18,5 +18,7 @@ public interface RestaurantDAO {
 	public List<RestaurantVO> listCri(Criteria cri)throws Exception;
 	public int countPaging(Criteria cri)throws Exception;
 	public int countPagingByCategory(String category)throws Exception;
+	public int countPagingByPermission(String permission)throws Exception;
 	public List<RestaurantVO> listCriByCategory(HashMap<String, Object> map)throws Exception;
+	public List<RestaurantVO> listCriByPermission(HashMap<String, Object> map)throws Exception;
 }

@@ -18,5 +18,7 @@ public interface RestaurantService {
 	public List<RestaurantVO> listCri(Criteria cri)throws Exception;
 	public int countPaging(Criteria cri)throws Exception;
 	public int countPagingByCategory(String category)throws Exception;
+	public int countPagingByPermission(String permission)throws Exception;
 	public List<RestaurantVO> listCriByCategory(Criteria cri, String category) throws Exception;
+	public List<RestaurantVO> listCriByPermission(Criteria cri, String permission) throws Exception;
 }

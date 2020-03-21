@@ -30,13 +30,16 @@
  .login-admin{
  	margin-right:5px;
  }
+ .header-nav{
+ 	margin-bottom : 10px;
+ }
 </style>	
 <body>
 <div class="wrapper">
 	<!-- Header Start -->
 	<div class="header">
 		<div class="header-nav">
-			<a href="/admin/home"><img class="logo-img" style="width:100px;"src="/images/logo-yogiyo.png" alt="로고이미지" ></a>
+			<a href="/admin/home"><img class="logo-img" style="width:100px;"src="/images/new_logo.png" alt="로고이미지" ></a>
 			<div class="navbar">
 				 <c:if test="${admin_login != null}">
 				 	<strong><span class="login-admin">${admin_login.admin_id }</span></strong>	
@@ -57,13 +60,13 @@
 				<ul class="nav navbar-nav category-nav-ul">
 					<li><a href="/admin/newlist">입점 신청 관리</a></li>
 					<li><a href="/admin/list">입점 가게 관리</a></li>
-					<li><a>메뉴 관리</a></li>
-					<li><a>영업일 관리</a></li>
-					<li><a>배달 지역 관리</a></li>
 					<li><a>할인 관리</a></li>
 					<li><a>리뷰 관리</a></li>
-					<li><a>영업 시간 관리</a></li>
 					<li><a>회원 관리</a></li>
+					<li><a></a></li>
+					<li><a></a></li>
+					<li><a></a></li>
+					<li><a></a></li>
 				</ul>
 			</div>
 		</nav>

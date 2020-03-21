@@ -167,7 +167,7 @@ ul {
     z-index: 10;
 }
 .logo {
- background-image: url( "images/logo-yogiyo.png" );
+ background-image: url( "images/new_logo.png" );
 }
 </style>
 

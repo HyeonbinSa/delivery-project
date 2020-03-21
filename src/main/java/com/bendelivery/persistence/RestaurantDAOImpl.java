@@ -67,5 +67,13 @@ public class RestaurantDAOImpl implements RestaurantDAO{
 	public int countPagingByCategory(String category) throws Exception {
 		return session.selectOne(namespace+".countPagingByCategory", category);
 	}
+	@Override
+	public int countPagingByPermission(String permission) throws Exception {
+		return session.selectOne(namespace+".countPagingByPermission", permission);
+	}
+	@Override
+	public List<RestaurantVO> listCriByPermission(HashMap<String, Object> map) throws Exception {
+		return session.selectList(namespace+".listCriByPermission", map);
+	}
 	
 }
