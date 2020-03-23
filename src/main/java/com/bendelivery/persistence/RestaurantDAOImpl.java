@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.bendelivery.domain.Criteria;
 import com.bendelivery.domain.RestaurantVO;
+import com.bendelivery.domain.SearchCriteria;
 
 @Repository
 public class RestaurantDAOImpl implements RestaurantDAO{
@@ -74,6 +75,14 @@ public class RestaurantDAOImpl implements RestaurantDAO{
 	@Override
 	public List<RestaurantVO> listCriByPermission(HashMap<String, Object> map) throws Exception {
 		return session.selectList(namespace+".listCriByPermission", map);
+	}
+	@Override
+	public int countPagingBySearch(SearchCriteria scri) throws Exception {
+		return session.selectOne(namespace+".countPagingBySearch", scri);
+	}
+	@Override
+	public List<RestaurantVO> listSearch(SearchCriteria scri) throws Exception {
+		return session.selectList(namespace+".listSearch", scri);
 	}
 	
 }

@@ -78,4 +78,24 @@
 	<select id="countPagingByCategory" resultType="int">
 		select count(res_no) from restaurant_table where category = #{category}
 	</select>
+	<!-- 검색 키워드에 따른 식당 개수를 가져옴 -->
+	<select id="countPagingBySearch" resultType="int">
+		<![CDATA[
+			select count(res_no)
+			from restaurant_table
+			where res_name like CONCAT('%', #{keyword}, '%') OR  
+			res_no in (select res_no from menu_table where menu_name like CONCAT('%', #{keyword}, '%'))
+		]]>
+	</select>
+	<!-- 검색 List -->
+	<select id="listSearch" resultType="RestaurantVO">
+		<![CDATA[
+			select *
+			from restaurant_table
+			where res_name like CONCAT('%', #{keyword}, '%') OR  
+			res_no in (select res_no from menu_table where menu_name like CONCAT('%', #{keyword}, '%'))
+			order by res_no desc, res_regdate desc
+			limit #{pageStart}, ${perPageNum}
+		]]>
+	</select>
 </mapper>

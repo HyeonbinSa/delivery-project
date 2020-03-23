@@ -11,18 +11,43 @@
 <link rel="stylesheet" href="/resources/css/mycss.css">
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="/resources/js/bootstrap.js"></script>
+<style>
+.search-input{
+	display : none;
+	border-radius : 5px;
+}
+.res-search{
+	border-radius : 5px;
+}
+.real-search{
+	margin-top: 10px;
+    height: 30px;
+	border-radius : 5px;
+	display:none;
+}
+</style>
 </head>
 <body>
 <script>
+// 실제 input 데이터로 검색 
+function search(){
+	var keyword = $(".search-input").val();
+	location.href='/user/slist/'+encodeURIComponent(keyword);
+}
 $(document).ready(function(){
 	var category = '${category}';
 	$(".category-nav-ul").children().removeClass('active');
 	if(category == ""){
 		$(".category-nav-ul").children(".전체보기").addClass('active');
-		return;
+	}else{
+		$(".category-nav-ul").children("."+category).addClass('active');
 	}
-	$(".category-nav-ul").children("."+category).addClass('active');
-	
+	// 검색 버튼 클릭시 검색화면 보이게 
+	$(".res-search").on("click", function(){
+		$(".res-search").hide();
+		$(".real-search").show();
+		$(".search-input").show();
+	})
 });
 </script>
 <div class="wrapper">
@@ -48,7 +73,7 @@ $(document).ready(function(){
 	<!-- SerchBox Start -->
 	<div class="searchbox" style="background-image:url('/images/bg-top.png');background-position: center;">
 		<div class="main-search">
-			<button class="btn btn-default glyphicon glyphicon-map-marker"></button>
+			<button class="btn btn-default glyphicon glyphicon-map-marker" ></button>
 			<div class="input-group search-group">
 				<input type="text" class="form-control search-address" placeholder="건물명, 도로명, 지번으로 검색하세요.">
 				<span class="input-group-btn">
@@ -63,7 +88,8 @@ $(document).ready(function(){
 		<nav class="navbar navbar-default category-navbar">
 			<div class="collapse navbar-collapse category-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav category-nav-ul">
-					<li><button class="glyphicon glyphicon-search res-search"></button></li>
+					<li><button class="glyphicon glyphicon-search res-search" ></button>
+					<input type="text" class="search-input"><button class="glyphicon glyphicon-search real-search" onclick="search()"></button></li>
 					<li class="전체보기"><a href="/user/list">전체보기</a></li>
 					<li class="1인분"><a href="/user/list/1인분">1인분</a></li>
 					<li class="프랜차이즈"><a href="/user/list/프랜차이즈">프랜차이즈</a></li>

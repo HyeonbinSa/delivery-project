@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.bendelivery.domain.Criteria;
 import com.bendelivery.domain.RestaurantVO;
+import com.bendelivery.domain.SearchCriteria;
 import com.bendelivery.persistence.RestaurantDAO;
 
 @Service
@@ -86,5 +87,13 @@ public class RestaurantServiceImpl implements RestaurantService{
 		map.put("pageStart", cri.getPageStart());
 		map.put("perPageNum", cri.getPerPageNum());
 		return dao.listCriByPermission(map);
+	}
+	@Override
+	public int countPagingBySearch(SearchCriteria scri) throws Exception {
+		return dao.countPagingBySearch(scri);
+	}
+	@Override
+	public List<RestaurantVO> listSearch(SearchCriteria scri) throws Exception {
+		return dao.listSearch(scri);
 	}
 }

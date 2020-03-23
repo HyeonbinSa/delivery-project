@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.bendelivery.domain.Criteria;
 import com.bendelivery.domain.RestaurantVO;
+import com.bendelivery.domain.SearchCriteria;
 
 public interface RestaurantService {
 	public void register(RestaurantVO vo)throws Exception;
@@ -21,4 +22,6 @@ public interface RestaurantService {
 	public int countPagingByPermission(String permission)throws Exception;
 	public List<RestaurantVO> listCriByCategory(Criteria cri, String category) throws Exception;
 	public List<RestaurantVO> listCriByPermission(Criteria cri, String permission) throws Exception;
+	public int countPagingBySearch(SearchCriteria scri)throws Exception;
+	public List<RestaurantVO> listSearch(SearchCriteria scri)throws Exception;
 }

@@ -42,6 +42,7 @@ import com.bendelivery.domain.OrderVO;
 import com.bendelivery.domain.PageMaker;
 import com.bendelivery.domain.ResOperationVO;
 import com.bendelivery.domain.RestaurantVO;
+import com.bendelivery.domain.SearchCriteria;
 import com.bendelivery.dto.UserLoginDTO;
 import com.bendelivery.service.CartService;
 import com.bendelivery.service.LikeService;
@@ -166,7 +167,20 @@ public class UserController {
 		logger.info("user - list page get------------------------------------");
 		logger.info("Page Maker total = " + pm.getTotalCount() + "------------------------------------");
 	}
-	
+	// 검색 결과 리스트 출력 페이지
+	@RequestMapping(value="/slist/{keyword}", method = RequestMethod.GET)
+	public String listBySearch(@PathVariable("keyword") String keyword, SearchCriteria cri, Model model)throws Exception{
+		model.addAttribute("keyword", keyword);
+		cri.setKeyword(keyword);
+		PageMaker pm = new PageMaker();
+		pm.setCri(cri);
+		pm.setTotalCount(res_service.countPagingBySearch(cri));
+		model.addAttribute("pageMaker", pm);
+		model.addAttribute("list", res_service.listSearch(cri));
+		logger.info("user - "+ keyword +"list page get------------------------------------");
+		logger.info("Page Maker total = " + pm.getTotalCount() + "------------------------------------");
+		return "/user/list";
+	}
 	// 카테고리별 리스트 출력 페이지
 	@RequestMapping(value="/list/{category}", method = RequestMethod.GET)
 	public String listByCategory(@PathVariable("category") String category, Criteria cri, Model model)throws Exception{

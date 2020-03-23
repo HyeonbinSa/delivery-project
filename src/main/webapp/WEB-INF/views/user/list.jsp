@@ -227,7 +227,7 @@ function getOperation(res_no){
 				</c:if>
 			</c:if>
 			<!-- 전체보기 => 카테고리가 없을때  -->
-			<c:if test="${category == null }">
+			<c:if test="${category == null && keyword == null}">
 				<c:if test="${pageMaker.prev }">
 					<li><a href="list${pageMaker.makeQuery(startPage -1) }">&laquo;</a></li>
 				</c:if>
@@ -237,6 +237,19 @@ function getOperation(res_no){
 				</c:forEach>
 				<c:if test="${pageMaker.next && pageMaker.endPage > 0 }">
 					<li><a href="list${pageMaker.makeQuery(endPage + 1) }">&raquo;</a></li>
+				</c:if>
+			</c:if>
+			<!-- 검색 목록 리스트  -->
+			<c:if test="${keyword != null }">
+				<c:if test="${pageMaker.prev }">
+					<li><a href="${pageMaker.makeQuery(startPage -1) }">&laquo;</a></li>
+				</c:if>
+				<c:forEach begin="${pageMaker.startPage }" end ="${pageMaker.endPage }" var="index">
+					<li <c:out value="${pageMaker.cri.page == index ? 'class= active' : '' }"/>>
+					<a href="${pageMaker.makeQuery(index) }">${index }</a>
+				</c:forEach>
+				<c:if test="${pageMaker.next && pageMaker.endPage > 0 }">
+					<li><a href="${pageMaker.makeQuery(endPage + 1) }">&raquo;</a></li>
 				</c:if>
 			</c:if>
 			</ul>

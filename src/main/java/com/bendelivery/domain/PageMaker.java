@@ -1,5 +1,8 @@
 package com.bendelivery.domain;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -104,6 +107,5 @@ public class PageMaker {
 	public String makeQuery(int page) {
 		UriComponents uri = UriComponentsBuilder.newInstance().queryParam("page", page).queryParam("perPageNum", cri.getPerPageNum()).build();
 		return uri.toUriString();
-		
 	}
 }
