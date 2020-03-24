@@ -421,22 +421,23 @@ $(document).ready(function(){
 				// 데이터가 들어있는 만큼 반복
 				$(data).each(function(){
 					// 찜하기 식당을 보여줄 태그 
-				
 					str +="<div class='like-item col-md-6' onclick='goResPage("+this.res_no+")'>"
 						+"<table class='res-table'>"
 						+"<tr>"
 						+"<td class='res-table-logo'>"
 						+"<div class='logo-thubmnail'>";
+						// 썸네일 유무 
 						if(this.res_thumbnail != null){
+							// 있으면 썸네일 보여줌 
 							str+="<img class='thumbnail' src='/user/displayFile?fileName="+this.res_thumbnail+"'>";
 						}else{
+							// 없으면  no_image
 							str+="<img class='thumbnail' src='/resources/image/no_image.png'/>";
 						}
 					str+="</div>"
 						+"</td>"
 						+"<td class='res-detail-info'>"
 						+"<div class='res-name'>"+this.res_name+"</div>"
-						+"<div class='res-review res-review-${resVO.res_no }' style='font-size:11px'></div>"
 						+"</td>"
 						+"</tr>"	
 						+"</table>"
@@ -469,7 +470,7 @@ $(document).ready(function(){
 	<div class="user-info">
 		<table class="user-info-table">
 			<tr>
-				<td class="td-profile" rowspan="2"><div class="profile"></div></td>
+				<td class="td-profile" rowspan="2"><div class="profile" style="background-image:url('/images/lv1.png');background-size:contain"></div></td>
 				<td><div class="user-detail user-level">먹초보</div></td>
 			</tr>
 			<tr>

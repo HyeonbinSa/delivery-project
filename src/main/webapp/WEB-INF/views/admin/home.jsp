@@ -76,6 +76,18 @@
 	padding:0px;
 }
 </style>
+<script>
+$(document).ready(function(){
+	$(".login").on("click", function(e){
+		if($(".admin-id").val() == ""){
+			e.preventDefault();
+			$(".admin-id").focus();
+			e.stopPropagation();
+			alert("ID를 입력해주세요.");
+		}
+	});
+});
+</script>
 <!-- admin home page -->
 	<div class="home-content">
 	<!-- 1열 content -->
@@ -95,13 +107,13 @@
 			<div class="home-login col-md-4"> 
 				<form class="login-form" action="/admin/login" method="post">
 				<c:if test="${admin_login == null}">
-					<input type="text" class="form-control" name="admin_id" placeholder="아이디 입력">
-					<input type="password" class="form-control" name="admin_pw" placeholder="비밀번호 입력">
+					<input type="text" class="form-control admin-id" name="admin_id" placeholder="아이디 입력">
+					<input type="password" class="form-control admin-pw" name="admin_pw" placeholder="비밀번호 입력">
 					<div class="login-extra">
 						<label class="auto-login"><input class="check-auto" type="checkbox"> 자동 로그인</label>
 						<span>아이디 찾기</span><span> | </span><span> 비밀번호 찾기</span>
 					</div>
-					<button class="btn btn-default btn-login" type="submit">로그인</button>
+					<button class="btn btn-default btn-login login" type="submit">로그인</button>
 				</c:if>	
 				</form>
 				<c:if test="${admin_login != null}">

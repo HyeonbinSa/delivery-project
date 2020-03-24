@@ -16,7 +16,7 @@
 2. 가게 사장님 페이지
    - <http://bendelivery.shop/owner/>
 3. 관리자 페이지
-   - <http://bendelivery.shop/admin/>
+   - <http://bendelivery.shop/admin/home>
 
 ## 기능
 

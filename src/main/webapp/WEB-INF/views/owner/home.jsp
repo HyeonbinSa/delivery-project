@@ -90,7 +90,14 @@
 .second-item{
 	border : 1px solid #999;
 	border-radius : 5px;
-	padding : 10px;
+	padding : 30px;	
+	text-align : center;
+	font-size : 150%;
+	font-weight : bold;
+	
+}
+.find{
+	padding :0px 5px;
 }
 </style>
 <script>
@@ -158,7 +165,7 @@ if(result == "checking"){
 					<input type="password" class="form-control" name="owner_pw" placeholder="비밀번호 입력">
 					<div class="login-extra">
 						<label class="auto-login"><input class="check-auto" type="checkbox"> 자동 로그인</label>
-						<span>아이디 찾기</span><span> | </span><span> 비밀번호 찾기</span>
+						<span class="find"> 비밀번호 찾기</span><span> | </span><span class="find"> 아이디 찾기 </span>
 					</div>
 					<button class="btn btn-default btn-login" type="submit">로그인</button>
 				</form>	
@@ -179,7 +186,7 @@ if(result == "checking"){
 		</div>
 		<div class="second-content row">
 			<div class="col-md-4">
-				<div class="second-item">입점신청</div>
+				<div class="second-item" onclick="location.href='/owner/register'">입점신청</div>
 			</div>
 			<div class="col-md-4">
 				<div class="second-item">입점 신청 방법</div>

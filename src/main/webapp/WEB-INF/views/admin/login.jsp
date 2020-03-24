@@ -32,7 +32,7 @@ if(result == "already"){
     margin-top: 7px;
 }
 .login-title{
-	height:40px;
+	height:70px;
 	margin-top:5px;
 	text-align:center;
 	margin-bottom:10px;

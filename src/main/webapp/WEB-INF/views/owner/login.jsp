@@ -96,7 +96,7 @@ if(result == "already"){
 		<input type="password" class="form-control" id="loginPw" name="owner_pw" placeholder="비밀번호 입력">
 		<div class="login-extra">
 		<label class="auto-login"><input class="check-auto" type="checkbox"> 자동 로그인</label>
-		<span>아이디 찾기</span><span> | </span><span> 비밀번호 찾기</span>
+		<span>비밀번호 찾기</span><span> | </span><span> 아이디 찾기</span>
 		</div>
 		<button class="btn btn-default btn-login" type="submit">로그인</button>
 		<!-- 회원가입 -->

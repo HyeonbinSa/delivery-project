@@ -5,6 +5,7 @@
 .order-contet{
 	width:100%;
 	height:90%;
+	margin-bottom : 30px;
 	border:1px solid #999;
 	overflow:auto;
 }
@@ -158,6 +159,7 @@ $(document).ready(function(){
 			var status = "완료";
 			break;
 		}
+		
 		// ajax 시작 (주문 목록 가져옴 (res_no, order_status 를 통해 ))
 		$.ajax({
 			type : 'POST',
