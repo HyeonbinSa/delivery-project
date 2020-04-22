@@ -79,6 +79,7 @@ category-title {
 		<div class="category-title">편의점</div><img src="./home_files/category-convenience-store.png"></a></div>
 	</div>
 </div>
+<!-- Test -->
 <footer class="footer">
 		<div class="footer-inner">
 			<div class="info"></div>
@@ -86,3 +87,4 @@ category-title {
 	</footer>
 </body>
 </html>
+
